@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/BackBlue"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/playlistMaker"

@@ -12,4 +12,8 @@
     <color name="blackText">#1A1B22</color>
     <color name="BackBlue">#3772E7</color>
     <color name="iconBlack">#1A1B22</color>
+    <color name="settingsWhite">#F5F5F5</color>
+    <color name="icSettingsBack">#30001f</color>
+    <color name="settingsTextBlack">#1A1B22</color>
+    <color name="fullBlack">#000000</color>
 </resources>
