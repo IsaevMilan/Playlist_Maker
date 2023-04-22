@@ -12,7 +12,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val backSbutton = findViewById<Button>(R.id.backSbutton)
+        val backSbutton = findViewById<Button>(R.id.backButton)
 
         backSbutton.setOnClickListener { val settingsIntent = Intent (this, MainActivity::class.java )
             startActivity(settingsIntent)
