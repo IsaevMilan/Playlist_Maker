@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/settingsWhite"
+    android:orientation="vertical"
+    android:padding="4dp"
+    tools:ignore="ExtraText">
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="0dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:backgroundTint="@color/settingsWhite"
+            app:icon="@drawable/arrow_back"
+            app:iconTint="@color/icSettingsBack"
+            tools:ignore="InvalidId"
+            tools:targetApi="m" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/Setting"
+            android:textAllCaps="false"
+            android:textColor="@color/settingsTextBlack"
+            android:textSize="@dimen/textSizePlaylist" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginTop="40dp">
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="2dp"
+            android:minHeight="48dp"
+            android:text="@string/blackth"
+            android:textAllCaps="false"
+            android:textColor="@color/fullBlack"
+            android:textSize="@dimen/settingTextSize"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp">
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/settingsWhite"
+            android:gravity="start"
+            android:text="@string/SHARE"
+            android:textAllCaps="false"
+            android:textColor="@color/settingsTextBlack"
+            android:textSize="@dimen/settingTextSize"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_gravity="end"
+            android:src="@drawable/shareic"
+            android:contentDescription="@string/todo1" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp">
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/settingsWhite"
+            android:gravity="start"
+            android:text="@string/support"
+            android:textAllCaps="false"
+            android:textColor="@color/settingsTextBlack"
+            android:textSize="@dimen/settingTextSize"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_gravity="end"
+            android:src="@drawable/light_mode"
+            android:contentDescription="@string/todo2" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp">
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/settingsWhite"
+            android:gravity="start"
+            android:text="@string/agreement"
+            android:textAllCaps="false"
+            android:textColor="@color/settingsTextBlack"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_gravity="end"
+            android:src="@drawable/arrowforward"
+            android:contentDescription="@string/todo3" />
+    </FrameLayout>
+
+
+</LinearLayout>
