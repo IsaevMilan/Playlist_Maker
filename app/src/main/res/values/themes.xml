@@ -14,8 +14,10 @@
         <!-- Customize your theme here. -->
         <item name="android:background">@color/settingsWhite</item>
         <item name="colorButtonNormal">@color/fullBlack</item>
-        <item name="android:windowBackground">@color/BackBlue</item>
+    </style>
 
+    <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@color/BackBlue</item>
     </style>
      />
 </resources>
