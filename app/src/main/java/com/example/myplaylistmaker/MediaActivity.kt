@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 
 class MediaActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -12,7 +13,7 @@ class MediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-        val backMbutton = findViewById<Button>(R.id.backMbutton)
+        val backMbutton = findViewById<ImageView>(R.id.arrowBack2)
 
         backMbutton.setOnClickListener { val settingsIntent = Intent (this, MainActivity::class.java )
             startActivity(settingsIntent)

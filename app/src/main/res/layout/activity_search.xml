@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:windowBackground"
     tools:context=".SearchActivity">
 
     <FrameLayout
@@ -11,21 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-
-            android:id="@+id/backMbutton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:backgroundTint="@color/settingsWhite"
-            android:foreground="?attr/selectableItemBackground"
-            app:icon="@drawable/arrow_back"
-            app:iconTint="@color/icSettingsBack"
-            tools:ignore="InvalidId,SpeakableTextPresentCheck"
-            tools:targetApi="m" />
+        <ImageView
+            android:id="@+id/arrowBack1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/arrow_back1"
+            tools:targetApi="m"
+            android:contentDescription="@string/todoo" />
 
     </FrameLayout>
-
 
     <TextView
         android:id="@+id/message"

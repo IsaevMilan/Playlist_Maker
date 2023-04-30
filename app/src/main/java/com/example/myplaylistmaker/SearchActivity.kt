@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 
 class SearchActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -12,7 +13,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val backSbutton = findViewById<Button>(R.id.backButton)
+        val backSbutton = findViewById<ImageView>(R.id.arrowBack1)
 
         backSbutton.setOnClickListener { val settingsIntent = Intent (this, MainActivity::class.java )
             startActivity(settingsIntent)
