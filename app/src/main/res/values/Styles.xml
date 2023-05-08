@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="ButtonMainStyle">
        <item name="android:layout_width">match_parent</item>
        <item name="android:layout_height">match_parent</item>
@@ -10,6 +10,7 @@
        <item name="android:textColor">@color/blackText</item>
        <item name="android:textSize">@dimen/textSizePlaylist</item>
        <item name="android:textAllCaps">false</item>
+       <item name="android:fontFamily">@font/ys_display_medium</item>
        <item name="cornerRadius">16dp</item>
        <item name="icon">@drawable/vector</item>
        <item name="iconGravity">textStart</item>
@@ -26,17 +27,43 @@
       <item name="android:textSize">@dimen/settingTextSize</item>
       <item name="android:textColor">?attr/colorButtonNormal</item>
       <item name="android:fontFamily">@font/ys_display_regular</item>
+
    </style>
    <style name="SettingsImageStyle" parent="Widget.MaterialComponents.TimePicker.ImageButton">
       <item name="android:layout_width">wrap_content</item>
       <item name="android:layout_height">wrap_content</item>
-      <item name="android:layout_marginStart">375dp</item>
+      <item name="android:layout_marginStart">345dp</item>
+      <item name="android:layout_marginEnd">11dp</item>
       <item name="android:layout_gravity">center_vertical</item>
+      <item name="android:tint">?attr/switchStyle</item>
    </style>
    <style name="SettingsFrameStyle">
       <item name="android:layout_width">match_parent</item>
       <item name="android:layout_height">wrap_content</item>
       <item name="android:layout_marginTop">21dp</item>
       </style>
-
+   <style name="EditTextRoundedCorner">
+      <item name="android:background">@drawable/edittext_rounded_corner</item>
+      <item name="android:padding">10dp</item>
+   </style>
+ <style name="BackArrow">
+   <item name="android:layout_width">wrap_content</item>
+   <item name="android:layout_height">wrap_content</item>"
+    <item name="android:layout_marginStart">16dp</item>
+    <item name="android:layout_marginTop">16dp</item>
+    <item name="android:backgroundTint">?android:background</item>
+    <item name="android:src">@drawable/arrow_back1</item>"
+    <item name="tint">?attr/colorButtonNormal</item>
+ </style>
+        <style name="TopText">
+            <item name="android:layout_width">wrap_content</item>
+            <item name="android:layout_height">wrap_content</item>
+            <item name="android:layout_marginStart">64dp</item>
+            <item name="android:layout_marginTop">14dp</item>
+            <item name="android:baselineAligned">false</item>
+            <item name="android:fontFamily">@font/ys_display_medium</item>
+            <item name="android:textAllCaps">false</item>
+            <item name="android:textColor">?attr/colorButtonNormal</item>
+            <item name="android:textSize">@dimen/textSizePlaylist</item>
+        </style>
 </resources>

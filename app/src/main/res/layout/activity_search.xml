@@ -1,35 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:windowBackground"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".SearchActivity">
 
     <FrameLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/arrowBack1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/arrow_back1"
-            tools:targetApi="m"
-            android:contentDescription="@string/todoo" />
-
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/GreetingMessage"/>
+        android:orientation="horizontal">
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/arrowBack3"
+        style="@style/BackArrow"
+        android:contentDescription="TODO" />
+
+
+    <TextView
+        style="@style/TopText"
+        android:text="@string/search1"/>
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:paddingStart="13dp"
+        android:background="@drawable/edittext_rounded_corner"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/inputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:autofillHints="@string/search1"
+            android:background="@color/greyLight"
+            android:drawableStart="@drawable/search2"
+            android:drawablePadding="5dp"
+            android:drawableTint="?android:textColorHint"
+            android:hint="@string/input_hint"
+            android:inputType="text"
+            android:maxLength="60"
+            android:maxLines="1"
+            android:textColor="@color/blackText"
+            android:textColorHint="?android:textColorHint"
+            android:textSize="@dimen/settingTextSize"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+        <ImageView
+            android:id="@+id/clearIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="13dp"
+            android:background="@color/greyLight"
+            android:contentDescription="TODO"
+            android:src="@drawable/clear_icon"
+            android:visibility="gone" />
+    </FrameLayout>
+
+
+</LinearLayout>

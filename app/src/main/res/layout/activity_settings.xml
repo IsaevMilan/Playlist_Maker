@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:foregrund="?attr/selectableItemBackground"
             android:backgroundTint="?android:background"
             android:src="@drawable/arrow_back1"
             tools:targetApi="m"
@@ -28,15 +27,9 @@
             app:tint="?colorButtonNormal" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="14dp"
+            style="@style/TopText"
             android:text="@string/Setting"
-            android:textAllCaps="false"
-            android:textSize="@dimen/textSizePlaylist"
-            android:textColor="?attr/colorButtonNormal"
-            android:fontFamily="@font/ys_display_medium"/>
+           />
     </FrameLayout>
 
 
@@ -48,6 +41,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="2dp"
         android:minHeight="48dp"
+        android:tint="?attr/switchStyle"
         android:text="@string/blackth"
         android:textAllCaps="false"
         android:textSize="@dimen/settingTextSize"
@@ -63,6 +57,7 @@
             />
 
         <ImageView
+            android:id="@+id/share"
             style="@style/SettingsImageStyle"
             android:src="@drawable/shareic"
             android:contentDescription="@string/todo1" />
@@ -77,6 +72,7 @@
             />
 
         <ImageView
+            android:id="@+id/support"
             style="@style/SettingsImageStyle"
             android:src="@drawable/light_mode"
             android:contentDescription="@string/todo2" />
@@ -90,6 +86,7 @@
             />
 
         <ImageView
+            android:id="@+id/agreement"
             style="@style/SettingsImageStyle"
             android:src="@drawable/arrowforward"
             android:contentDescription="@string/todo3" />

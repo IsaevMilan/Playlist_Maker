@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:text="@string/playlist_maker"
         android:textAllCaps="false"
+        android:fontFamily="@font/ys_display_medium"
         android:textColor="@color/white1"
         android:textSize="@dimen/textSizePlaylist" />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button"

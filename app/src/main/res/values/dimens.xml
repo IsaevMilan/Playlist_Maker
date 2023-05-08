@@ -4,4 +4,5 @@
     <dimen name="buttomHeight">220</dimen>
     <dimen name="textSizePlaylist">22sp</dimen>
     <dimen name="settingTextSize">16sp</dimen>
+    <dimen name="arrowBack">16</dimen>
 </resources>

@@ -14,6 +14,9 @@
         <!-- Customize your theme here. -->
         <item name="android:background">@color/settingsWhite</item>
         <item name="colorButtonNormal">@color/fullBlack</item>
+        <item name="color">@color/fullBlack</item>
+        <item name="android:textColorHint">@color/textGrey</item>
+        <item name="switchStyle">@color/textGrey</item>
     </style>
 
     <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">

@@ -16,4 +16,6 @@
     <string name="GreetingMessage">Привет, Android разработка — это круто!</string>
     <string name="todo4">TODO</string>
     <string name="todoo">TODO</string>
+    <string name="input_hint">Поиск</string>
+    <string name="search1">Поиск</string>
 </resources>

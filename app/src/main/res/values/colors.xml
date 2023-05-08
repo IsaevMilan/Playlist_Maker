@@ -16,4 +16,11 @@
     <color name="icSettingsBack">#30001f</color>
     <color name="settingsTextBlack">#1A1B22</color>
     <color name="fullBlack">#000000</color>
+    <color name="prime_neutral">#FEFEFE</color>
+    <color name="prime_positive">#36F459</color>
+    <color name="prime_negative">#EC3023</color>
+    <color name="greyLight">#E6E8EB</color>
+    <color name="textGrey">#AEAFB4</color>
+
+
 </resources>
