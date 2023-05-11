@@ -18,10 +18,10 @@ import com.google.android.material.textfield.TextInputEditText
 class SearchActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     companion object {
-        const val INPUT_TEXT = "input_text"
+        private const val INPUT_TEXT = "input_text"
     }
 
-    private var saveText=("")
+    private var saveText=""
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -30,7 +30,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-         saveText= savedInstanceState.getString(INPUT_TEXT,(""))
+         saveText= savedInstanceState.getString(INPUT_TEXT,"")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +41,7 @@ class SearchActivity : AppCompatActivity() {
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
         val backButt = findViewById<ImageView>(R.id.arrowBack3)
 
-        backButt.setOnClickListener { val searchIntent = Intent (this, MainActivity::class.java )
-            startActivity(searchIntent)
-
+        backButt.setOnClickListener { onBackPressed()
         }
 
 
@@ -55,11 +53,11 @@ class SearchActivity : AppCompatActivity() {
             keyboard.hideSoftInputFromWindow(inputEditText.windowToken, 0) // скрыть клавиатуру
             inputEditText.clearFocus()
         }
-        // логика по работе с введённым значением
+
 
     val simpleTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            // empty
+
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -72,7 +70,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         override fun afterTextChanged(s: Editable?) {
-            // empty
+
         }
     }
     inputEditText.addTextChangedListener(simpleTextWatcher)

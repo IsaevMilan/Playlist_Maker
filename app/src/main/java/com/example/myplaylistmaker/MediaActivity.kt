@@ -15,9 +15,7 @@ class MediaActivity : AppCompatActivity() {
 
         val backMbutton = findViewById<ImageView>(R.id.arrowBack2)
 
-        backMbutton.setOnClickListener { val settingsIntent = Intent (this, MainActivity::class.java )
-            startActivity(settingsIntent)
-
+        backMbutton.setOnClickListener { onBackPressed()
+        }
         }
     }
-}
