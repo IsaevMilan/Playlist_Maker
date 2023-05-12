@@ -17,6 +17,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val frameLayoutShare = findViewById<FrameLayout>(R.id.share)
+        val devUrlString = getString(R.string.yaDeveloperUrl)
 
         frameLayoutShare.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
@@ -25,17 +26,20 @@ class SettingsActivity : AppCompatActivity() {
                 type = "text/plain"
             }
 
+
+
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         }
         val frameLayoutSupport = findViewById<FrameLayout>(R.id.support)
         frameLayoutSupport.setOnClickListener {
 
-            val subject = "Спасибо разработчикам и разработчицам приложения Playlist Maker!"
-            val message = "Спасибо разработчикам и разработчицам за крутое приложение!"
+            val myMailString = getString(R.string.myMail)
+            val subject = getString(R.string.mailSubject)
+            val message = getString(R.string.mailText)
             val shareIntent = Intent(Intent.ACTION_SENDTO)
             shareIntent.data = Uri.parse("mailto:")
-            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("YAmilanisaev@yandex.ru"))
+            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(myMailString))
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
             shareIntent.putExtra(Intent.EXTRA_TEXT, message)
             startActivity(shareIntent)
