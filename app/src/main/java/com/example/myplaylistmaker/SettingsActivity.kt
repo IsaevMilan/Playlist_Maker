@@ -22,7 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         frameLayoutShare.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "https://practicum.yandex.ru/android-developer/")
+                putExtra(Intent.EXTRA_TEXT, devUrlString)
                 type = "text/plain"
             }
 
@@ -47,7 +47,9 @@ class SettingsActivity : AppCompatActivity() {
         val frameLayoutAgreement = findViewById<FrameLayout>(R.id.agreement)
 
         frameLayoutAgreement.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://yandex.ru/legal/practicum_offer/"))
+
+            val yaAgreement = getString(R.string.yaAgreementUrl)
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(yaAgreement))
             startActivity(browserIntent)
         }
     }
