@@ -3,5 +3,6 @@
 
     <dimen name="textSizePlaylist">22sp</dimen>
     <dimen name="settingTextSize">16sp</dimen>
+    <dimen name="smallTextSize">11sp</dimen>
     <dimen name="iconSize">16dp</dimen>
 </resources>
