@@ -38,7 +38,6 @@ class SearchActivity : AppCompatActivity() {
         saveText = savedInstanceState.getString(INPUT_TEXT, "")
     }
 
-
     private val BASE_URL = "https://itunes.apple.com"
 
     private val retrofit = Retrofit.Builder()
