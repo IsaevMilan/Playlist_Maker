@@ -81,7 +81,7 @@
         <ImageView
             style="@style/SettingsImageStyle"
             android:layout_marginEnd="12dp"
-            android:src="@drawable/light_mode"
+            android:src="@drawable/support"
             android:contentDescription="@string/todo2" />
     </FrameLayout>
 

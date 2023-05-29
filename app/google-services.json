@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "365134437127",
+    "project_id": "myhomeworks-71cdd",
+    "storage_bucket": "myhomeworks-71cdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365134437127:android:309a38a9522a6f892983a2",
+        "android_client_info": {
+          "package_name": "com.example.myhomeworks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365134437127-nen0abbaon6ar78kk37l69j4ehmm8m3o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZlvV0-7BbPdTC4Xg3ntPWim73mg4JxE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365134437127-nen0abbaon6ar78kk37l69j4ehmm8m3o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365134437127:android:617ee32bee7f48c12983a2",
+        "android_client_info": {
+          "package_name": "com.example.myplaylistmaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365134437127-nen0abbaon6ar78kk37l69j4ehmm8m3o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZlvV0-7BbPdTC4Xg3ntPWim73mg4JxE4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365134437127-nen0abbaon6ar78kk37l69j4ehmm8m3o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
