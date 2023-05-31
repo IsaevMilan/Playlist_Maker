@@ -136,6 +136,7 @@ class SearchActivity : AppCompatActivity() {
         }
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
+                requestToServer()
                 // ВЫПОЛНЯЙТЕ ПОИСКОВЫЙ ЗАПРОС ЗДЕСЬ
                 true
             }

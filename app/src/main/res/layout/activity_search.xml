@@ -79,7 +79,7 @@
         tools:itemCount="1"/>
 
     <FrameLayout
-        android:id="@+id/placeholdLineError"
+        android:id="@+id/placeholdSearchError"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="110dp"
@@ -107,7 +107,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/placeholdSearchError"
+        android:id="@+id/placeholdLineError"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="110dp"
