@@ -22,5 +22,7 @@
     <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/fullBlack</item>
     </style>
-
+    <style name="Theme.SettingsActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorOnSurface">@color/white1</item>
+    </style>
 </resources>
