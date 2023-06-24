@@ -6,4 +6,4 @@ data class MediaData(
    var artistName: String,
    var trackTimeMillis: Int,
    var artworkUrl100: String,
-   val mediaId: Int)
+   val mediaId: String)

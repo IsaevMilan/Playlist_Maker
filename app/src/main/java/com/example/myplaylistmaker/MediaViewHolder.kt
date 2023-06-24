@@ -16,7 +16,7 @@ class MediaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val trackName: TextView = itemView.findViewById(R.id.trackName)
     private val trackAuthor: TextView = itemView.findViewById(R.id.trackAuthor)
     private val tracklength: TextView = itemView.findViewById(R.id.track_time)
-    var trackNumber:Int = 0
+    private var trackNumber:String = ""
 
     fun bind(item: MediaData) {
         trackName.text = item.trackName
