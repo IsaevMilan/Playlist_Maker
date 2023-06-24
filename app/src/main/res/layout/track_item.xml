@@ -54,7 +54,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="?attr/switchStyle"
+            android:textColor="?attr/colorButtonNormal"
             android:textSize="@dimen/smallTextSize"
             android:fontFamily="@font/ys_display_regular"
             tools:ignore="TextContrastCheck"
@@ -66,13 +66,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:src="@drawable/dot"
-        app:tint="?attr/switchStyle" />
+        app:tint="?attr/imageButtonStyle" />
 
         <TextView
             android:id="@+id/track_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/switchStyle"
+            android:textColor="?attr/colorButtonNormal"
             android:textSize="@dimen/smallTextSize"
             android:fontFamily="@font/ys_display_regular"
             tools:ignore="TextContrastCheck"
@@ -90,6 +90,6 @@
         android:layout_weight="1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="?attr/switchStyle"
+        app:tint="?attr/imageButtonStyle"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

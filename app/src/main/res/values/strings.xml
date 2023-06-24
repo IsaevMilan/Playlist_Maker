@@ -30,4 +30,6 @@
     <string name="error">Ничего не нашлось</string>
     <string name="placeHolder">Здесь будет текст</string>
     <string name="UpdateButt">Обновить</string>
+    <string name="ClearHistory">Очистить историю</string>
+    <string name="SearchHistory">Вы искали</string>
 </resources>

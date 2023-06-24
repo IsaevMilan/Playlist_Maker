@@ -1,29 +1,51 @@
 package com.example.myplaylistmaker
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.View.GONE
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isNotEmpty
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+const val TRACKS_PREFERENCES = "tracks_preferences"
+const val TRACKS_LIST_KEY = "key_for_tracks_list"
 
-class SearchActivity : AppCompatActivity() {
-    @SuppressLint("MissingInflatedId")
+ class SearchActivity : AppCompatActivity(), MediaAdapter.MediaClickListener {
+
+    private lateinit var backButt: ImageView
+    private lateinit var clearButton: ImageView
+    private lateinit var queryInput: EditText
+    private lateinit var placeholderMessage: LinearLayout
+    private lateinit var placeholderLineErr: LinearLayout
+    private lateinit var updateButton: Button
+    private lateinit var moviesList: RecyclerView
+    private lateinit var searchHistory: NestedScrollView
+    private lateinit var historyRecycler: RecyclerView
+    private lateinit var searchHistoryObj: SearchHistory
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
+    lateinit var clearHistoryButton: Button
+    private val media= ArrayList<MediaData>()
+    lateinit var mediaAdapter: MediaAdapter
+    private val mediaInHistory = ArrayList<MediaData>()
+    lateinit var historyAdapter: SearchHistoryAdapter
+
     companion object {
         private const val INPUT_TEXT = "input_text"
+        private const val BASE_URL = "https://itunes.apple.com"
     }
 
     private var saveText = ""
@@ -38,7 +60,7 @@ class SearchActivity : AppCompatActivity() {
         saveText = savedInstanceState.getString(INPUT_TEXT, "")
     }
 
-    private val BASE_URL = "https://itunes.apple.com"
+
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -47,30 +69,79 @@ class SearchActivity : AppCompatActivity() {
 
     private val mediaService = retrofit.create(ApiInterface::class.java)
 
+    override fun onTrackClick(track: MediaData) {
+        searchHistoryObj.addNewTrack(track)
+    }
 
-    private lateinit var queryInput: EditText
-    private lateinit var placeholderMessage: FrameLayout
-    private lateinit var placeholderLineErr: FrameLayout
-    private lateinit var moviesList: RecyclerView
-    private lateinit var clearButton: ImageView
-    private lateinit var updateButton: Button
-    private lateinit var backButt: ImageView
-    private val media = ArrayList<MediaData>()
-    private val mediaAdapter = MediaAdapter()
-
+    // метод дессириализует массив объектов Fact (в Shared Preference они хранятся в виде json строки)
+    private fun createTrackListFromJson(json: String?): Array<MediaData> {
+        return Gson().fromJson(json, Array<MediaData>::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+
         queryInput = findViewById(R.id.inputEditText)
-        placeholderMessage = findViewById(R.id.placeholdSearchError)
-        placeholderLineErr = findViewById(R.id.placeholdLineError)
+        placeholderMessage = findViewById(R.id.SearchErrorLayout)
+        placeholderLineErr = findViewById(R.id.LineErrorLayout)
         clearButton = findViewById(R.id.clearIcon)
         updateButton = findViewById(R.id.updateButton)
         backButt = findViewById(R.id.arrowBack3)
         moviesList = findViewById(R.id.rvTracks)
-        mediaAdapter.media = media
+        searchHistory = findViewById(R.id.historyScrollView)
+        historyRecycler = findViewById(R.id.historyRecycler)
+        clearHistoryButton = findViewById(R.id.clearHistoryButton)
+        sharedPreferences = getSharedPreferences(TRACKS_PREFERENCES, MODE_PRIVATE)
+        searchHistoryObj = SearchHistory(sharedPreferences)
+
+        mediaInHistory.addAll(searchHistoryObj.searchedTrackList)
+        if (mediaInHistory.isEmpty()) {
+            searchHistory.visibility = GONE
+        }
+
+
+
+        listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+            if (key == TRACKS_LIST_KEY) {
+                val media = sharedPreferences?.getString(TRACKS_LIST_KEY, null)
+                if (media != null) {
+                    mediaInHistory.clear()
+                    mediaInHistory.addAll(createTrackListFromJson(media))
+                    historyAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+
+
+        clearHistoryButton.setOnClickListener {
+            searchHistoryObj.clearHistory()
+            mediaInHistory.clear()
+            searchHistory.visibility = GONE
+            historyAdapter.notifyDataSetChanged()
+        }
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+
+        queryInput.setOnFocusChangeListener { v, hasFocus ->
+            searchHistory.visibility = if (hasFocus && queryInput.text.isEmpty() && mediaInHistory.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+
+
+        queryInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (queryInput.hasFocus() && p0?.isEmpty() == true) {
+                    historyVisible()
+                } else {
+                    historyInVisible()
+                }
+            }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
 
         backButt.setOnClickListener {
             onBackPressed()
@@ -84,13 +155,11 @@ class SearchActivity : AppCompatActivity() {
             queryInput.clearFocus()
         }
 
-        moviesList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         moviesList.adapter = mediaAdapter
 
         fun requestToServer() {
             moviesList.visibility = View.VISIBLE
-            placeholderMessage.visibility = View.GONE
-            placeholderLineErr.visibility = View.GONE
+
             if (queryInput.text.isNotEmpty()) {
                 mediaService.findMedia(queryInput.text.toString()).enqueue(/* callback = */
                     object :
@@ -99,22 +168,25 @@ class SearchActivity : AppCompatActivity() {
                             call: Call<MediaResponse>,
                             response: Response<MediaResponse>) {
                             if (response.code() == 200) {
+                                ifSearchOkVisibility()
                                 media.clear()
                                 if (response.body()?.results?.isNotEmpty() == true) {
                                     media.addAll(response.body()?.results!!)
                                     mediaAdapter.notifyDataSetChanged()
                                 }
+
                                 else {
                                     media.clear()
-                                    moviesList.visibility = View.GONE
+                                    moviesList.visibility = GONE
                                     placeholderMessage.visibility = View.VISIBLE
+                                    placeholderLineErr.visibility = GONE
 
                                 }
                             } else {
                                 media.clear()
-                                moviesList.visibility = View.GONE
+                                moviesList.visibility = GONE
                                 placeholderLineErr.visibility = View.VISIBLE
-
+                                updateButton.visibility = View.VISIBLE
                             }
                         }
 
@@ -123,8 +195,9 @@ class SearchActivity : AppCompatActivity() {
                             t: Throwable
                         ) {
                             media.clear()
-                            moviesList.visibility = View.GONE
+                            moviesList.visibility = GONE
                             placeholderLineErr.visibility = View.VISIBLE
+                            updateButton.visibility = View.VISIBLE
                             // метод вызывается если не получилось установить соединение с сервером
                         }
 
@@ -176,21 +249,20 @@ class SearchActivity : AppCompatActivity() {
         queryInput.addTextChangedListener(simpleTextWatcher)
     }
 
+    private fun ifSearchOkVisibility() {
+        moviesList.visibility = View.VISIBLE
 
-//    private fun showMessage(text: FrameLayout, additionalMessage: String) {
-//        if (text.isNotEmpty()) {
-//            placeholderMessage.visibility = View.VISIBLE
-//            media.clear()
-//            mediaAdapter.notifyDataSetChanged()
-//            placeholderMessage.FrameL
-//            if (additionalMessage.isNotEmpty()) {
-//                Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_LONG)
-//                    .show()
-//            }
-//        } else {
-//            placeholderMessage.visibility = View.GONE
-//        }
-//    }
+    }
+    private fun historyVisible() {
+        searchHistory.visibility = View.VISIBLE
+        clearHistoryButton.visibility = View.VISIBLE
+
+    }
+    private fun historyInVisible() {
+        searchHistory.visibility = GONE
+        clearHistoryButton.visibility = GONE
+    }
+
  }
 
 

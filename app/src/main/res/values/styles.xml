@@ -31,7 +31,7 @@
       <item name="android:layout_width">20dp</item>
       <item name="android:layout_height">18dp</item>
       <item name="android:layout_gravity">center_vertical|end</item>
-      <item name="android:tint">?attr/switchStyle</item>
+      <item name="android:tint">?attr/imageButtonStyle</item>
    </style>
    <style name="SettingsFrameStyle">
       <item name="android:layout_width">match_parent</item>

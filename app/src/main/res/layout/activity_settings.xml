@@ -39,15 +39,14 @@
         >
 
         <TextView
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="10dp"
         android:text="@string/blacks"
         android:textSize="@dimen/settingTextSize"
         android:layout_marginStart="@dimen/iconSize"
         style="@style/SettingsTextStyle" />
 
-        <androidx.appcompat.widget.SwitchCompat
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/themeSwitcher"
-            style="?attr/switchStyle"
             android:layout_width="56dp"
             android:layout_height="40dp"
             android:layout_gravity="end"
