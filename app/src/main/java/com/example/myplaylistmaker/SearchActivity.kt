@@ -44,6 +44,7 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
 
     private val mediaInHistory = ArrayList<MediaData>()
 
+     val mediaAdapter=MediaAdapter(this)
 
     companion object {
         private const val INPUT_TEXT = "input_text"
@@ -143,14 +144,16 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
             val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(queryInput.windowToken, 0) // скрыть клавиатуру
             queryInput.clearFocus()
-
-            historyAdapter.notifyDataSetChanged()
-            if (!searchHistory.isEmpty()) {
+            media.clear()
+            moviesList.visibility = GONE
+            mediaAdapter.notifyDataSetChanged()
+            if (!mediaInHistory.isNotEmpty()) {
                 searchHistory.visibility=View.VISIBLE
+
             }
         }
 
-        val mediaAdapter= MediaAdapter(this)
+
         mediaAdapter.media= media
         moviesList.adapter = mediaAdapter
         historyRecycler.adapter = historyAdapter
