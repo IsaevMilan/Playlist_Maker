@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isEmpty
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -37,8 +38,9 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
     private lateinit var searchHistoryObj: SearchHistory
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
-    lateinit var clearHistoryButton: Button
+    private lateinit var clearHistoryButton: Button
     private val media= ArrayList<MediaData>()
+    private val historyAdapter= SearchHistoryAdapter(this)
 
     private val mediaInHistory = ArrayList<MediaData>()
 
@@ -83,7 +85,7 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
         setContentView(R.layout.activity_search)
 
 
-        val historyAdapter = SearchHistoryAdapter()
+        historyAdapter.searchHistory = mediaInHistory
 
         queryInput = findViewById(R.id.inputEditText)
         placeholderMessage = findViewById(R.id.SearchErrorLayout)
@@ -141,6 +143,11 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
             val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(queryInput.windowToken, 0) // скрыть клавиатуру
             queryInput.clearFocus()
+
+            historyAdapter.notifyDataSetChanged()
+            if (!searchHistory.isEmpty()) {
+                searchHistory.visibility=View.VISIBLE
+            }
         }
 
         val mediaAdapter= MediaAdapter(this)
@@ -235,7 +242,15 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
 
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null) {
+                    if (queryInput.hasFocus() && s.isEmpty() && !historyRecycler.isEmpty()) {
+                        searchHistory.visibility=View.VISIBLE
+                    } else {
+                        searchHistory.visibility= GONE
+                    }
+                }
+            }
         }
         queryInput.addTextChangedListener(simpleTextWatcher)
     }
