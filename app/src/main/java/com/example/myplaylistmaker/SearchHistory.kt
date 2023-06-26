@@ -14,6 +14,7 @@ class SearchHistory (val sharedPreferences: SharedPreferences) {
         }
     }
 
+
     fun addNewTrack(track: MediaData) {
 
         if (searchedTrackList.contains(track)) searchedTrackList.remove(track)

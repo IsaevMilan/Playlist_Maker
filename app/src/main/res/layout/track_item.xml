@@ -19,6 +19,7 @@
         tools:ignore="MissingConstraints"
         />
 
+
     <TextView
         android:id="@+id/trackName"
         android:layout_width="0dp"

@@ -51,6 +51,7 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
         private const val BASE_URL = "https://itunes.apple.com"
     }
 
+
     private var saveText = ""
 
     override fun onSaveInstanceState(outState: Bundle) {

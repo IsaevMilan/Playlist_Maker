@@ -39,6 +39,7 @@ class SettingsActivity : AppCompatActivity() {
             }
 
 
+
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         }

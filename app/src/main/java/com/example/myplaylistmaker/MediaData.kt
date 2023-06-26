@@ -1,6 +1,7 @@
 package com.example.myplaylistmaker
 
 data class MediaData(
+
    var trackName: String,
    var artistName: String,
    var trackTimeMillis: Int,
