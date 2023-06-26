@@ -1,38 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".SearchActivity">
 
     <FrameLayout
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <Button
+        <ImageView
+            android:id="@+id/arrowBack3"
+            style="@style/BackArrow"
+            android:contentDescription="@string/todo22" />
 
-            android:id="@+id/backMbutton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:backgroundTint="@color/settingsWhite"
-            android:foreground="?attr/selectableItemBackground"
-            app:icon="@drawable/arrow_back"
-            app:iconTint="@color/icSettingsBack"
-            tools:ignore="InvalidId,SpeakableTextPresentCheck"
-            tools:targetApi="m" />
+
+        <TextView
+            style="@style/TopText"
+            android:text="@string/search1" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edittext_rounded_corner"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        tools:ignore="RtlSymmetry">
+
+        <EditText
+            android:id="@+id/inputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:autofillHints="@string/search1"
+            android:background="@color/greyLight"
+            android:drawableStart="@drawable/search2"
+            android:drawablePadding="5dp"
+            android:drawableTint="?android:textColorHint"
+            android:hint="@string/input_hint"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLength="60"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/blackText"
+            android:textColorHint="?android:textColorHint"
+            android:textSize="@dimen/settingTextSize"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+        <ImageView
+            android:id="@+id/clearIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="12dp"
+            android:background="@color/greyLight"
+            android:contentDescription="@string/todo21"
+            android:src="@drawable/clear_icon"
+            android:visibility="gone" />
+
 
     </FrameLayout>
 
 
-    <TextView
-        android:id="@+id/message"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTracks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/GreetingMessage"/>
+        android:layout_marginTop="24dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="5"
+        android:visibility="gone" />
 
-</FrameLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/historyScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/historyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="0dp"
+                android:gravity="center_horizontal"
+                android:text="@string/SearchHistory"
+                android:textAlignment="center"
+                android:textColor="?attr/colorButtonNormal"
+                android:textSize="19sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/historyRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="5"
+                tools:listitem="@layout/track_item" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clearHistoryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="?attr/colorButtonNormal"
+                android:fontFamily="@font/ys_display_medium"
+                android:text="@string/ClearHistory"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                app:cornerRadius="54dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/SearchErrorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/SearchError"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="110dp"
+            android:src="@drawable/light_mode" />
+
+        <TextView
+            android:id="@+id/SearchErrorText"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/error"
+            android:textColor="?attr/colorButtonNormal"
+            android:textSize="19sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LineErrorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/LineError"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="110dp"
+            android:src="@drawable/lightline_error" />
+
+        <TextView
+            android:id="@+id/LineErrorText"
+            android:layout_width="320dp"
+            android:layout_height="88dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/something_went_wrong"
+            android:textColor="?attr/colorButtonNormal"
+            android:textSize="19sp" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="?attr/colorButtonNormal"
+            android:text="@string/UpdateButt"
+            app:cornerRadius="54dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

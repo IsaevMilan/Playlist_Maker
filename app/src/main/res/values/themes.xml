@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MyPlaylistMaker" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,12 +12,19 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:background">@color/settingsWhite</item>
+        <item name="colorButtonNormal">@color/fullBlack</item>
+        <item name="color">@color/fullBlack</item>
+        <item name="android:textColorHint">@color/textGrey</item>
+        <item name="imageButtonStyle">@color/textGrey</item>
+        <item name="colorSurface">@color/colorSurface</item>
+
     </style>
-    <style name="Theme.MyPlaylistMaker.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+    <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@color/BackBlue</item>
     </style>
-    <style name="Theme.MyPlaylistMaker.AppBarOverlay"
-        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="Theme.MyPlaylistMaker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
 </resources>

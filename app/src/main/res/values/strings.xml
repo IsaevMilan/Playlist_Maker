@@ -4,7 +4,7 @@
     <string name="settings">Настройки</string>
     <string name="search">Поиск</string>
     <string name="Setting">Настройки</string>
-    <string name="blackth">Тёмная тема</string>
+    <string name="blacks">Тёмная тема</string>
     <string name="SHARE">Поделиться приложением</string>
     <string name="todo">TODO</string>
     <string name="playlist_maker">Playlist maker</string>
@@ -14,4 +14,22 @@
     <string name="todo2">TODO</string>
     <string name="todo1">TODO</string>
     <string name="GreetingMessage">Привет, Android разработка — это круто!</string>
+    <string name="todo4">TODO</string>
+    <string name="todoo">TODO</string>
+    <string name="input_hint">Поиск</string>
+    <string name="search1">Поиск</string>
+    <string name="todo22">TODO</string>
+    <string name="todo21">TODO</string>
+    <string name="myMail">YAmilanisaev@yandex.ru</string>
+    <string name="mailText">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="mailSubject">Спасибо разработчикам и разработчицам приложения Playlist Maker!</string>
+    <string name="yaAgreementUrl">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="yaDeveloperUrl">https://practicum.yandex.ru/android-developer/</string>
+    <string name="facebook_application_id">https://www.facebook.com/milan.isaev.5</string>
+    <string name="something_went_wrong">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="error">Ничего не нашлось</string>
+    <string name="placeHolder">Здесь будет текст</string>
+    <string name="UpdateButt">Обновить</string>
+    <string name="ClearHistory">Очистить историю</string>
+    <string name="SearchHistory">Вы искали</string>
 </resources>

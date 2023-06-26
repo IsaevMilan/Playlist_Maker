@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="buttomWidth">328</dimen>
-    <dimen name="buttomHeight">220</dimen>
+
     <dimen name="textSizePlaylist">22sp</dimen>
     <dimen name="settingTextSize">16sp</dimen>
+    <dimen name="smallTextSize">11sp</dimen>
+    <dimen name="iconSize">16dp</dimen>
 </resources>

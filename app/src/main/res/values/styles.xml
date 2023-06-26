@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="ButtonMainStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+       <item name="android:layout_width">match_parent</item>
+       <item name="android:layout_height">match_parent</item>
+       <item name="android:layout_weight">1</item>
+       <item name="android:backgroundTint">@color/white1</item>
+       <item name="android:foreground">?attr/selectableItemBackground</item>
+       <item name="android:textColor">@color/blackText</item>
+       <item name="android:textSize">@dimen/textSizePlaylist</item>
+       <item name="android:textAllCaps">false</item>
+       <item name="android:fontFamily">@font/ys_display_medium</item>
+       <item name="cornerRadius">16dp</item>
+       <item name="icon">@drawable/vector</item>
+       <item name="iconGravity">textStart</item>
+       <item name="iconPadding">10dp</item>
+       <item name="iconTint">@color/iconBlack</item>
+    </style>
+   <style name="SettingsTextStyle">
+      <item name="android:layout_width">300dp</item>
+      <item name="android:layout_height">wrap_content</item>
+      <item name="android:layout_gravity">center_vertical</item>
+      <item name="android:gravity">start</item>
+      <item name="android:textAllCaps">false</item>
+      <item name="android:textSize">@dimen/settingTextSize</item>
+      <item name="android:textColor">?attr/colorButtonNormal</item>
+      <item name="android:fontFamily">@font/ys_display_regular</item>
+
+   </style>
+   <style name="SettingsImageStyle" parent="Widget.MaterialComponents.TimePicker.ImageButton">
+      <item name="android:layout_width">20dp</item>
+      <item name="android:layout_height">18dp</item>
+      <item name="android:layout_gravity">center_vertical|end</item>
+      <item name="android:tint">?attr/imageButtonStyle</item>
+   </style>
+   <style name="SettingsFrameStyle">
+      <item name="android:layout_width">match_parent</item>
+      <item name="android:layout_height">wrap_content</item>
+      <item name="android:layout_marginTop">21dp</item>
+      </style>
+   <style name="EditTextRoundedCorner">
+      <item name="android:background">@drawable/edittext_rounded_corner</item>
+      <item name="android:padding">10dp</item>
+   </style>
+ <style name="BackArrow">
+   <item name="android:layout_width">wrap_content</item>
+   <item name="android:layout_height">wrap_content</item>"
+    <item name="android:layout_marginStart">@dimen/iconSize</item>
+    <item name="android:layout_marginTop">@dimen/iconSize</item>
+    <item name="android:backgroundTint">?android:background</item>
+    <item name="android:src">@drawable/arrow_back1</item>"
+    <item name="tint">?attr/colorButtonNormal</item>
+ </style>
+        <style name="TopText">
+            <item name="android:layout_width">wrap_content</item>
+            <item name="android:layout_height">wrap_content</item>
+            <item name="android:layout_marginStart">64dp</item>
+            <item name="android:layout_marginTop">14dp</item>
+            <item name="android:baselineAligned">false</item>
+            <item name="android:fontFamily">@font/ys_display_medium</item>
+            <item name="android:textAllCaps">false</item>
+            <item name="android:textColor">?attr/colorButtonNormal</item>
+            <item name="android:textSize">@dimen/textSizePlaylist</item>
+        </style>
+
+</resources>

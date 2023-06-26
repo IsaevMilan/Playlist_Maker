@@ -1,135 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/settingsWhite"
     android:orientation="vertical"
-    android:padding="4dp"
-    tools:ignore="ExtraText">
+    tools:ignore="ExtraText"
+    >
 
     <FrameLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-
-            android:id="@+id/backButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="0dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:backgroundTint="@color/settingsWhite"
-            app:icon="@drawable/arrow_back"
-            app:iconTint="@color/icSettingsBack"
-            tools:ignore="InvalidId"
-            tools:targetApi="m" />
-
-        <TextView
+        <ImageView
+            android:id="@+id/arrowBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/Setting"
-            android:textAllCaps="false"
-            android:textColor="@color/settingsTextBlack"
-            android:textSize="@dimen/textSizePlaylist" />
-    </FrameLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="?android:background"
+            android:src="@drawable/arrow_back1"
+            tools:targetApi="m"
+            android:contentDescription="@string/todoo"
+            app:tint="?colorButtonNormal" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_marginTop="40dp">
-
-        <Switch
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="2dp"
-            android:minHeight="48dp"
-            android:text="@string/blackth"
-            android:textAllCaps="false"
-            android:textColor="@color/fullBlack"
-            android:textSize="@dimen/settingTextSize"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
-    </FrameLayout>
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="61dp">
         <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/settingsWhite"
-            android:gravity="start"
+            style="@style/TopText"
+            android:text="@string/Setting"
+           />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+        android:layout_marginTop="10dp"
+        android:text="@string/blacks"
+        android:textSize="@dimen/settingTextSize"
+        android:layout_marginStart="@dimen/iconSize"
+        style="@style/SettingsTextStyle" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="6dp"
+            tools:ignore="TouchTargetSizeCheck" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/share"
+        style="@style/SettingsFrameStyle"
+        android:foreground="?attr/selectableItemBackground">
+        <TextView
+            style="@style/SettingsTextStyle"
+            android:layout_marginStart="@dimen/iconSize"
             android:text="@string/SHARE"
-            android:textAllCaps="false"
-            android:textColor="@color/settingsTextBlack"
-            android:textSize="@dimen/settingTextSize"/>
+            />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
-            android:layout_gravity="end"
+            style="@style/SettingsImageStyle"
+            android:layout_marginEnd="12dp"
             android:src="@drawable/shareic"
             android:contentDescription="@string/todo1" />
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="61dp">
+        android:id="@+id/support"
+        style="@style/SettingsFrameStyle"
+        android:foreground="?attr/selectableItemBackground">
         <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/settingsWhite"
-            android:gravity="start"
+            android:layout_marginStart="@dimen/iconSize"
+            style="@style/SettingsTextStyle"
             android:text="@string/support"
-            android:textAllCaps="false"
-            android:textColor="@color/settingsTextBlack"
-            android:textSize="@dimen/settingTextSize"/>
+            />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
-            android:layout_gravity="end"
-            android:src="@drawable/light_mode"
+            style="@style/SettingsImageStyle"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/support"
             android:contentDescription="@string/todo2" />
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="61dp">
+        style="@style/SettingsFrameStyle"
+        android:id="@+id/agreement"
+        android:foreground="?attr/selectableItemBackground">
         <TextView
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/settingsWhite"
-            android:gravity="start"
+            style="@style/SettingsTextStyle"
+            android:layout_marginStart="@dimen/iconSize"
             android:text="@string/agreement"
-            android:textAllCaps="false"
-            android:textColor="@color/settingsTextBlack"
-            android:textSize="16sp"/>
+            />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
-            android:layout_gravity="end"
+            style="@style/SettingsImageStyle"
+            android:layout_marginEnd="12dp"
             android:src="@drawable/arrowforward"
             android:contentDescription="@string/todo3" />
     </FrameLayout>
