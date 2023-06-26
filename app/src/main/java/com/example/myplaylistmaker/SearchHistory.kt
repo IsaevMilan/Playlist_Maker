@@ -1,12 +1,9 @@
 package com.example.myplaylistmaker
 
-
 import android.content.SharedPreferences
 import com.google.gson.Gson
 
-
 class SearchHistory (val sharedPreferences: SharedPreferences) {
-
 
     val searchedTrackList = mutableListOf<MediaData>()
 
@@ -46,5 +43,4 @@ class SearchHistory (val sharedPreferences: SharedPreferences) {
     private fun createJsonFromTrackList(facts: Array<MediaData>): String {
         return Gson().toJson(facts)
     }
-
 }

@@ -82,7 +82,6 @@
         android:visibility="gone" />
 
 
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/historyScrollView"
         android:layout_width="match_parent"
@@ -198,6 +197,5 @@
             android:text="@string/UpdateButt"
             app:cornerRadius="54dp" />
     </LinearLayout>
-
 
 </LinearLayout>

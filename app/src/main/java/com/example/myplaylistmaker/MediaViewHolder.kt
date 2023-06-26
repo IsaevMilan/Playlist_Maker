@@ -31,6 +31,5 @@ class MediaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             .transform(RoundedCorners(10))
             .into(trackImage)
 
-        }
-
     }
+}

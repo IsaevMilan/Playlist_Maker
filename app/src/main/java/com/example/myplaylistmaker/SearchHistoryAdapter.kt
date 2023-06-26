@@ -4,8 +4,6 @@ package com.example.myplaylistmaker
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.NonDisposableHandle.parent
-
 
 class SearchHistoryAdapter(val clickListener: MediaAdapter.MediaClickListener) : RecyclerView.Adapter<MediaViewHolder> () {
 
@@ -20,7 +18,7 @@ class SearchHistoryAdapter(val clickListener: MediaAdapter.MediaClickListener) :
         holder.bind(searchHistory[position])
         holder.itemView.setOnClickListener{
             clickListener.onTrackClick(searchHistory[position])
-            
+
 
         }
     }

@@ -64,7 +64,6 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
     }
 
 
-
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -134,7 +133,6 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
         }
 
 
-
         backButt.setOnClickListener {
             onBackPressed()
         }
@@ -152,7 +150,6 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
 
             }
         }
-
 
         mediaAdapter.media= media
         moviesList.adapter = mediaAdapter
@@ -257,7 +254,6 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
         }
         queryInput.addTextChangedListener(simpleTextWatcher)
     }
-
 
  }
 

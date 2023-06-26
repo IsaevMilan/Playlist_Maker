@@ -1,6 +1,5 @@
 package com.example.myplaylistmaker
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -29,5 +28,4 @@ class MediaAdapter(val clickListener: MediaClickListener) : RecyclerView.Adapter
     }
 
     override fun getItemCount(): Int = media.size
-
 }
