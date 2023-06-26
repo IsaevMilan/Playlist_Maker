@@ -27,6 +27,5 @@ class MediaAdapter(val clickListener: MediaClickListener) : RecyclerView.Adapter
         }
     }
 
-
     override fun getItemCount(): Int = media.size
 }

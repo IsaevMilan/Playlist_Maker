@@ -3,6 +3,7 @@ package com.example.myplaylistmaker
 import android.content.SharedPreferences
 import com.google.gson.Gson
 
+
 class SearchHistory (val sharedPreferences: SharedPreferences) {
 
     val searchedTrackList = mutableListOf<MediaData>()

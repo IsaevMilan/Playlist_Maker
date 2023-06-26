@@ -28,7 +28,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="24dp" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

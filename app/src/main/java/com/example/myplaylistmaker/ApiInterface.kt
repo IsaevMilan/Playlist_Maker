@@ -9,7 +9,6 @@ interface ApiInterface {
     @GET("/search?entity=song")
     fun findMedia(@Query("term") text: String): Call<MediaResponse>
 
-
 }
 
 

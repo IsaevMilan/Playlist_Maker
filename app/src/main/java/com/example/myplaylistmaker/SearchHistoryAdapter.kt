@@ -23,6 +23,5 @@ class SearchHistoryAdapter(val clickListener: MediaAdapter.MediaClickListener) :
         }
     }
 
-
     override fun getItemCount(): Int = searchHistory.size
 }
