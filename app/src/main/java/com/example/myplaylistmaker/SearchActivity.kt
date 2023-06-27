@@ -39,9 +39,9 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
     private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
     lateinit var clearHistoryButton: Button
     private val media= ArrayList<MediaData>()
-
+    lateinit var mediaAdapter: MediaAdapter
     private val mediaInHistory = ArrayList<MediaData>()
-
+    lateinit var historyAdapter: SearchHistoryAdapter
 
     companion object {
         private const val INPUT_TEXT = "input_text"
@@ -83,8 +83,6 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
         setContentView(R.layout.activity_search)
 
 
-        val historyAdapter = SearchHistoryAdapter()
-
         queryInput = findViewById(R.id.inputEditText)
         placeholderMessage = findViewById(R.id.SearchErrorLayout)
         placeholderLineErr = findViewById(R.id.LineErrorLayout)
@@ -102,6 +100,7 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
         if (mediaInHistory.isEmpty()) {
             searchHistory.visibility = GONE
         }
+
 
 
         listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
@@ -126,11 +125,23 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
 
         queryInput.setOnFocusChangeListener { v, hasFocus ->
-            searchHistory.visibility = if (hasFocus && queryInput.text.isEmpty() && mediaInHistory.isNotEmpty())
-                View.VISIBLE else GONE
+            searchHistory.visibility = if (hasFocus && queryInput.text.isEmpty() && mediaInHistory.isNotEmpty()) View.VISIBLE else View.GONE
         }
 
 
+        queryInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (queryInput.hasFocus() && p0?.isEmpty() == true) {
+                    historyVisible()
+                } else {
+                    historyInVisible()
+                }
+            }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
 
         backButt.setOnClickListener {
             onBackPressed()
@@ -138,26 +149,26 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
 
         clearButton.setOnClickListener {
             queryInput.setText("")
-            val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val keyboard =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(queryInput.windowToken, 0) // скрыть клавиатуру
             queryInput.clearFocus()
         }
 
-        val mediaAdapter= MediaAdapter(this)
-        mediaAdapter.media= media
         moviesList.adapter = mediaAdapter
-        historyRecycler.adapter = historyAdapter
 
         fun requestToServer() {
             moviesList.visibility = View.VISIBLE
 
             if (queryInput.text.isNotEmpty()) {
                 mediaService.findMedia(queryInput.text.toString()).enqueue(/* callback = */
-                    object : Callback<MediaResponse> {
+                    object :
+                        Callback<MediaResponse> {
                         override fun onResponse(
                             call: Call<MediaResponse>,
                             response: Response<MediaResponse>) {
                             if (response.code() == 200) {
+                                ifSearchOkVisibility()
                                 media.clear()
                                 if (response.body()?.results?.isNotEmpty() == true) {
                                     media.addAll(response.body()?.results!!)
@@ -174,7 +185,6 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
                             } else {
                                 media.clear()
                                 moviesList.visibility = GONE
-                                placeholderMessage.visibility= GONE
                                 placeholderLineErr.visibility = View.VISIBLE
                                 updateButton.visibility = View.VISIBLE
                             }
@@ -188,7 +198,6 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
                             moviesList.visibility = GONE
                             placeholderLineErr.visibility = View.VISIBLE
                             updateButton.visibility = View.VISIBLE
-                            placeholderMessage.visibility= GONE
                             // метод вызывается если не получилось установить соединение с сервером
                         }
 
@@ -228,7 +237,7 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
                 count: Int
             ) {
                 if (s.isNullOrEmpty()) {
-                    clearButton.visibility = GONE
+                    clearButton.visibility = View.GONE
                 } else {
                     clearButton.visibility = View.VISIBLE
                 }
@@ -240,6 +249,19 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
         queryInput.addTextChangedListener(simpleTextWatcher)
     }
 
+    private fun ifSearchOkVisibility() {
+        moviesList.visibility = View.VISIBLE
+
+    }
+    private fun historyVisible() {
+        searchHistory.visibility = View.VISIBLE
+        clearHistoryButton.visibility = View.VISIBLE
+
+    }
+    private fun historyInVisible() {
+        searchHistory.visibility = GONE
+        clearHistoryButton.visibility = GONE
+    }
 
  }
 
