@@ -21,7 +21,6 @@
     <color name="prime_negative">#EC3023</color>
     <color name="greyLight">#E6E8EB</color>
     <color name="textGrey">#AEAFB4</color>
-    <color name="colorSurface">#E6E8EB</color>
-    <color name="colorOnSurface">#AEAFB4</color>
+
 
 </resources>
