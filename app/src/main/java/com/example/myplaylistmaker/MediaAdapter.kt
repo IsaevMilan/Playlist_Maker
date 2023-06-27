@@ -19,11 +19,11 @@ class MediaAdapter(val clickListener: MediaClickListener) : RecyclerView.Adapter
     var searchHistory = ArrayList<MediaData>()
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
-
-        if (media.isNotEmpty()) {
+        if (media.isNotEmpty() && position < media.size) {
             holder.bind(media[position])
             holder.itemView.setOnClickListener {
                 if (clickListener != null) {
+                    clickListener.onTrackClick(searchHistory[position])
 
                 }
             }
