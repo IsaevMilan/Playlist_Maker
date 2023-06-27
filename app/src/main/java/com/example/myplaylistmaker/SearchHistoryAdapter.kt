@@ -19,7 +19,9 @@ class SearchHistoryAdapter(val clickListener: MediaAdapter.MediaClickListener) :
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
         holder.bind(searchHistory[position])
         holder.itemView.setOnClickListener{
-
+            if (clickListener != null ) {
+                clickListener.onTrackClick(searchHistory[position])
+            }
         }
     }
 
