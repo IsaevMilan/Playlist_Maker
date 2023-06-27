@@ -16,7 +16,7 @@
         <item name="colorButtonNormal">@color/fullBlack</item>
         <item name="color">@color/fullBlack</item>
         <item name="android:textColorHint">@color/textGrey</item>
-        <item name="imageButtonStyle">@color/textGrey</item>
+        <item name="switchStyle">@color/textGrey</item>
         <item name="colorSurface">@color/colorSurface</item>
 
     </style>
@@ -24,7 +24,8 @@
     <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/BackBlue</item>
     </style>
-
+    <style name="Theme.SettingsActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    </style>
 
 
 </resources>

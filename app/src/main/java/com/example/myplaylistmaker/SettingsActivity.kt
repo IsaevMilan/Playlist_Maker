@@ -7,15 +7,10 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.google.android.material.switchmaterial.SwitchMaterial
 
-const val THEME_PREFERENCES = "theme_preferences"
-const val THEME_KEY = "key_for_theme"
-
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        val sharedPref = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE)
 
         val backButt = findViewById<ImageView>(R.id.arrowBack)
 
