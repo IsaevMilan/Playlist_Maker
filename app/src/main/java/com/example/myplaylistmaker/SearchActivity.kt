@@ -102,6 +102,7 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
 
         mediaInHistory.addAll(searchHistoryObj.searchedTrackList)
         if (mediaInHistory.isEmpty()) {
+            queryInput.requestFocus()
             searchHistory.visibility = GONE
         }
 
