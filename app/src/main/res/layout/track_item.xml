@@ -16,8 +16,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginStart="13dp"
         android:scaleType="centerCrop"
-        tools:ignore="MissingConstraints"
-        />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/trackName"
