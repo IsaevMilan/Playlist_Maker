@@ -23,7 +23,9 @@ class MediaAdapter(val clickListener: MediaClickListener) : RecyclerView.Adapter
         if (media.isNotEmpty()) {
             holder.bind(media[position])
             holder.itemView.setOnClickListener {
-                clickListener.onTrackClick(media[position])
+                if (clickListener != null) {
+
+                }
             }
         }
     }
