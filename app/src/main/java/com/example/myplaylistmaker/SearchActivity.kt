@@ -21,8 +21,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val TRACKS_PREFERENCES = "tracks_preferences"
-const val TRACKS_LIST_KEY = "key_for_tracks_list"
+
 
  class SearchActivity : AppCompatActivity(), MediaAdapter.MediaClickListener {
 
@@ -102,7 +101,6 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
 
         mediaInHistory.addAll(searchHistoryObj.searchedTrackList)
         if (mediaInHistory.isEmpty()) {
-            queryInput.requestFocus()
             searchHistory.visibility = GONE
         }
 
@@ -146,8 +144,8 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
             media.clear()
             moviesList.visibility = GONE
             mediaAdapter.notifyDataSetChanged()
-            if (!mediaInHistory.isNotEmpty()) {
-                searchHistory.visibility=View.VISIBLE
+            if (mediaInHistory.isEmpty()) {
+                searchHistory.visibility= GONE
 
             }
         }
@@ -257,7 +255,8 @@ const val TRACKS_LIST_KEY = "key_for_tracks_list"
     }
 
  }
-
+const val TRACKS_PREFERENCES = "tracks_preferences"
+const val TRACKS_LIST_KEY = "key_for_tracks_list"
 
 
 
