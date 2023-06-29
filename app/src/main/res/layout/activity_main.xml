@@ -41,5 +41,4 @@
         android:text="@string/settings"
         app:icon="@drawable/settings"
         />
-
 </LinearLayout>

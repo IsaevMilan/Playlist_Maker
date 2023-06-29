@@ -5,15 +5,27 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.google.android.material.switchmaterial.SwitchMaterial
+
+const val THEME_PREFERENCES = "theme_preferences"
+const val THEME_KEY = "key_for_theme"
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        val sharedPref = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE)
+
         val backButt = findViewById<ImageView>(R.id.arrowBack)
 
         backButt.setOnClickListener { onBackPressed()
+        }
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
+
         }
 
         val frameLayoutShare = findViewById<FrameLayout>(R.id.share)
@@ -25,7 +37,6 @@ class SettingsActivity : AppCompatActivity() {
                 putExtra(Intent.EXTRA_TEXT, devUrlString)
                 type = "text/plain"
             }
-
 
 
             val shareIntent = Intent.createChooser(sendIntent, null)

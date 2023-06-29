@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:ignore="ExtraText"
-    >
+    tools:ignore="ExtraText">
 
     <FrameLayout
 
@@ -33,23 +32,27 @@
     </FrameLayout>
 
 
-    <Switch
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="2dp"
-        android:minHeight="48dp"
-        android:tint="?attr/switchStyle"
-        android:text="@string/blackth"
-        android:textAllCaps="false"
-        android:textSize="@dimen/settingTextSize"
-        android:fontFamily="@font/ys_display_regular"
-        tools:ignore="UseSwitchCompatOrMaterialXml"
-        android:foreground="?attr/selectableItemBackground"
-        />
+        >
 
+        <TextView
+        android:layout_marginTop="10dp"
+        android:text="@string/blacks"
+        android:textSize="@dimen/settingTextSize"
+        android:layout_marginStart="@dimen/iconSize"
+        style="@style/SettingsTextStyle" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="6dp"
+            tools:ignore="TouchTargetSizeCheck" />
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/share"
@@ -92,8 +95,7 @@
         <TextView
             style="@style/SettingsTextStyle"
             android:layout_marginStart="@dimen/iconSize"
-            android:text="@string/agreement"
-            />
+            android:text="@string/agreement" />
 
         <ImageView
             style="@style/SettingsImageStyle"
