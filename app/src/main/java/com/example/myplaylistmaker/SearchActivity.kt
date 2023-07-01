@@ -21,11 +21,11 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+const val SEARCH_SHARED_PREFS_KEY = "123"
 
  class SearchActivity : AppCompatActivity(), MediaAdapter.MediaClickListener {
 
-    private lateinit var backButt: ImageView
+    private lateinit var backButton: ImageView
     private lateinit var clearButton: ImageView
     private lateinit var queryInput: EditText
     private lateinit var placeholderMessage: LinearLayout
@@ -34,22 +34,19 @@ import retrofit2.converter.gson.GsonConverterFactory
     private lateinit var moviesList: RecyclerView
     private lateinit var searchHistory: NestedScrollView
     private lateinit var historyRecycler: RecyclerView
-    private lateinit var searchHistoryObj: SearchHistory
+    lateinit var searchHistoryObj: SearchHistory
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
     private lateinit var clearHistoryButton: Button
     private val media= ArrayList<MediaData>()
-    private val historyAdapter= SearchHistoryAdapter(this)
-
     private val mediaInHistory = ArrayList<MediaData>()
+    private lateinit var historyAdapter:MediaAdapter
+    lateinit var mediaAdapter:MediaAdapter
 
-     val mediaAdapter=MediaAdapter(this)
-
-    companion object {
-        private const val INPUT_TEXT = "input_text"
-        private const val BASE_URL = "https://itunes.apple.com"
-    }
-
+     companion object {
+         private const val INPUT_TEXT = "input_text"
+         private const val BASE_URL = "https://itunes.apple.com"
+     }
     private var saveText = ""
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -71,7 +68,7 @@ import retrofit2.converter.gson.GsonConverterFactory
     private val mediaService = retrofit.create(ApiInterface::class.java)
 
     override fun onTrackClick(track: MediaData) {
-        searchHistoryObj.addNewTrack(track)
+        searchHistoryObj.editArray(track)
     }
 
     // метод дессириализует массив объектов Fact (в Shared Preference они хранятся в виде json строки)
@@ -91,15 +88,15 @@ import retrofit2.converter.gson.GsonConverterFactory
         placeholderLineErr = findViewById(R.id.LineErrorLayout)
         clearButton = findViewById(R.id.clearIcon)
         updateButton = findViewById(R.id.updateButton)
-        backButt = findViewById(R.id.arrowBack3)
+        backButton = findViewById(R.id.arrowBack3)
         moviesList = findViewById(R.id.rvTracks)
         searchHistory = findViewById(R.id.historyScrollView)
         historyRecycler = findViewById(R.id.historyRecycler)
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
         sharedPreferences = getSharedPreferences(TRACKS_PREFERENCES, MODE_PRIVATE)
-        searchHistoryObj = SearchHistory(sharedPreferences)
+        searchHistoryObj = SearchHistory()
 
-        mediaInHistory.addAll(searchHistoryObj.searchedTrackList)
+        mediaInHistory.addAll(searchHistoryObj.trackHistoryList)
         if (mediaInHistory.isEmpty()) {
             searchHistory.visibility = GONE
         }
@@ -118,7 +115,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
         clearHistoryButton.setOnClickListener {
-            searchHistoryObj.clearHistory()
+            App.mediaHistoryList.clear()
             mediaInHistory.clear()
             searchHistory.visibility = GONE
             historyAdapter.notifyDataSetChanged()
@@ -132,7 +129,7 @@ import retrofit2.converter.gson.GsonConverterFactory
         }
 
 
-        backButt.setOnClickListener {
+        backButton.setOnClickListener {
             onBackPressed()
         }
 
