@@ -69,9 +69,6 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
         setContentView(R.layout.activity_search)
 
 
-
-
-        //historyAdapter.searchHistory = mediaInHistory
         mediaList = ArrayList()
         mediaAdapter = MediaAdapter(mediaList)
         historyAdapter = MediaAdapter(searchHistoryObj.trackHistoryList)
@@ -137,10 +134,13 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
             keyboard.hideSoftInputFromWindow(queryInput.windowToken, 0) // скрыть клавиатуру
             queryInput.clearFocus()
             mediaList.clear()
+            placeholderMessage.visibility= GONE
+            placeholderLineErr.visibility = GONE
             mediaRecycler.visibility = GONE
             mediaAdapter.notifyDataSetChanged()
             if (mediaInHistory.isEmpty()) {
                 searchHistory.visibility= GONE
+                placeholderMessage.visibility= GONE
 
             }
         }
@@ -183,7 +183,6 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
         mediaAdapter.media= mediaList
         mediaRecycler.adapter = mediaAdapter
         historyRecycler.adapter = historyAdapter
-
 
 
         fun requestToServer() {
@@ -240,12 +239,13 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 requestToServer()
                 // ВЫПОЛНЯЙТЕ ПОИСКОВЫЙ ЗАПРОС ЗДЕСЬ
-                true
+
             }
             false
         }
 
         updateButton.setOnClickListener {
+            placeholderLineErr.visibility = GONE
             requestToServer()
         }
 
@@ -255,8 +255,7 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
     }
 
  }
-const val TRACKS_PREFERENCES = "tracks_preferences"
-const val TRACKS_LIST_KEY = "key_for_tracks_list"
+
 
 
 

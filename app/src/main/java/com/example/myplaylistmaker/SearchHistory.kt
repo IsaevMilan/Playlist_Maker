@@ -12,7 +12,7 @@ class SearchHistory {
     private val savedHistory = App.getSharedPreferences()
     private val gson = Gson()
 
-    var counter = 0
+    private var counter = 0
     var trackHistoryList = App.mediaHistoryList
 
     fun editArray(newHistoryTrack: MediaData) {

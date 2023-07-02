@@ -23,5 +23,6 @@
     <color name="textGrey">#AEAFB4</color>
     <color name="colorSurface">#E6E8EB</color>
     <color name="colorOnSurface">#AEAFB4</color>
+    <color name="playerTextGrey">#AEAFB4</color>
 
 </resources>
