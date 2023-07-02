@@ -7,7 +7,7 @@ data class MediaData(
    var artistName: String,
    var trackTimeMillis: Int,
    var artworkUrl100: String,
-   val mediaId: String,
+   val trackId: String,
    val collectionName: String,
    val releaseDate: String,
    val primaryGenreName: String,
@@ -17,10 +17,10 @@ data class MediaData(
       if (this === other) return true
       if (other == null || javaClass != other.javaClass) return false
       val track = other as MediaData
-      return mediaId == track.mediaId
+      return trackId == track.trackId
    }
 
    override fun hashCode(): Int {
-      return mediaId.hashCode()
+      return trackId.hashCode()
    }
 }

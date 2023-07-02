@@ -34,8 +34,6 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
     private lateinit var  searchHistory: NestedScrollView
     private lateinit var  historyRecycler: RecyclerView
     val searchHistoryObj= SearchHistory()
-    //private lateinit var sharedPreferences: SharedPreferences
-    //private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
     private lateinit var  clearHistoryButton: Button
     private lateinit var mediaList: ArrayList<MediaData>
     private val mediaInHistory = ArrayList<MediaData>()
@@ -65,18 +63,6 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
         super.onRestoreInstanceState(savedInstanceState)
         saveText = savedInstanceState.getString(INPUT_TEXT, "")
     }
-//
-//
-//
-//    override fun onTrackClick(track: MediaData) {
-//        searchHistoryObj.editArray(track)
-//    }
-//
-//    // метод дессириализует массив объектов Fact (в Shared Preference они хранятся в виде json строки)
-//    private fun createTrackListFromJson(json: String?): Array<MediaData> {
-//        return Gson().fromJson(json, Array<MediaData>::class.java)
-//    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,7 +86,6 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
         historyRecycler = findViewById(R.id.historyRecycler)
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
 
-       // sharedPreferences = getSharedPreferences(TRACKS_PREFERENCES, MODE_PRIVATE)
 
         applicationContext.getSharedPreferences(SEARCH_SHARED_PREFS_KEY, MODE_PRIVATE)
 
@@ -118,22 +103,6 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
                 View.VISIBLE else GONE
         }
 
-
-
-//        //listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
-//            if (key == TRACKS_LIST_KEY) {
-//                val media = sharedPreferences?.getString(TRACKS_LIST_KEY, null)
-//                if (media != null) {
-//                    mediaInHistory.clear()
-//                    mediaInHistory.addAll(createTrackListFromJson(media))
-//                    historyAdapter.notifyDataSetChanged()
-//                }
-//            }
-//        }
-
-
-
-
         clearHistoryButton.setOnClickListener {
             App.mediaHistoryList.clear()
             mediaInHistory.clear()
@@ -141,7 +110,6 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
             historyAdapter.notifyDataSetChanged()
         }
 
-        //sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
         queryInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
