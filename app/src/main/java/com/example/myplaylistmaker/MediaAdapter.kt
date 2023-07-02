@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MediaAdapter(val clickListener: MediaClickListener, var media: ArrayList<MediaData>) : RecyclerView.Adapter<MediaViewHolder> () {
+class MediaAdapter( var media: ArrayList<MediaData>) : RecyclerView.Adapter<MediaViewHolder> () {
 
     private val searchActivityObj = SearchActivity()
     fun interface MediaClickListener {
@@ -24,14 +24,14 @@ class MediaAdapter(val clickListener: MediaClickListener, var media: ArrayList<M
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
 
-        if (media.isNotEmpty()) {
-            holder.bind(media[position])
-            holder.bind(searchHistory[position])
-            holder.itemView.setOnClickListener {
-                clickListener.onTrackClick(media[position])
-                clickListener.onTrackClick(searchHistory[position])
-            }
-        }
+//        if (media.isNotEmpty()) {
+//            holder.bind(media[position])
+//            holder.bind(searchHistory[position])
+//            holder.itemView.setOnClickListener {
+//               // media.onTrackClick(media[position])
+//               // media.onTrackClick(searchHistory[position])
+//            }
+//        }
 
         App.getSharedPreferences()
         holder.bind(media[position])

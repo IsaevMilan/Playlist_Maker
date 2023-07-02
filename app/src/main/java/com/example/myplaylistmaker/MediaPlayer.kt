@@ -11,7 +11,7 @@ class MediaPlayer : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_media)
+        setContentView(R.layout.activity_media_player)
 
 
         val playerTrackName = findViewById<TextView>(R.id.playerTrackName)
@@ -23,11 +23,11 @@ class MediaPlayer : AppCompatActivity() {
         val country = findViewById<TextView>(R.id.country)
         val cover = findViewById<ImageView>(R.id.trackCover)
 
-        val backButt = findViewById<ImageView>(R.id.arrowBack2)
-
-        backButt.setOnClickListener {
+        val backButton = findViewById<ImageView>(R.id.arrowBack2)
+        backButton.setOnClickListener {
             onBackPressed()
         }
+
         playerTrackName.text = intent.extras?.getString("Track Name") ?: "Unknown Track"
         playerArtistName.text = intent.extras?.getString("Artist Name") ?: "Unknown Artist"
         trackTime.text = intent.extras?.getString("Track Time") ?: "00:00"

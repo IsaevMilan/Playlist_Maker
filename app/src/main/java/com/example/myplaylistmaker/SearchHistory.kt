@@ -16,7 +16,7 @@ class SearchHistory {
     var trackHistoryList = App.mediaHistoryList
 
     fun editArray(newHistoryTrack: MediaData) {
-        var json = ""
+        val json = ""
         if (json.isNotEmpty()) {
             if (trackHistoryList.isEmpty()) {
                 if (savedHistory.contains(SEARCH_SHARED_PREFS_KEY)) {

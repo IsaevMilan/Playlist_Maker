@@ -36,6 +36,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".MediaPlayer"
+            android:exported="false"
+             />
+
                <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -50,10 +55,6 @@
                 android:value="" />
 
         </activity>
-        <activity
-            android:name=".MediaPlayer"
-            android:exported="false"
-             />
 
     </application>
 
