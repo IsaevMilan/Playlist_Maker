@@ -23,7 +23,7 @@ class MediaPlayer : AppCompatActivity() {
         val country = findViewById<TextView>(R.id.country)
         val cover = findViewById<ImageView>(R.id.trackCover)
 
-        val backButton = findViewById<ImageView>(R.id.arrowBack2)
+        val backButton = findViewById<ImageView>(R.id.backArrow4)
         backButton.setOnClickListener {
             onBackPressed()
         }

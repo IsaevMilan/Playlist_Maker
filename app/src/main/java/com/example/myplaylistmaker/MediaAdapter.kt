@@ -11,16 +11,16 @@ import kotlin.collections.ArrayList
 class MediaAdapter( var media: ArrayList<MediaData>) : RecyclerView.Adapter<MediaViewHolder> () {
 
     private val searchActivityObj = SearchActivity()
-    fun interface MediaClickListener {
-        fun onTrackClick(track: MediaData)
-    }
+    //fun interface MediaClickListener {
+      //  fun onTrackClick(track: MediaData)
+    //}
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_item, parent, false)
         return MediaViewHolder(view)
     }
-    var searchHistory = ArrayList<MediaData>()
+    //var searchHistory = ArrayList<MediaData>()
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
 
@@ -37,7 +37,7 @@ class MediaAdapter( var media: ArrayList<MediaData>) : RecyclerView.Adapter<Medi
         holder.bind(media[position])
         holder.itemView.setOnClickListener {
 
-            val intent = Intent(holder.itemView.context, MediaActivity::class.java)
+            val intent = Intent(holder.itemView.context, MediaPlayer::class.java)
             intent.putExtra("Track Name", media[position].trackName)
             intent.putExtra("Artist Name", media[position].artistName)
             val trackTime = SimpleDateFormat("mm:ss",
