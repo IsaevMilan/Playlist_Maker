@@ -5,4 +5,17 @@
     <dimen name="settingTextSize">16sp</dimen>
     <dimen name="smallTextSize">11sp</dimen>
     <dimen name="iconSize">16dp</dimen>
+    <dimen name="playerTrackName">22sp</dimen>
+    <dimen name="playerTrackNameTop">24dp</dimen>
+    <dimen name="playerArtistNameTop">12dp</dimen>
+    <dimen name="playerArtistNameText">14sp</dimen>
+    <dimen name="playerPlusButtonTop">54dp</dimen>
+    <dimen name="playButtonMarginTop">30dp</dimen>
+    <dimen name="heartButtonMargTop">54dp</dimen>
+    <dimen name="coverAlbumMargTop">82dp</dimen>
+    <dimen name="backArrowMargTop">20dp</dimen>
+    <dimen name="backArrowMargStart">20dp</dimen>
+    <dimen name="trackTimeMargTop">30dp</dimen>
+    <dimen name="albumNameMargTop">16dp</dimen>
+    <dimen name="playerSmallText13sp">13sp</dimen>
 </resources>
