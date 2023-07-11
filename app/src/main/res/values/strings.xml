@@ -31,7 +31,7 @@
     <string name="placeHolder">Здесь будет текст</string>
     <string name="UpdateButt">Обновить</string>
     <string name="сlearHistory">Очистить историю</string>
-    <string name="ыearchHistory">Вы искали</string>
+    <string name="searchHistory">Вы искали</string>
     <string name="artist_name">artist_name</string>
     <string name="trackname">trackName</string>
     <string name="_00">00:30</string>
@@ -45,4 +45,5 @@
     <string name="uncknownyear">uncknownyear</string>
     <string name="uncknowngenre">uncknowngenre</string>
     <string name="uncknowncountry">uncknowncountry</string>
+    <string name="clearHistoryButton">Очистить историю</string>
 </resources>

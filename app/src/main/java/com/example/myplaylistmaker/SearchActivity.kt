@@ -1,7 +1,10 @@
 package com.example.myplaylistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -24,6 +27,14 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
 
  class SearchActivity : AppCompatActivity() {
 
+     companion object {
+         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+         private const val INPUT_TEXT = "input_text"
+
+     }
+
+
+
     private lateinit var  backButton: ImageView
     private lateinit var  clearButton: ImageView
     private lateinit var  queryInput: EditText
@@ -39,6 +50,9 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
     private val mediaInHistory = ArrayList<MediaData>()
     private lateinit var  historyAdapter:MediaAdapter
     lateinit var  mediaAdapter:MediaAdapter
+     private val handler = Handler(Looper.getMainLooper())
+     private val searchRunnable = Runnable { (queryInput) }
+     lateinit var progressBar: ProgressBar
 
 
     private val BASE_URL = "https://itunes.apple.com"
@@ -48,10 +62,7 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
          .build()
     private val mediaService = retrofit.create(ApiInterface::class.java)
 
-     companion object {
-         private const val INPUT_TEXT = "input_text"
 
-     }
     private var saveText = ""
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -82,6 +93,7 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
         searchHistory = findViewById(R.id.historyScrollView)
         historyRecycler = findViewById(R.id.historyRecycler)
         clearHistoryButton = findViewById(R.id.clearHistoryButton)
+        progressBar = findViewById(R.id.progressBar)
 
 
         applicationContext.getSharedPreferences(SEARCH_SHARED_PREFS_KEY, MODE_PRIVATE)
@@ -107,21 +119,7 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
             historyAdapter.notifyDataSetChanged()
         }
 
-        queryInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (queryInput.hasFocus() && p0?.isEmpty() == true && App.mediaHistoryList.isNotEmpty()) {
-                    searchHistory.visibility= View.VISIBLE
-                } else {
-                    searchHistory.visibility= GONE
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
 
 
         backButton.setOnClickListener {
@@ -186,9 +184,14 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
 
 
         fun requestToServer() {
-            mediaRecycler.visibility = View.VISIBLE
+
+            mediaList.clear()
+
+
 
             if (queryInput.text.isNotEmpty()) {
+                mediaRecycler.visibility = View.VISIBLE
+                progressBar.visibility = View.VISIBLE
                 mediaService.findMedia(queryInput.text.toString()).enqueue(/* callback = */
                     object : Callback<MediaResponse> {
                         override fun onResponse(
@@ -208,12 +211,14 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
                                     placeholderLineErr.visibility = GONE
 
                                 }
+                                progressBar.visibility = GONE
                             } else {
                                 mediaList.clear()
                                 mediaRecycler.visibility = GONE
                                 placeholderMessage.visibility= GONE
                                 placeholderLineErr.visibility = View.VISIBLE
                                 updateButton.visibility = View.VISIBLE
+                                progressBar.visibility = View.GONE
                             }
                         }
 
@@ -226,6 +231,7 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
                             placeholderLineErr.visibility = View.VISIBLE
                             updateButton.visibility = View.VISIBLE
                             placeholderMessage.visibility= GONE
+                            progressBar.visibility = View.GONE
                             // метод вызывается если не получилось установить соединение с сервером
                         }
 
@@ -235,14 +241,29 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
             }
 
         }
-        queryInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                requestToServer()
-                // ВЫПОЛНЯЙТЕ ПОИСКОВЫЙ ЗАПРОС ЗДЕСЬ
+        val searchRunnable = Runnable { requestToServer() }
 
-            }
-            false
+
+        fun searchDebounce() {
+            handler.removeCallbacks(searchRunnable)
+            handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
         }
+        queryInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                searchDebounce()
+                if (queryInput.hasFocus() && p0?.isEmpty() == true && App.mediaHistoryList.isNotEmpty()) {
+                    searchHistory.visibility= View.VISIBLE
+                } else {
+                    searchHistory.visibility= GONE
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
 
         updateButton.setOnClickListener {
             placeholderLineErr.visibility = GONE

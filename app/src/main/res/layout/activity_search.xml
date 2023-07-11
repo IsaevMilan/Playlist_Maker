@@ -72,6 +72,14 @@
 
 
     </FrameLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="140dp"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -106,7 +114,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="0dp"
                 android:gravity="center_horizontal"
-                android:text="@string/SearchHistory"
+                android:text="@string/searchHistory"
                 android:fontFamily="@font/ys_display_medium"
                 android:textAlignment="center"
                 android:textColor="?attr/colorButtonNormal"
@@ -131,7 +139,7 @@
                 android:layout_marginTop="24dp"
                 android:backgroundTint="?attr/colorButtonNormal"
                 android:fontFamily="@font/ys_display_medium"
-                android:text="@string/ClearHistory"
+                android:text="@string/clearHistoryButton"
                 android:textAllCaps="false"
                 android:textSize="14sp"
                 app:cornerRadius="54dp" />

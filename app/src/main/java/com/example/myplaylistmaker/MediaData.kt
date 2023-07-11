@@ -11,7 +11,8 @@ data class MediaData(
    val collectionName: String,
    val releaseDate: String,
    val primaryGenreName: String,
-   val country: String,)
+   val country: String,
+   val previewUrl: String)
 {
    override fun equals(other: Any?): Boolean {
       if (this === other) return true
