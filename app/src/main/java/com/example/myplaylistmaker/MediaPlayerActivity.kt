@@ -24,7 +24,7 @@ class MediaPlayerActivity : AppCompatActivity() {
     private lateinit var pauseButton: ImageButton
     private var mediaPlayer = MediaPlayer()
     lateinit var timer: TextView
-    var time = 30
+    var time = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,10 +131,12 @@ class MediaPlayerActivity : AppCompatActivity() {
             override fun run() {
 
                 if (playerState == STATE_PLAYING) {
-                    if (time > 0) {
-                        time -= 1
+                    if (time < 30) {
+                        time += 1
                         val postTime = time.toString()
+
                         if (time < 10) timer.text = "00:0$postTime" else timer.text = "00:$postTime"
+
                         mainThreadHandler?.postDelayed(this, DELAY)
                     }
                 }

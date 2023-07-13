@@ -27,11 +27,6 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
 
  class SearchActivity : AppCompatActivity() {
 
-     companion object {
-         private const val SEARCH_DEBOUNCE_DELAY = 2000L
-         private const val INPUT_TEXT = "input_text"
-
-     }
 
 
 
@@ -274,6 +269,11 @@ const val SEARCH_SHARED_PREFS_KEY = "123"
 
 
     }
+     companion object {
+         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+         private const val INPUT_TEXT = "input_text"
+
+     }
 
  }
 
