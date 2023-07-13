@@ -100,7 +100,21 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
             app:layout_constraintTop_toBottomOf="@id/playerArtistName"
-            tools:ignore="UnknownId,SpeakableTextPresentCheck" />
+            tools:ignore="UnknownId,SpeakableTextPresentCheck"
+            />
+        <ImageButton
+            android:id="@+id/pauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/playButtonMarginTop"
+            android:src="@drawable/pause_button"
+            app:layout_constraintEnd_toStartOf="@+id/favourites"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
+            app:layout_constraintTop_toBottomOf="@id/playerArtistName"
+            tools:ignore="UnknownId,SpeakableTextPresentCheck"
+            android:visibility="gone"
+            />
 
         <ImageButton
             android:id="@+id/favourites"
@@ -111,11 +125,12 @@
             app:layout_constraintEnd_toEndOf="@+id/playerTrackName"
             app:layout_constraintTop_toBottomOf="@id/playerArtistName"
             tools:ignore="SpeakableTextPresentCheck" />
+
         <TextView
             android:id="@+id/trackTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="180dp"
             android:fontFamily="@font/ys_display_medium"
             android:text="@string/_00"
             android:textColor="?attr/colorButtonNormal"
@@ -123,7 +138,7 @@
             app:layout_constraintEnd_toStartOf="@+id/favourites"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
-            app:layout_constraintTop_toBottomOf="@+id/playButton" />
+            app:layout_constraintTop_toTopOf="@+id/playerTrackName" />
 
         <TextView
             android:id="@+id/trackTimeName"
