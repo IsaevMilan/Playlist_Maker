@@ -11,7 +11,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MediaAdapter( var media: ArrayList<MediaData>) : RecyclerView.Adapter<MediaViewHolder> () {
+class MediaAdapter(
+    private val media: List<MediaData>,
+    private val searchHistory: SearchHistory
+) : RecyclerView.Adapter<MediaViewHolder>() {
 
 
     companion object {
@@ -21,8 +24,6 @@ class MediaAdapter( var media: ArrayList<MediaData>) : RecyclerView.Adapter<Medi
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
-
-    private val searchActivityObj = SearchActivity()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.track_item, parent, false)
         return MediaViewHolder(view)
@@ -40,8 +41,10 @@ class MediaAdapter( var media: ArrayList<MediaData>) : RecyclerView.Adapter<Medi
 
             intent.putExtra("Track Name", media[position].trackName)
             intent.putExtra("Artist Name", media[position].artistName)
-            val trackTime = SimpleDateFormat("mm:ss",
-                Locale.getDefault()).format(media[position].trackTimeMillis)
+            val trackTime = SimpleDateFormat(
+                "mm:ss",
+                Locale.getDefault()
+            ).format(media[position].trackTimeMillis)
             intent.putExtra("Track Time", trackTime)
             intent.putExtra("Album", media[position].collectionName)
             intent.putExtra("Year", media[position].releaseDate)
@@ -51,7 +54,7 @@ class MediaAdapter( var media: ArrayList<MediaData>) : RecyclerView.Adapter<Medi
             intent.putExtra("URL", media[position].previewUrl)
             holder.itemView.context.startActivity(intent)
 
-            searchActivityObj.searchHistoryObj.editArray(media[position])
+            searchHistory.editArray(media[position])
             notifyDataSetChanged()
 
         }
