@@ -1,7 +1,6 @@
-package com.example.myplaylistmaker
+package com.example.myplaylistmaker.presentation.ui.activities
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,14 +8,25 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.View.GONE
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isEmpty
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myplaylistmaker.R
+import com.example.myplaylistmaker.data.dto.TrackResponse
+import com.example.myplaylistmaker.data.network.iTunesSearchAPI
+import com.example.myplaylistmaker.domain.SearchHistory
+import com.example.myplaylistmaker.domain.models.Track
+import com.example.myplaylistmaker.presentation.ui.adapters.MediaAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,21 +49,22 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var historyRecycler: RecyclerView
     private val searchHistoryObj = SearchHistory()
     private lateinit var clearHistoryButton: Button
-    private val mediaList = mutableListOf<MediaData>()
-    private val mediaInHistory = ArrayList<MediaData>()
-    private lateinit var historyAdapter: MediaAdapter
-    lateinit var mediaAdapter: MediaAdapter
     private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable { (queryInput) }
     lateinit var progressBar: ProgressBar
 
+    private val historyAdapter = MediaAdapter {
+        startMediaPlayerAndUpdateHistory(it)
+    }
+    private val mediaAdapter = MediaAdapter {
+        startMediaPlayerAndUpdateHistory(it)
+    }
 
     private val BASE_URL = "https://itunes.apple.com"
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val mediaService = retrofit.create(ApiInterface::class.java)
+    private val mediaService = retrofit.create(iTunesSearchAPI::class.java)
 
 
     private var saveText = ""
@@ -71,8 +82,6 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        mediaAdapter = MediaAdapter(mediaList, searchHistoryObj)
-        historyAdapter = MediaAdapter(searchHistoryObj.trackHistoryList, searchHistoryObj)
         mediaRecycler = findViewById(R.id.rvTracks)
         queryInput = findViewById(R.id.inputEditText)
         placeholderMessage = findViewById(R.id.SearchErrorLayout)
@@ -90,28 +99,24 @@ class SearchActivity : AppCompatActivity() {
 
         historyRecycler.layoutManager = LinearLayoutManager(this)
         historyRecycler.adapter = historyAdapter
+        searchHistory.isGone = true
 
-
-        mediaInHistory.addAll(searchHistoryObj.trackHistoryList)
-        if (mediaInHistory.isEmpty()) {
-            searchHistory.visibility = GONE
-        }
-
-        queryInput.setOnFocusChangeListener { v, hasFocus ->
-            searchHistory.visibility =
-                if (hasFocus && queryInput.text.isEmpty() && App.mediaHistoryList.isNotEmpty())
-                    View.VISIBLE else GONE
+        queryInput.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus &&
+                queryInput.text.isBlank() &&
+                searchHistoryObj.trackHistoryList.isNotEmpty()
+            ) {
+                historyAdapter.setItems(searchHistoryObj.trackHistoryList)
+                searchHistory.isVisible = true
+            } else {
+                searchHistory.isGone = true
+            }
         }
 
         clearHistoryButton.setOnClickListener {
-            App.mediaHistoryList.clear()
-            mediaInHistory.clear()
+            searchHistoryObj.trackHistoryList.clear()
             searchHistory.visibility = GONE
-            historyAdapter.notifyDataSetChanged()
         }
-
-
-
 
         backButton.setOnClickListener {
             onBackPressed()
@@ -122,12 +127,11 @@ class SearchActivity : AppCompatActivity() {
             val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(queryInput.windowToken, 0) // скрыть клавиатуру
             queryInput.clearFocus()
-            mediaList.clear()
+            mediaAdapter.setItems(emptyList())
             placeholderMessage.visibility = GONE
             placeholderLineErr.visibility = GONE
             mediaRecycler.visibility = GONE
-            mediaAdapter.notifyDataSetChanged()
-            if (mediaInHistory.isEmpty()) {
+            if (searchHistoryObj.trackHistoryList.isEmpty()) {
                 searchHistory.visibility = GONE
                 placeholderMessage.visibility = GONE
 
@@ -140,8 +144,7 @@ class SearchActivity : AppCompatActivity() {
                 start: Int,
                 count: Int,
                 after: Int,
-            ) {
-            }
+            ) = Unit
 
             override fun onTextChanged(
                 s: CharSequence?,
@@ -170,80 +173,15 @@ class SearchActivity : AppCompatActivity() {
         queryInput.addTextChangedListener(simpleTextWatcher)
         mediaRecycler.adapter = mediaAdapter
         historyRecycler.adapter = historyAdapter
-
-
-        fun requestToServer() {
-
-            mediaList.clear()
-
-
-
-            if (queryInput.text.isNotEmpty()) {
-                mediaRecycler.visibility = View.VISIBLE
-                progressBar.visibility = View.VISIBLE
-                mediaService.findMedia(queryInput.text.toString()).enqueue(/* callback = */
-                    object : Callback<MediaResponse> {
-                        override fun onResponse(
-                            call: Call<MediaResponse>,
-                            response: Response<MediaResponse>,
-                        ) {
-                            if (response.code() == 200) {
-                                mediaList.clear()
-                                if (response.body()?.results?.isNotEmpty() == true) {
-                                    mediaList.addAll(response.body()?.results!!)
-                                    mediaAdapter.notifyDataSetChanged()
-                                } else {
-                                    mediaList.clear()
-                                    mediaRecycler.visibility = GONE
-                                    placeholderMessage.visibility = View.VISIBLE
-                                    placeholderLineErr.visibility = GONE
-
-                                }
-                                progressBar.visibility = GONE
-                            } else {
-                                mediaList.clear()
-                                mediaRecycler.visibility = GONE
-                                placeholderMessage.visibility = GONE
-                                placeholderLineErr.visibility = View.VISIBLE
-                                updateButton.visibility = View.VISIBLE
-                                progressBar.visibility = View.GONE
-                            }
-                        }
-
-                        override fun onFailure(
-                            call: Call<MediaResponse>,
-                            t: Throwable,
-                        ) {
-                            mediaList.clear()
-                            mediaRecycler.visibility = GONE
-                            placeholderLineErr.visibility = View.VISIBLE
-                            updateButton.visibility = View.VISIBLE
-                            placeholderMessage.visibility = GONE
-                            progressBar.visibility = View.GONE
-                            // метод вызывается если не получилось установить соединение с сервером
-                        }
-
-
-                    })
-
-            }
-
-        }
-
-        val searchRunnable = Runnable { requestToServer() }
-
-
-        fun searchDebounce() {
-            handler.removeCallbacks(searchRunnable)
-            handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
-        }
         queryInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 searchDebounce()
-                if (queryInput.hasFocus() && p0?.isEmpty() == true && App.mediaHistoryList.isNotEmpty()) {
+                if (queryInput.hasFocus() &&
+                    p0?.isEmpty() == true &&
+                    searchHistoryObj.trackHistoryList.isNotEmpty()) {
                     searchHistory.visibility = View.VISIBLE
                 } else {
                     searchHistory.visibility = GONE
@@ -260,6 +198,61 @@ class SearchActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun requestToServer() {
+        if (queryInput.text.isNotEmpty()) {
+            mediaRecycler.visibility = GONE
+            placeholderLineErr.isGone = true
+            progressBar.visibility = View.VISIBLE
+            mediaService.search(queryInput.text.toString()).enqueue(/* callback = */
+                object : Callback<TrackResponse> {
+                    override fun onResponse(
+                        call: Call<TrackResponse>,
+                        response: Response<TrackResponse>,
+                    ) {
+                        if (response.code() == 200) {
+                            val results = response.body()?.results.orEmpty()
+                            val isEmpty = results.isEmpty()
+                            mediaRecycler.isGone = isEmpty
+                            placeholderLineErr.isGone = isEmpty
+                            placeholderMessage.isVisible = isEmpty
+                            mediaAdapter.setItems(results)
+                        } else {
+                            mediaRecycler.visibility = GONE
+                            placeholderMessage.visibility = GONE
+                            placeholderLineErr.visibility = View.VISIBLE
+                            updateButton.visibility = View.VISIBLE
+                        }
+                        progressBar.visibility = GONE
+                    }
+
+                    override fun onFailure(
+                        call: Call<TrackResponse>,
+                        t: Throwable,
+                    ) {
+                        mediaRecycler.visibility = GONE
+                        placeholderLineErr.visibility = View.VISIBLE
+                        updateButton.visibility = View.VISIBLE
+                        placeholderMessage.visibility = GONE
+                        progressBar.visibility = GONE
+                        // метод вызывается если не получилось установить соединение с сервером
+                    }
+                })
+
+        }
+
+    }
+
+    private fun searchDebounce() {
+        val searchRunnable = Runnable { requestToServer() }
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
+    private fun startMediaPlayerAndUpdateHistory(track: Track) {
+        MediaPlayerActivity.startActivity(this, track)
+        searchHistoryObj.editArray(track)
     }
 
     companion object {

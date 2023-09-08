@@ -1,30 +1,24 @@
-package com.example.myplaylistmaker
+package com.example.myplaylistmaker.domain
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.widget.Toast
-import com.bumptech.glide.Glide.init
+import com.example.myplaylistmaker.presentation.ui.activities.SEARCH_SHARED_PREFS_KEY
+import com.example.myplaylistmaker.app.App
+import com.example.myplaylistmaker.domain.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
 
 class SearchHistory {
     private val savedHistory = App.getSharedPreferences()
     private val gson = Gson()
+    var counter = 0
+    val trackHistoryList = ArrayList<Track>()
 
-    private var counter = 0
-    var trackHistoryList = App.mediaHistoryList
+    init {
+        trackHistoryList.addAll(readFromPrefs())
+    }
 
-    fun editArray(newHistoryTrack: MediaData) {
-        val json = ""
-        if (json.isNotEmpty()) {
-            if (trackHistoryList.isEmpty()) {
-                if (savedHistory.contains(SEARCH_SHARED_PREFS_KEY)) {
-                    val type = object : TypeToken<ArrayList<MediaData>>() {}.type
-                    trackHistoryList = gson.fromJson(json, type)
-                }
-            }
-        }
+    fun editArray(newHistoryTrack: Track) {
         if (trackHistoryList.contains(newHistoryTrack)) {
             trackHistoryList.remove(newHistoryTrack)
             trackHistoryList.add(0, newHistoryTrack)
@@ -39,11 +33,9 @@ class SearchHistory {
     }
 
     private fun saveHistory() {
-        var json = ""
-        json = gson.toJson(trackHistoryList)
         savedHistory.edit()
             .clear()
-            .putString(SEARCH_SHARED_PREFS_KEY, json)
+            .putString(SEARCH_SHARED_PREFS_KEY, gson.toJson(trackHistoryList))
             .apply()
         counter = trackHistoryList.size
     }
@@ -52,5 +44,14 @@ class SearchHistory {
         val duration = Toast.LENGTH_SHORT
         val toast = Toast.makeText(context, text, duration)
         toast.show()
+    }
+
+    private fun readFromPrefs(): List<Track> {
+        val json = savedHistory.getString(SEARCH_SHARED_PREFS_KEY, "")
+        if (json.isNullOrBlank()) {
+            return emptyList()
+        }
+        val type = object : TypeToken<ArrayList<Track>>() {}.type
+        return gson.fromJson(json, type)
     }
 }

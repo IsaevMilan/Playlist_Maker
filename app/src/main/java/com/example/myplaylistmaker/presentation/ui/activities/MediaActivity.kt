@@ -1,8 +1,9 @@
-package com.example.myplaylistmaker
+package com.example.myplaylistmaker.presentation.ui.activities
 
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myplaylistmaker.R
 
 
 class MediaActivity : AppCompatActivity() {

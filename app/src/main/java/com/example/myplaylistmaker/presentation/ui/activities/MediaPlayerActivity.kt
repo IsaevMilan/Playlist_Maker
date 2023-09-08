@@ -1,5 +1,7 @@
-package com.example.myplaylistmaker
+package com.example.myplaylistmaker.presentation.ui.activities
 
+import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -10,6 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.myplaylistmaker.R
+import com.example.myplaylistmaker.domain.models.Track
 import java.util.concurrent.TimeUnit
 
 
@@ -58,15 +62,19 @@ class MediaPlayerActivity : AppCompatActivity() {
         playButton.setOnClickListener { playbackControl() }
         pauseButton.setOnClickListener { playbackControl() }
 
+        /*
+            intent.putExtra("URL", media[position].previewUrl)
+         */
 
-        playerTrackName.text = intent.extras?.getString("Track Name") ?: "Unknown Track"
-        playerArtistName.text = intent.extras?.getString("Artist Name") ?: "Unknown Artist"
-        trackTime.text = intent.extras?.getString("Track Time") ?: "00:00"
-        album.text = intent.extras?.getString("Album") ?: "Unknown Album"
-        year.text = (intent.extras?.getString("Year") ?: "Year").take(4)
-        genre.text = intent.extras?.getString("Genre") ?: "Unknown Genre"
-        country.text = intent.extras?.getString("Country") ?: "Unknown Country"
-        val getImage = (intent.extras?.getString("Cover") ?: "Unknown Cover").replace(
+        val track = intent.extras?.getSerializable(KEY_TRACK_EXTRA) as? Track
+        playerTrackName.text = track?.trackName ?: "Unknown Track"
+        playerArtistName.text = track?.artistName ?: "Unknown Artist"
+        trackTime.text = track?.formattedTrackTime ?: "00:00"
+        album.text = track?.collectionName ?: "Unknown Album"
+        year.text = (track?.releaseDate ?: "Year").take(4)
+        genre.text = track?.primaryGenreName ?: "Unknown Genre"
+        country.text = track?.country ?: "Unknown Country"
+        val getImage = (track?.artworkUrl100 ?: "Unknown Cover").replace(
             "100x100bb.jpg",
             "512x512bb.jpg"
         )
@@ -77,8 +85,7 @@ class MediaPlayerActivity : AppCompatActivity() {
                 .placeholder(R.drawable.placeholdermedia)
                 .into(cover)
         }
-        val url = intent.extras?.getString("URL")
-        if (!url.isNullOrEmpty()) preparePlayer(url)
+        track?.previewUrl?.let(this::preparePlayer)
     }
 
     override fun onStop() {
@@ -145,8 +152,15 @@ class MediaPlayerActivity : AppCompatActivity() {
         private const val SECONDS_IN_MINUTE = 60
         private const val DELAY = 1000L
         private const val FORMAT = "%02d"
-    }
 
+        private const val KEY_TRACK_EXTRA = "com.example.myplaylistmaker.TrackExtra"
+
+        fun startActivity(context: Context, payload: Track) {
+            val intent = Intent(context, MediaPlayerActivity::class.java)
+                .putExtra(KEY_TRACK_EXTRA, payload)
+            context.startActivity(intent)
+        }
+    }
 }
 
 
