@@ -1,10 +1,12 @@
-package com.example.myplaylistmaker
+package com.example.myplaylistmaker.presentation.ui.activities
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.example.myplaylistmaker.R
+import com.example.myplaylistmaker.app.App
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 const val THEME_PREFERENCES = "theme_preferences"
@@ -24,8 +26,7 @@ class SettingsActivity : AppCompatActivity() {
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
 
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
-            (applicationContext as App).switchTheme(checked)
-
+//            (applicationContext as App).switchTheme(checked)
         }
 
         val frameLayoutShare = findViewById<FrameLayout>(R.id.share)
