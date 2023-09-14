@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button.setOnClickListener {
-            Log.d("MainActivityButton", "SearchButton setOnClickListener")
+
             startActivity(
                 Intent(
                     this,

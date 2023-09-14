@@ -21,7 +21,7 @@ class ExternalNavigatorImpl (private val application: App): ExternalNavigator {
 
     override fun openLink() {
         val intentAgreement3 =
-            Intent(Intent.ACTION_VIEW, Uri.parse(application.getString(R.string.agreement)))
+            Intent(Intent.ACTION_VIEW, Uri.parse(application.getString(R.string.yaAgreementUrl)))
         intentAgreement3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         application.startActivity(intentAgreement3)
     }
