@@ -26,7 +26,7 @@ class SearchViewModel(
         override fun consume(tracks: List<Track>) {
             trackResultList.postValue(tracks)
             stateLiveData.postValue(
-                if (tracks.isNullOrEmpty())
+                if (tracks.isEmpty())
                     SearchScreenState.NothingFound
                 else SearchScreenState.SearchIsOk(tracks)
             )
@@ -60,8 +60,8 @@ class SearchViewModel(
 
     fun provideHistory(): LiveData<List<Track>> {
         val history = searchHistoryInteractor.provideHistory()
-        trackHistoryList.value=history
-        if (history.isNullOrEmpty()) {
+        trackHistoryList.value=history!!
+        if (history.isEmpty()) {
             trackHistoryList.postValue(emptyList())
         }
         return trackHistoryList

@@ -19,7 +19,7 @@ class MediaViewHolder(
     private val trackImage: ImageView = itemView.findViewById(R.id.trackImage)
     private val trackName: TextView = itemView.findViewById(R.id.trackName)
     private val trackAuthor: TextView = itemView.findViewById(R.id.trackAuthor)
-    private val tracklength: TextView = itemView.findViewById(R.id.track_time)
+    private val tracklength: TextView = itemView.findViewById(R.id.time)
     private var track: Track? = null
 
     init {

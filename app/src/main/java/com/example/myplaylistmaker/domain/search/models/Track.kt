@@ -27,8 +27,8 @@ data class Track(
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
-    ) {
-    }
+    )
+
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
