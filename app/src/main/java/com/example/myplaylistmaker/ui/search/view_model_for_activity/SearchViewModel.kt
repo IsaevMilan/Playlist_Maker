@@ -6,9 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.myplaylistmaker.creator.Creator
 import com.example.myplaylistmaker.domain.search.history.SearchHistoryInteractor
+import com.example.myplaylistmaker.domain.search.models.ERROR_NO_CONNECTION
+import com.example.myplaylistmaker.domain.search.models.SearchResult
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.domain.search.saerchin_and_responding.SearchInteractor
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
+import java.io.IOException
+import java.util.regex.MatchResult
 
 class SearchViewModel(
     private var searchInteractor: SearchInteractor,
@@ -23,18 +27,32 @@ class SearchViewModel(
 
     //поиск трека
     private val tracksConsumer = object : SearchInteractor.TracksConsumer {
-        override fun consume(tracks: List<Track>) {
-            trackResultList.postValue(tracks)
-            stateLiveData.postValue(
-                if (tracks.isEmpty())
-                    SearchScreenState.NothingFound
-                else SearchScreenState.SearchIsOk(tracks)
-            )
+        override fun consume(result: SearchResult) {
+            when (result) {
+                is SearchResult.Failure -> {
+                    if (result.errorType.error == ERROR_NO_CONNECTION) {
+                        stateLiveData.postValue(SearchScreenState.ConnectionError)
+                    } else {
+                        //можно сделать вывод других исключений, но пока оставлю так
+                        stateLiveData.postValue(SearchScreenState.ConnectionError)
+                    }
+                }
+
+                is SearchResult.Success -> {
+                    if (result.list.isEmpty()) {
+                        stateLiveData.postValue(SearchScreenState.NothingFound)
+                    } else {
+                        stateLiveData.postValue(SearchScreenState.SearchIsOk(result.list))
+                    }
+                }
+            }
         }
     }
 
-    private var trackResultList: MutableLiveData<List<Track>> = MutableLiveData<List<Track>>()
     fun searchRequesting(searchExpression: String) {
+        if (searchExpression.isBlank()) {
+            return
+        }
         stateLiveData.postValue(SearchScreenState.Loading)
         try {
             searchInteractor.search(searchExpression, tracksConsumer)
@@ -42,7 +60,6 @@ class SearchViewModel(
             stateLiveData.postValue(SearchScreenState.ConnectionError)
         }
     }
-
 
     //история
     private var trackHistoryList: MutableLiveData<List<Track>> =
@@ -60,7 +77,7 @@ class SearchViewModel(
 
     fun provideHistory(): LiveData<List<Track>> {
         val history = searchHistoryInteractor.provideHistory()
-        trackHistoryList.value=history!!
+        trackHistoryList.value = history!!
         if (history.isEmpty()) {
             trackHistoryList.postValue(emptyList())
         }
@@ -68,8 +85,8 @@ class SearchViewModel(
     }
 
     fun clearTrackList() {
-        trackResultList.value = emptyList()
-        stateLiveData.value= trackHistoryList.value?.let { SearchScreenState.SearchWithHistory(it) }
+        stateLiveData.value =
+            trackHistoryList.value?.let { SearchScreenState.SearchWithHistory(it) }
     }
 
 

@@ -8,11 +8,8 @@ class SearchInteractorImpl(private val repository: TracksRepository) : SearchInt
         expression: String,
         consumer: SearchInteractor.TracksConsumer
     ){
-        var tracksData: List<Track>
-        val t = Thread {
-            tracksData=repository.searchTracks(expression)
-            consumer.consume(tracksData)
-        }
-        t.start()
+        Thread {
+            consumer.consume(repository.searchTracks(expression))
+        }.start()
     }
 }

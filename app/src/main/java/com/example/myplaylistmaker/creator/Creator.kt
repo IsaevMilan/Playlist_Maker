@@ -46,7 +46,7 @@ object Creator {
     }
 
     fun provideTracksRepository(): TracksRepository {
-        return TracksRepositoryImpl(RetrofitNetworkClient.RetrofitNetworkClient())
+        return TracksRepositoryImpl(RetrofitNetworkClient(application.applicationContext))
     }
 
     fun provideSearchHistory(): SearchHistory {

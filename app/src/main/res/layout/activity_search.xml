@@ -95,7 +95,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="5"
         android:visibility="gone"
         />
@@ -155,9 +154,6 @@
         app:cornerRadius="54dp"
         android:visibility="gone"/>
     </FrameLayout>
-
-
-
 
         <LinearLayout
 

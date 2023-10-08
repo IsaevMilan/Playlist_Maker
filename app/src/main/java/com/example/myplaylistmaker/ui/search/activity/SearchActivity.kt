@@ -14,10 +14,8 @@ import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.helper.widget.MotionPlaceholder
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myplaylistmaker.R
@@ -56,13 +54,13 @@ class SearchActivity : AppCompatActivity() {
         //делаем ViewModel
         searchViewModel.getStateLiveData().observe(this) { stateLiveData ->
 
-            when (val state = stateLiveData) {
+            when (stateLiveData) {
                 is SearchScreenState.DefaultSearch -> defaultSearch()
                 is SearchScreenState.ConnectionError -> connectionError()
                 is SearchScreenState.Loading -> loading()
                 is SearchScreenState.NothingFound -> nothingFound()
-                is SearchScreenState.SearchIsOk -> searchIsOk(state.data)
-                is SearchScreenState.SearchWithHistory -> searchWithHistory(state.historyData)
+                is SearchScreenState.SearchIsOk -> searchIsOk(stateLiveData.data)
+                is SearchScreenState.SearchWithHistory -> searchWithHistory(stateLiveData.historyData)
                 else -> {}
             }
         }
@@ -161,7 +159,7 @@ class SearchActivity : AppCompatActivity() {
 
     //поиск
     private fun search() {
-        searchViewModel.searchRequesting(binding.inputEditText.text.toString())
+        binding.inputEditText.text.toString().run(searchViewModel::searchRequesting)
     }
 
 
@@ -236,8 +234,7 @@ class SearchActivity : AppCompatActivity() {
             binding.inputEditText.setText("")
             val keyboard = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(
-                binding.inputEditText.windowToken,
-                0
+                binding.inputEditText.windowToken, 0
             ) // скрыть клавиатуру
             binding.inputEditText.clearFocus()
             searchViewModel.clearTrackList()
@@ -302,6 +299,8 @@ class SearchActivity : AppCompatActivity() {
     private fun connectionError() {
         binding.progressBar.visibility = GONE
         recyclerView.visibility = GONE
+        binding.SearchError.visibility = GONE
+        binding.SearchErrorText.visibility = GONE
         binding.rvTracksL.visibility = VISIBLE
         binding.LineError.visibility = VISIBLE
         binding.LineErrorText.visibility = VISIBLE
@@ -320,7 +319,6 @@ class SearchActivity : AppCompatActivity() {
 
     private fun historyInVisible() {
         binding.historyLayout.visibility = GONE
-
     }
 
 

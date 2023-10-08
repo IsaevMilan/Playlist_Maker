@@ -1,8 +1,8 @@
 package com.example.myplaylistmaker.data.search.request_and_response
 
-import com.example.myplaylistmaker.data.search.request_and_response.Response
+import com.example.myplaylistmaker.domain.search.models.SearchResult
 
 
 interface NetworkClient {
-    fun doRequest (dto:Any) : Response
+    fun doRequest(request: TrackSearchRequest): SearchResult
 }
