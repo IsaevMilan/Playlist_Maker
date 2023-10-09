@@ -72,9 +72,7 @@
             android:visibility="gone" />
     </FrameLayout>
     
-    <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
     <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="44dp"
@@ -84,125 +82,118 @@
             android:indeterminate="true"
             android:visibility="gone" />
 
-    <FrameLayout
-        android:id="@+id/rvTracksL"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-     <androidx.recyclerview.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTracks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="5"
-        android:visibility="gone"
-        />
-
-     <ImageView
-        android:id="@+id/SearchError"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="110dp"
-        android:src="@drawable/light_mode"
-        android:visibility="gone"/>
-
-     <TextView
-        android:id="@+id/SearchErrorText"
-        android:layout_width="310dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="240dp"
-        android:gravity="center"
-        android:text="@string/error"
-        android:textColor="?attr/colorButtonNormal"
-        android:textSize="19sp"
         android:visibility="gone" />
-
-
-     <ImageView
-        android:id="@+id/LineError"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="110dp"
-        android:src="@drawable/lightline_error"
-        android:visibility="gone"/>
-
-     <TextView
-        android:id="@+id/LineErrorText"
-        android:layout_width="320dp"
-        android:layout_height="88dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="240dp"
-        android:gravity="center"
-        android:text="@string/something_went_wrong"
-        android:textColor="?attr/colorButtonNormal"
-        android:textSize="19sp"
-        android:visibility="gone"/>
-
-
-     <com.google.android.material.button.MaterialButton
-        android:id="@+id/updateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="340dp"
-        android:backgroundTint="?attr/colorButtonNormal"
-        android:text="@string/UpdateButt"
-        app:cornerRadius="54dp"
-        android:visibility="gone"/>
-    </FrameLayout>
-
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/historyScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone">
         <LinearLayout
-
-                android:id="@+id/historyLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone">
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/historyText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="34dp"
+                android:layout_marginTop="0dp"
                 android:gravity="center_horizontal"
                 android:text="@string/searchHistory"
                 android:fontFamily="@font/ys_display_medium"
                 android:textAlignment="center"
                 android:textColor="?attr/colorButtonNormal"
                 android:textSize="19sp"
-                />
-
+                android:visibility="gone"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/historyRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="336dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="5"
-                tools:listitem="@layout/track_item"
-               />
-
+                tools:listitem="@layout/track_item" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/clearHistoryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="24dp"
                 android:backgroundTint="?attr/colorButtonNormal"
                 android:fontFamily="@font/ys_display_medium"
                 android:text="@string/clearHistoryButton"
                 android:textAllCaps="false"
                 android:textSize="14sp"
                 app:cornerRadius="54dp"
-                />
+                android:visibility="gone"/>
         </LinearLayout>
-
-    </FrameLayout>
-
+    </androidx.core.widget.NestedScrollView>
+    <LinearLayout
+        android:id="@+id/SearchErrorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/SearchError"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="110dp"
+            android:src="@drawable/light_mode" />
+        <TextView
+            android:id="@+id/SearchErrorText"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/error"
+            android:textColor="?attr/colorButtonNormal"
+            android:textSize="19sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/LineErrorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/LineError"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="110dp"
+            android:src="@drawable/lightline_error" />
+        <TextView
+            android:id="@+id/LineErrorText"
+            android:layout_width="320dp"
+            android:layout_height="88dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/something_went_wrong"
+            android:textColor="?attr/colorButtonNormal"
+            android:textSize="19sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="?attr/colorButtonNormal"
+            android:text="@string/UpdateButt"
+            app:cornerRadius="54dp" />
+    </LinearLayout>
 </LinearLayout>

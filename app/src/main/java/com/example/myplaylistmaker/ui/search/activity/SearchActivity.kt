@@ -179,6 +179,13 @@ class SearchActivity : AppCompatActivity() {
                 searchViewModel.clearTrackList()
             } else {
                 historyInVisible()
+                binding.SearchErrorLayout.visibility = GONE
+                binding.SearchError.visibility = GONE
+                binding.SearchErrorText.visibility = GONE
+                binding.LineErrorLayout.visibility = GONE
+                binding.LineError.visibility = GONE
+                binding.LineErrorText.visibility = GONE
+                binding.updateButton.visibility = GONE
             }
         }
     }
@@ -238,6 +245,10 @@ class SearchActivity : AppCompatActivity() {
             ) // скрыть клавиатуру
             binding.inputEditText.clearFocus()
             searchViewModel.clearTrackList()
+            binding.historyText.visibility = GONE
+            binding.clearHistoryButton.visibility = GONE
+            binding.historyRecycler.visibility = GONE
+
         }
     }
 
@@ -263,12 +274,27 @@ class SearchActivity : AppCompatActivity() {
     private fun defaultSearch() {
         historyInVisible()
         recyclerView.visibility = GONE
+        binding.SearchErrorLayout.visibility = GONE
+        binding.SearchError.visibility = GONE
+        binding.SearchErrorText.visibility = GONE
+        binding.LineErrorLayout.visibility = GONE
+        binding.LineError.visibility = GONE
+        binding.LineErrorText.visibility = GONE
         binding.updateButton.visibility = GONE
+
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loading() {
         binding.progressBar.visibility = VISIBLE
+        binding.SearchErrorLayout.visibility = GONE
+        binding.SearchError.visibility = GONE
+        binding.SearchErrorText.visibility = GONE
+        binding.LineErrorLayout.visibility = GONE
+        binding.LineError.visibility = GONE
+        binding.LineErrorText.visibility = GONE
+        binding.updateButton.visibility = GONE
 
         historyInVisible()
         trackAdapter.notifyDataSetChanged()
@@ -276,10 +302,12 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchIsOk(data: List<Track>) {
-        binding.rvTracksL.visibility = VISIBLE
+        binding.progressBar.visibility = GONE
         recyclerView.visibility = VISIBLE
+        binding.SearchErrorLayout.visibility = GONE
         binding.SearchError.visibility = GONE
         binding.SearchErrorText.visibility = GONE
+        binding.LineErrorLayout.visibility = GONE
         binding.LineError.visibility = GONE
         binding.LineErrorText.visibility = GONE
         binding.updateButton.visibility = GONE
@@ -290,7 +318,11 @@ class SearchActivity : AppCompatActivity() {
     private fun nothingFound() {
         binding.progressBar.visibility = GONE
         recyclerView.visibility = GONE
-        binding.rvTracksL.visibility = VISIBLE
+        binding.LineErrorLayout.visibility = GONE
+        binding.LineError.visibility = GONE
+        binding.LineErrorText.visibility = GONE
+        binding.updateButton.visibility = GONE
+        binding.SearchErrorLayout.visibility = VISIBLE
         binding.SearchError.visibility = VISIBLE
         binding.SearchErrorText.visibility = VISIBLE
         historyInVisible()
@@ -299,9 +331,10 @@ class SearchActivity : AppCompatActivity() {
     private fun connectionError() {
         binding.progressBar.visibility = GONE
         recyclerView.visibility = GONE
+        binding.SearchErrorLayout.visibility = GONE
         binding.SearchError.visibility = GONE
         binding.SearchErrorText.visibility = GONE
-        binding.rvTracksL.visibility = VISIBLE
+        binding.LineErrorLayout.visibility = VISIBLE
         binding.LineError.visibility = VISIBLE
         binding.LineErrorText.visibility = VISIBLE
         binding.updateButton.visibility = VISIBLE
@@ -310,15 +343,20 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchWithHistory(historyData: List<Track>) {
-        binding.rvTracksL.visibility = GONE
         recyclerView.visibility = GONE
-        binding.historyLayout.visibility = VISIBLE
+        binding.historyScrollView.visibility = VISIBLE
+        binding.historyRecycler.visibility = VISIBLE
+        binding.historyText.visibility = VISIBLE
+        binding.clearHistoryButton.visibility = VISIBLE
         historyAdapter.setItems(historyData)
 
     }
 
     private fun historyInVisible() {
-        binding.historyLayout.visibility = GONE
+        binding.historyScrollView.visibility = GONE
+        binding.historyRecycler.visibility = GONE
+
+
     }
 
 
