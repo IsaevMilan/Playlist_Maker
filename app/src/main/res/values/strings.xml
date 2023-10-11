@@ -27,7 +27,7 @@
     <string name="yaDeveloperUrl">https://practicum.yandex.ru/android-developer/</string>
     <string name="facebook_application_id">https://www.facebook.com/milan.isaev.5</string>
     <string name="something_went_wrong">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
-    <string name="error">Ничего не нашлось</string>
+    <string name="error">Ничего не нашлось </string>
     <string name="placeHolder">Здесь будет текст</string>
     <string name="UpdateButt">Обновить</string>
     <string name="сlearHistory">Очистить историю</string>
