@@ -3,16 +3,13 @@ package com.example.myplaylistmaker.ui.search.view_model_for_activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.myplaylistmaker.creator.Creator
 import com.example.myplaylistmaker.domain.search.history.SearchHistoryInteractor
 import com.example.myplaylistmaker.domain.search.models.ERROR_NO_CONNECTION
 import com.example.myplaylistmaker.domain.search.models.SearchResult
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.domain.search.saerchin_and_responding.SearchInteractor
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
-import java.io.IOException
-import java.util.regex.MatchResult
+
 
 class SearchViewModel(
     private var searchInteractor: SearchInteractor,
@@ -90,16 +87,6 @@ class SearchViewModel(
     }
 
 
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SearchViewModel(
-                        Creator.provideSearchInteractor(),
-                        Creator.provideSearchHistoryInteractor(),
-                    ) as T
-                }
-            }
-    }
+
+
 }

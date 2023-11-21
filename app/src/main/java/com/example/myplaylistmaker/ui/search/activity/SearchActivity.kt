@@ -14,7 +14,6 @@ import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,13 +24,14 @@ import com.example.myplaylistmaker.ui.player.activity.PlayerActivity
 import com.example.myplaylistmaker.ui.search.adapter.TrackAdapter
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.SearchViewModel
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
 
     // viewModel:
-    private val searchViewModel by viewModels<SearchViewModel> { SearchViewModel.getViewModelFactory() }
+    private val searchViewModel by viewModel<SearchViewModel> ()
     private var isClickAllowed = true
 
     private lateinit var trackAdapter: TrackAdapter

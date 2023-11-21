@@ -1,5 +1,6 @@
 package com.example.myplaylistmaker.data.settings
 
+import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -9,9 +10,13 @@ import com.example.myplaylistmaker.domain.settings.ThemeSettings
 
 const val THEME_KEY = "theme"
 
-class ThemeSettingsImpl(private val application: App) : ThemeSettings {
+class ThemeSettingsImpl(
+    private val application: Application,
+    private var themeSharedPrefs: SharedPreferences
+) : ThemeSettings {
+
+
     private var appTheme: Boolean = false
-    private lateinit var themeSharedPrefs: SharedPreferences
     override fun lookAtTheme(): Boolean {
         themeSharedPrefs = application.getSharedPreferences(THEME_KEY, MODE_PRIVATE)
         appTheme = themeSharedPrefs.getBoolean(THEME_KEY, !isDarkThemeEnabled())
