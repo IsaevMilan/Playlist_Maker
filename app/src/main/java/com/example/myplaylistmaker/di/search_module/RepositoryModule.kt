@@ -15,4 +15,5 @@ val RepositoryModule = module {
     single <SearchHistory> {
         SearchHistoryImpl(get(), get())
     }
+
 }
