@@ -26,5 +26,6 @@ val SettingsModule= module {
     single<SharingInteractor> {
         SharingInteractorImpl(get())
     }
+    viewModel { SettingsViewModel(get(), get()) }
 
 }

@@ -5,14 +5,12 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.example.myplaylistmaker.domain.search.models.SearchErrorType
 import com.example.myplaylistmaker.domain.search.models.SearchResult
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 private const val CODE_OK = 200
 
 class RetrofitNetworkClient(
     private val context: Context,
-    private val iTunesService: iTunesSearchAPI,
+    private val iTunesService: ITunesSearchAPI,
     private val mapper: SearchMapper
 ) : NetworkClient {
 

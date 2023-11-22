@@ -1,10 +1,11 @@
 package com.example.myplaylistmaker.di.search_module
 
 import android.content.Context
-import com.example.myplaylistmaker.data.local.SearchHistoryStorage
-import com.example.myplaylistmaker.data.local.SharedPreferencesSearchHistoryStorage
+import com.example.myplaylistmaker.data.search.history.SEARCH_SHARED_PREFS_KEY
+import com.example.myplaylistmaker.data.search.request_and_response.ITunesSearchAPI
+import com.example.myplaylistmaker.data.search.request_and_response.NetworkClient
+import com.example.myplaylistmaker.data.search.request_and_response.RetrofitNetworkClient
 import com.example.myplaylistmaker.data.search.request_and_response.SearchMapper
-import com.example.myplaylistmaker.data.search.request_and_response.iTunesSearchAPI
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -15,25 +16,26 @@ private const val BASE_URL = "https://itunes.apple.com"
 
 val dataModule = module {
 
-    single<iTunesSearchAPI> {
+    single<ITunesSearchAPI> {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(iTunesSearchAPI::class.java)
+            .create(ITunesSearchAPI::class.java)
     }
 
     single {
         androidContext()
-            .getSharedPreferences("local_storage", Context.MODE_PRIVATE)
+            .getSharedPreferences(SEARCH_SHARED_PREFS_KEY, Context.MODE_PRIVATE)
+    }
+    single<NetworkClient> {
+        RetrofitNetworkClient(get(), get(), get())
     }
 
     factory { Gson() }
     factory { SearchMapper() }
 
-    single <SearchHistoryStorage> {
-        SharedPreferencesSearchHistoryStorage(get(), get())
-    }
+
 
 }
 
