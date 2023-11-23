@@ -1,5 +1,6 @@
 package com.example.myplaylistmaker.di.player_module
 
+import android.media.MediaPlayer
 import com.example.myplaylistmaker.data.player.PlayerRepositoryImpl
 import com.example.myplaylistmaker.domain.player.PlayerInteractor
 import com.example.myplaylistmaker.domain.player.PlayerInteractorImpl
@@ -9,7 +10,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val PlayerModule = module {
-    single <PlayerRepository> {
+    factory <PlayerRepository> {
         PlayerRepositoryImpl (get())
     }
 

@@ -1,6 +1,7 @@
 package com.example.myplaylistmaker.di.search_module
 
 import android.content.Context
+import android.media.MediaPlayer
 import com.example.myplaylistmaker.app.App
 import com.example.myplaylistmaker.data.search.history.SEARCH_SHARED_PREFS_KEY
 import com.example.myplaylistmaker.data.search.request_and_response.ITunesSearchAPI
@@ -35,6 +36,8 @@ val dataModule = module {
     }
     single<NetworkClient> {
         RetrofitNetworkClient(get(), get(), get())
+    }
+    single { MediaPlayer()
     }
 
     factory { Gson() }
