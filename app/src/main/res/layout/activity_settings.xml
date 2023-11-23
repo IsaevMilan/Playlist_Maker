@@ -11,7 +11,7 @@
     <FrameLayout
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="56dp">
 
         <ImageView
             android:id="@+id/arrowBack"
@@ -34,11 +34,11 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="61dp"
+        android:layout_marginTop="24dp">
 
         <TextView
-        android:layout_marginTop="10dp"
+        android:layout_gravity="center_vertical"
         android:text="@string/blacks"
         android:textSize="@dimen/settingTextSize"
         android:layout_marginStart="@dimen/iconSize"
@@ -51,13 +51,19 @@
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="6dp"
+            app:thumbTint="?attr/thumbColor"
+            app:trackTint="?attr/trackColor"
+            android:checked="true"
             tools:ignore="TouchTargetSizeCheck" />
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/share"
-        style="@style/SettingsFrameStyle"
-        android:foreground="?attr/selectableItemBackground">
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginTop="0dp"
+
+        style="@style/SettingsFrameStyle">
         <TextView
             style="@style/SettingsTextStyle"
             android:layout_marginStart="@dimen/iconSize"
@@ -73,6 +79,9 @@
 
     <FrameLayout
         android:id="@+id/support"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginTop="0dp"
         style="@style/SettingsFrameStyle"
         android:foreground="?attr/selectableItemBackground">
         <TextView
@@ -90,6 +99,9 @@
 
     <FrameLayout
         style="@style/SettingsFrameStyle"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_marginTop="0dp"
         android:id="@+id/agreement"
         android:foreground="?attr/selectableItemBackground">
         <TextView

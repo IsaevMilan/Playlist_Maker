@@ -1,9 +1,8 @@
 package com.example.myplaylistmaker.domain.player
 
-import com.example.myplaylistmaker.creator.Creator
 
-class PlayerInteractorImpl : PlayerInteractor {
-    private var repository = Creator.providePlayerRepository()
+class PlayerInteractorImpl (private val repository: PlayerRepository): PlayerInteractor {
+
     override fun play() {
         repository.play()
     }

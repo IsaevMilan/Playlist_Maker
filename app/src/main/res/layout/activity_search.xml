@@ -11,7 +11,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -32,18 +32,19 @@
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_rounded_corner"
         android:orientation="horizontal"
         android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         tools:ignore="RtlSymmetry">
 
         <EditText
             android:id="@+id/inputEditText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_vertical|center_horizontal"
             android:autofillHints="@string/search1"
             android:background="@color/greyLight"
             android:drawableStart="@drawable/search2"
@@ -58,6 +59,7 @@
             android:textColor="@color/blackText"
             android:textColorHint="?android:textColorHint"
             android:textSize="@dimen/settingTextSize"
+            android:theme="@style/CustomEditText"
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
         <ImageView

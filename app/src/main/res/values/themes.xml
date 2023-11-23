@@ -18,6 +18,10 @@
         <item name="android:textColorHint">@color/textGrey</item>
         <item name="imageButtonStyle">@color/textGrey</item>
         <item name="colorSurface">@color/colorSurface</item>
+        <!-- Switch color. -->
+        <item name="thumbColor">@color/thumbSwitchDay</item>
+        <item name="trackColor">@color/trackSwitchDay</item>
+
 
     </style>
 

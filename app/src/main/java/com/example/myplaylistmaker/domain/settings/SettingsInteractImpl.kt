@@ -1,13 +1,11 @@
 package com.example.myplaylistmaker.domain.settings
 
-import com.example.myplaylistmaker.creator.Creator
 
 
 class SettingsInteractImpl (private var themeSettings: ThemeSettings):SettingsInteractor {
-    init {
-        themeSettings= Creator.provideThemeSettings()
-    }
-    var isDarkTheme = true
+
+
+    private var isDarkTheme = true
 
     //получение информации о включении темной темы
     override fun isAppThemeDark(): Boolean {

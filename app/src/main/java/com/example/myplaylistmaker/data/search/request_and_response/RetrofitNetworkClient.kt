@@ -5,21 +5,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.example.myplaylistmaker.domain.search.models.SearchErrorType
 import com.example.myplaylistmaker.domain.search.models.SearchResult
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 private const val CODE_OK = 200
-class RetrofitNetworkClient(private val context: Context) : NetworkClient {
-    private val iTunesBaseURL = "https://itunes.apple.com"
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseURL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val iTunesService = retrofit.create(iTunesSearchAPI::class.java)
-    private val mapper = SearchMapper()
-
+class RetrofitNetworkClient(
+    private val context: Context,
+    private val iTunesService: ITunesSearchAPI,
+    private val mapper: SearchMapper
+) : NetworkClient {
 
     override fun doRequest(request: TrackSearchRequest): SearchResult {
         return try {

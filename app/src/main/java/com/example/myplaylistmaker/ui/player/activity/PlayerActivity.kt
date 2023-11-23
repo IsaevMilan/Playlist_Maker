@@ -6,21 +6,20 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.example.myplaylistmaker.domain.player.PlayerState
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.ui.player.view_model.PlayerViewModel
-
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class PlayerActivity : AppCompatActivity() {
 
     private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
     private lateinit var playerState: PlayerState
-    private lateinit var viewModel: PlayerViewModel
+    private val playerViewModel by viewModel<PlayerViewModel> ()
     private lateinit var binding: ActivityMediaPlayerBinding
     private var url=""
 
@@ -31,7 +30,7 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //вью-модель
-        viewModel= ViewModelProvider(this,PlayerViewModel.getViewModelFactory())[PlayerViewModel::class.java]
+
 
         binding.playButton.isEnabled = false
 
@@ -63,15 +62,15 @@ class PlayerActivity : AppCompatActivity() {
         url = track?.previewUrl ?: return
 
 
-        viewModel.createPlayer(url) {
+        playerViewModel.createPlayer(url) {
             preparePlayer()
         }
 
         binding.playButton.setOnClickListener {
-            viewModel.play()
+            playerViewModel.play()
         }
         binding.pauseButton.setOnClickListener {
-            viewModel.pause()
+            playerViewModel.pause()
         }
         mainThreadHandler?.post(
             updateButton()
@@ -84,12 +83,12 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onPause (){
         super.onPause()
-        viewModel.pause()
+        playerViewModel.pause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.destroy()
+        playerViewModel.destroy()
     }
 
     fun preparePlayer() {
@@ -99,7 +98,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     fun playerStateDrawer() {
-        playerState = viewModel.playerStateListener()
+        playerState = playerViewModel.playerStateListener()
         when (playerState) {
             PlayerState.STATE_DEFAULT -> {
                 binding.playButton.visibility = View.VISIBLE
@@ -136,7 +135,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun updateTimer(): Runnable {
         val updatedTimer = Runnable {
-            binding.trackTimer.text = viewModel.getTime()
+            binding.trackTimer.text = playerViewModel.getTime()
             mainThreadHandler?.postDelayed(updateTimer(), PLAYER_BUTTON_PRESSING_DELAY)
         }
         return updatedTimer

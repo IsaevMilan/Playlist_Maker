@@ -7,8 +7,8 @@ import com.example.myplaylistmaker.domain.player.PlayerRepository
 import com.example.myplaylistmaker.domain.player.PlayerState
 import java.text.SimpleDateFormat
 
-class PlayerRepositoryImpl : PlayerRepository {
-    private val mediaPlayer = MediaPlayer()
+class PlayerRepositoryImpl(private val mediaPlayer:MediaPlayer) : PlayerRepository {
+
     private var playerState = PlayerState.STATE_DEFAULT
     var timePlayed = "00:00"
     private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
