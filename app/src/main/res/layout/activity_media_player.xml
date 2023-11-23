@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/playerTrackName"
-            android:layout_width="312dp"
+            android:layout_width="0dp"
             android:layout_height="26dp"
             android:layout_marginTop="@dimen/playerTrackNameTop"
             android:layout_marginStart="8dp"
@@ -69,7 +69,7 @@
 
         <TextView
             android:id="@+id/playerArtistName"
-            android:layout_width="312dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/playerArtistNameTop"
             android:ellipsize="end"
