@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="24dp" />
+            app:layout_constraintGuide_begin="16dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/rightGuide"
@@ -40,29 +40,31 @@
 
         <ImageView
             android:id="@+id/trackCover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="312dp"
+            android:layout_height="312dp"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/coverAlbumMargTop"
             android:src="@drawable/placeholdermedia"
             app:layout_constraintDimensionRatio="h, 1:1"
-            app:layout_constraintEnd_toStartOf="@+id/rightGuide"
-            app:layout_constraintStart_toStartOf="@+id/leftGuide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/playerTrackName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="312dp"
+            android:layout_height="26dp"
             android:layout_marginTop="@dimen/playerTrackNameTop"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_medium"
             android:maxLines="1"
             android:text="@string/trackname"
             android:textColor="?attr/colorButtonNormal"
             android:textSize="@dimen/playerTrackName"
-            app:layout_constraintEnd_toEndOf="@+id/trackCover"
-            app:layout_constraintStart_toStartOf="@+id/trackCover"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuide"
+            app:layout_constraintStart_toStartOf="@+id/leftGuide"
             app:layout_constraintTop_toBottomOf="@id/trackCover" />
 
         <TextView

@@ -2,15 +2,15 @@ package com.example.myplaylistmaker.data.search.history
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.example.myplaylistmaker.domain.search.history.SearchHistory
+import com.example.myplaylistmaker.domain.search.history.SearchHistoryRepository
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 const val SEARCH_SHARED_PREFS_KEY = "123"
-class SearchHistoryImpl(
+class SearchHistoryRepositoryImpl(
     private val savedHistory: SharedPreferences,
-    private val gson: Gson) : SearchHistory {
+    private val gson: Gson) : SearchHistoryRepository {
 
 
     private var counter = 0

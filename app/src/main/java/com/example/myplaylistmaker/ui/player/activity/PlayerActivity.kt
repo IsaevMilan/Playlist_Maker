@@ -19,7 +19,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
     private lateinit var playerState: PlayerState
-    val PlayerViewModel by viewModel<PlayerViewModel> ()
+    private val playerViewModel by viewModel<PlayerViewModel> ()
     private lateinit var binding: ActivityMediaPlayerBinding
     private var url=""
 
@@ -62,15 +62,15 @@ class PlayerActivity : AppCompatActivity() {
         url = track?.previewUrl ?: return
 
 
-        PlayerViewModel.createPlayer(url) {
+        playerViewModel.createPlayer(url) {
             preparePlayer()
         }
 
         binding.playButton.setOnClickListener {
-            PlayerViewModel.play()
+            playerViewModel.play()
         }
         binding.pauseButton.setOnClickListener {
-            PlayerViewModel.pause()
+            playerViewModel.pause()
         }
         mainThreadHandler?.post(
             updateButton()
@@ -83,12 +83,12 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onPause (){
         super.onPause()
-        PlayerViewModel.pause()
+        playerViewModel.pause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        PlayerViewModel.destroy()
+        playerViewModel.destroy()
     }
 
     fun preparePlayer() {
@@ -98,7 +98,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     fun playerStateDrawer() {
-        playerState = PlayerViewModel.playerStateListener()
+        playerState = playerViewModel.playerStateListener()
         when (playerState) {
             PlayerState.STATE_DEFAULT -> {
                 binding.playButton.visibility = View.VISIBLE
@@ -135,7 +135,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun updateTimer(): Runnable {
         val updatedTimer = Runnable {
-            binding.trackTimer.text = PlayerViewModel.getTime()
+            binding.trackTimer.text = playerViewModel.getTime()
             mainThreadHandler?.postDelayed(updateTimer(), PLAYER_BUTTON_PRESSING_DELAY)
         }
         return updatedTimer

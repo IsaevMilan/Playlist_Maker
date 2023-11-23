@@ -62,5 +62,22 @@
             <item name="android:textColor">?attr/colorButtonNormal</item>
             <item name="android:textSize">@dimen/textSizePlaylist</item>
         </style>
+    <style name="CustomEditText">
+        <item name="colorControlActivated">@color/BackBlue</item>
+    </style>
+
+    <style name="SCBSwitch" >
+        <!-- active thumb & track color  -->
+        <item name="colorControlActivated">@color/BackBlue</item>
+        <!-- active track color  -->
+        <item name="trackColorActive">@color/trackSwitchNight</item>
+
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/thumbSwitchDay</item>
+
+        <!-- inactive track color  -->
+        <item name="trackColorInactive">@color/trackSwitchDay</item>
+    </style>
 
 </resources>

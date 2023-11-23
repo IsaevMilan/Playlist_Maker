@@ -2,10 +2,11 @@ package com.example.myplaylistmaker.ui.player.view_model
 
 import androidx.lifecycle.ViewModel
 import com.example.myplaylistmaker.domain.player.PlayerInteractor
+import com.example.myplaylistmaker.domain.player.PlayerRepository
 import com.example.myplaylistmaker.domain.player.PlayerState
 
 class PlayerViewModel(
-    private val playerInteractor: PlayerInteractor,
+    private val playerInteractor: PlayerInteractor
 ) : ViewModel() {
 
     fun createPlayer(url: String, completion: () -> Unit) {
