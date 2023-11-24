@@ -18,5 +18,5 @@
     <dimen name="trackTimeMargTop30">30dp</dimen>
     <dimen name="albumNameMargTop16">16dp</dimen>
     <dimen name="playerSmallText13sp">13sp</dimen>
-    <dimen name="mediaLibraryTopText19sp">19sp</dimen>
+    <dimen name="mediaLibraryText19sp">19sp</dimen>
 </resources>

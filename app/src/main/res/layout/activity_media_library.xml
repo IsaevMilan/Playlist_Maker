@@ -4,16 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
     android:orientation="vertical">
 
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:titleTextAppearance="@style/ToolbarTextAppearance.Title"
         style="@style/MyToolbar"
         android:visibility="visible"
          />
@@ -22,14 +22,19 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        style="@style/media_tablayout"
+        style="?attr/tabIndicator"
         android:visibility="visible"
+        app:tabIndicatorColor="?attr/colorButtonNormal"
+        app:tabTextColor="?attr/colorButtonNormal"
+        app:tabTextAppearance="@style/Text_14sp"
         app:tabMode="fixed"
-        app:tabIndicatorFullWidth="false"/>
+        app:tabIndicatorFullWidth="true"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
         android:layout_width="match_parent"
+        app:tabIndicator="?attr/tabIndicator"
+
         android:layout_height="match_parent"
         android:orientation="horizontal" />
 

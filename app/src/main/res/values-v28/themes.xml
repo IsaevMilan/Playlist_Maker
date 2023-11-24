@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+<resources><![CDATA[
+    ]]><style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -26,30 +25,10 @@
         <item name="colorErrorContainer">#E6E8EB</item>
         <item name="colorOnTertiary">#000</item>
 
-        <style name="Toolbar">
-            <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">?attr/actionBarSize</item>
-            <item name="android:background">@color/white</item>
-        </style>
 
-        <style name="ToolbarTextAppearance">
-            <item name="android:fontFamily">@font/ys_display_medium</item>
-            <item name="android:textColor">@android:color/white</item>
-            <item name="android:shadowColor">@color/black</item>
-        </style>
-
-        <style name="ToolbarTextAppearance.Title">
-            <item name="android:textSize">@dimen/text_22</item>
-        </style>
-
-        <style name="MyToolbar">
-            <item name="theme">@style/ThemeOverlay.AppCompat.Dark</item>
-            <item name="android:background">@color/white</item>
-            <item name="android:fontFamily">@font/ys_display_medium</item>
-            <item name="android:textFontWeight">500</item><![CDATA[
-        ]]>
-        </style>
 
 
     </style>
+
+
 </resources>

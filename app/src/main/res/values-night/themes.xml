@@ -22,55 +22,16 @@
         <item name="trackColor">@color/trackSwitchNight</item>
     </style>
 
-    <!-- ToolBar color. -->
-    <style name="Toolbar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:background">@color/fullBlack</item>
-        <item name="android:iconTint" tools:targetApi="o">@color/white</item>
-    </style>
-
-    <style name="ToolbarTextAppearance">
-        <item name="android:fontFamily">@font/ys_display_medium</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:shadowColor">@color/white</item>
-        <item name="android:background">@color/fullBlack</item>
-    </style>
-
-    <style name="ToolbarTextAppearance.Title">
-        <item name="android:textSize">@dimen/textSizePlaylist22</item>
-        <item name="android:fontFamily">@font/ys_display_medium</item>
-        <item name="android:background">@color/fullBlack</item>
-    </style>
-
-    <style name="MyToolbar">
-        <item name="theme">@style/ThemeOverlay.AppCompat.Light</item>
-        <item name="android:background">@color/fullBlack</item>
-
-        <item name="android:textColor" tools:ignore="DuplicateDefinition">@color/white</item>
-        <item name="android:fontFamily">@font/ys_display_medium</item>
-        <item name="android:textFontWeight" tools:ignore="NewApi">500</item>
-    </style>
-
-    <style name="media_tablayout" >
-    <item name="android:fontFamily">@font/ys_display_medium</item>
-    <item name="android:textColor">@color/white</item>
-    <item name="background">@color/fullBlack</item>
-    <item name="android:backgroundTint">@color/fullBlack</item>
-    <item name="tabSelectedTextColor">@color/white</item>
-    <item name="tabIndicatorColor">@color/white</item>
-    <item name="android:textSize">14sp</item>
-    <item name="android:textAlignment">center</item>
-    <item name="tabIndicator">@drawable/tablayout_indicator</item>
-    <item name="tabTextAppearance">@style/MyCustomTextAppearance</item>
-</style>
-
-<style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
-<item name="textAllCaps">false</item>
-</style>
-
     <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/fullBlack</item>
+    </style>
+
+    <style name="Theme.MediaLibActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColor">@color/white1</item>
+        <item name="android:textSize">@dimen/playerArtistNameText14</item>
+        <item name="colorButtonNormal">@color/white1</item>
+        <item name="android:textColorHint">@color/white1</item>
+        <item name="colorOnPrimary">@color/black</item>
     </style>
 
 </resources>
