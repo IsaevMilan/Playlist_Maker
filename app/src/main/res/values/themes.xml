@@ -21,6 +21,9 @@
         <!-- Switch color. -->
         <item name="thumbColor">@color/thumbSwitchDay</item>
         <item name="trackColor">@color/trackSwitchDay</item>
+        <item name="colorOnBackground">#c01A1B22</item>
+        <item name="colorErrorContainer">#E6E8EB</item>
+        <item name="colorOnTertiary">#000</item>
 
 
     </style>

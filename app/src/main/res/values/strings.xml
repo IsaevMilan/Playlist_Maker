@@ -46,4 +46,7 @@
     <string name="uncknowngenre">uncknowngenre</string>
     <string name="uncknowncountry">uncknowncountry</string>
     <string name="clearHistoryButton">Очистить историю</string>
+    <string name="emptyMedia">Ваша медиатека пуста</string>
+    <string name="noplaylist">Вы не создали \n ни одного плейлиста</string>
+    <string name="newPlaylist">Новый плейлист</string>
 </resources>

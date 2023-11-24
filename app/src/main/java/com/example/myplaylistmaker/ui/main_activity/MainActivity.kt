@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.myplaylistmaker.databinding.ActivityMainBinding
-import com.example.myplaylistmaker.ui.media_library_activities.MediaLibraryActivity
+import com.example.myplaylistmaker.ui.mediaLibrary.media_library_activities.MediaLibraryActivity
 import com.example.myplaylistmaker.ui.search.activity.SearchActivity
 import com.example.myplaylistmaker.ui.settings.activity.SettingsActivity
 

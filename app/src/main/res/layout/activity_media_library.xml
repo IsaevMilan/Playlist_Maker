@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp">
+
+        <ImageView
+            android:id="@+id/arrowBack2"
+            android:layout_width="@dimen/playerTrackName"
+            android:layout_height="@dimen/playerTrackName"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:paddingStart="4dp"
+            android:src="@drawable/arrow_back"
+            app:tint="?attr/colorButtonNormal" />
+
+        <TextView
+            style="@style/TopText"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="@font/ys_display_medium"
+            android:text="@string/ww"
+            android:textColor="?attr/colorButtonNormal"
+            android:textSize="@dimen/playerTrackName" />
+    </FrameLayout>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAllCaps="false"
+        app:tabIndicatorColor="?attr/colorButtonNormal"
+        app:tabTextAppearance="@style/Text_14sp"
+        app:tabTextColor="?attr/colorButtonNormal" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" />
+
+
+</LinearLayout>

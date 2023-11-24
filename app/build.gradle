@@ -38,11 +38,12 @@ android {
         compile.exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     }
     buildFeatures {
-        viewBinding=true
+        viewBinding true
     }
 }
 
 dependencies {
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -64,4 +65,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     implementation 'io.insert-koin:koin-android:3.3.0'
+
+    def fragment_version = "1.5.5"
+    implementation "androidx.fragment:fragment-ktx:1.6.2"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 }
