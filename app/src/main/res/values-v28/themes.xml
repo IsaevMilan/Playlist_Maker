@@ -1,5 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
     <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
@@ -25,7 +26,6 @@
         <item name="colorErrorContainer">#E6E8EB</item>
         <item name="colorOnTertiary">#000</item>
 
-        <!-- ToolBar color. -->
         <style name="Toolbar">
             <item name="android:layout_width">match_parent</item>
             <item name="android:layout_height">?attr/actionBarSize</item>
@@ -46,33 +46,10 @@
             <item name="theme">@style/ThemeOverlay.AppCompat.Dark</item>
             <item name="android:background">@color/white</item>
             <item name="android:fontFamily">@font/ys_display_medium</item>
+            <item name="android:textFontWeight">500</item><![CDATA[
+        ]]>
         </style>
-
-        <style name="media_tablayout" >
-            <item name="android:fontFamily">@font/ys_display_medium</item>
-            <item name="android:textColor">@color/dark_theme_item</item>
-            <item name="background">@color/white</item>
-            <item name="tabIndicatorColor">@color/dark_theme_item</item>
-            <item name="android:backgroundTint">@color/white</item>
-            <item name="tabSelectedTextColor">@color/dark_theme_item</item>
-            <item name="android:textSize">14sp</item>
-            <item name="android:textAlignment">center</item>
-            <item name="tabIndicator">@drawable/tablayout_indicator</item>
-            <item name="tabTextAppearance">@style/MyCustomTextAppearance</item>
-        </style>
-
-        <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
-            <item name="textAllCaps">false</item>
-        </style>
-
 
 
     </style>
-
-    <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:background">@color/BackBlue</item>
-    </style>
-
-
-
 </resources>

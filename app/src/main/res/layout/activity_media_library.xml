@@ -7,43 +7,25 @@
     android:orientation="vertical">
 
 
-    <FrameLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp">
-
-        <ImageView
-            android:id="@+id/arrowBack2"
-            android:layout_width="@dimen/playerTrackName"
-            android:layout_height="@dimen/playerTrackName"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:paddingStart="4dp"
-            android:src="@drawable/arrow_back"
-            app:tint="?attr/colorButtonNormal" />
-
-        <TextView
-            style="@style/TopText"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:fontFamily="@font/ys_display_medium"
-            android:text="@string/ww"
-            android:textColor="?attr/colorButtonNormal"
-            android:textSize="@dimen/playerTrackName" />
-    </FrameLayout>
-
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:titleTextAppearance="@style/ToolbarTextAppearance.Title"
+        style="@style/MyToolbar"
+        android:visibility="visible"
+         />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textAllCaps="false"
-        app:tabIndicatorColor="?attr/colorButtonNormal"
-        app:tabTextAppearance="@style/Text_14sp"
-        app:tabTextColor="?attr/colorButtonNormal" />
+        android:layout_height="48dp"
+        style="@style/media_tablayout"
+        android:visibility="visible"
+        app:tabMode="fixed"
+        app:tabIndicatorFullWidth="false"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

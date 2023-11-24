@@ -32,11 +32,13 @@
         </activity>
         <activity
             android:name=".ui.mediaLibrary.media_library_activities.MediaLibraryActivity"
+            android:parentActivityName=".ui.main_activity.MainActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".ui.player.activity.PlayerActivity"
             android:exported="false" />

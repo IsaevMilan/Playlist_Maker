@@ -2,6 +2,7 @@ package com.example.myplaylistmaker.ui.mediaLibrary.media_library_activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.ActivityMediaLibraryBinding
 import com.example.myplaylistmaker.ui.mediaLibrary.fragments.FragmentAdapter
 import com.example.myplaylistmaker.ui.mediaLibrary.fragments.SelectPage
@@ -17,9 +18,7 @@ class MediaLibraryActivity : AppCompatActivity(), SelectPage {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMediaLibraryBinding.inflate(layoutInflater)
-        binding.arrowBack2.setOnClickListener {
-            finish()
-        }
+
         setContentView(binding.root)
 
         val adapter = FragmentAdapter(supportFragmentManager, lifecycle)
@@ -45,6 +44,13 @@ class MediaLibraryActivity : AppCompatActivity(), SelectPage {
                 override fun onTabReselected(tab: TabLayout.Tab?) {}
             }
         )
+
+        setSupportActionBar(binding?.toolbar)
+        supportActionBar?.apply {
+            title = getString(R.string.ww)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
 
     }
 
