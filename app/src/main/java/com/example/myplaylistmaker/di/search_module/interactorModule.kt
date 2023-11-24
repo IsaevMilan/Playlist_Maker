@@ -7,7 +7,7 @@ import com.example.myplaylistmaker.domain.search.saerchin_and_responding.SearchI
 import com.example.myplaylistmaker.domain.search.saerchin_and_responding.SearchInteractorImpl
 import org.koin.dsl.module
 
-val InteractorModule = module {
+val interactorModule = module {
 
     single <SearchInteractor> {
         SearchInteractorImpl ( get())

@@ -3,11 +3,11 @@ package com.example.myplaylistmaker.app
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.myplaylistmaker.di.mediaLibraryModule.mediaLibraryModule
-import com.example.myplaylistmaker.di.player_module.PlayerModule
-import com.example.myplaylistmaker.di.search_module.InteractorModule
-import com.example.myplaylistmaker.di.search_module.RepositoryModule
-import com.example.myplaylistmaker.di.search_module.SettingsModule
-import com.example.myplaylistmaker.di.search_module.ViewModelModule
+import com.example.myplaylistmaker.di.player_module.playerModule
+import com.example.myplaylistmaker.di.search_module.interactorModule
+import com.example.myplaylistmaker.di.search_module.repositoryModule
+import com.example.myplaylistmaker.di.search_module.settingsModule
+import com.example.myplaylistmaker.di.search_module.viewModelModule
 import com.example.myplaylistmaker.di.search_module.dataModule
 import com.example.myplaylistmaker.domain.settings.SettingsInteractor
 import org.koin.android.ext.koin.androidContext
@@ -27,11 +27,11 @@ class App : Application() , KoinComponent {
             androidContext(this@App)
             modules(
                 dataModule,
-                InteractorModule,
-                RepositoryModule,
-                PlayerModule,
-                SettingsModule,
-                ViewModelModule,
+                interactorModule,
+                repositoryModule,
+                playerModule,
+                settingsModule,
+                viewModelModule,
                 mediaLibraryModule
             )
         }

@@ -80,18 +80,18 @@
         <item name="trackColorInactive">@color/trackSwitchDay</item>
     </style>
 
-    <style name="TabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+    <style name="tabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="SettingsText">
+    <style name="settingsText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="tint">?attr/color</item>
     </style>
 
-    <style name="Text_14sp">
+    <style name="tubLayoutText14sp">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>

@@ -26,7 +26,7 @@
         android:visibility="visible"
         app:tabIndicatorColor="?attr/colorButtonNormal"
         app:tabTextColor="?attr/colorButtonNormal"
-        app:tabTextAppearance="@style/Text_14sp"
+        app:tabTextAppearance="@style/tubLayoutText14sp"
         app:tabMode="fixed"
         app:tabIndicatorFullWidth="true"/>
 

@@ -6,7 +6,7 @@ import com.example.myplaylistmaker.domain.search.TracksRepository
 import com.example.myplaylistmaker.domain.search.history.SearchHistoryRepository
 import org.koin.dsl.module
 
-val RepositoryModule = module {
+val repositoryModule = module {
 
     single<TracksRepository> {
         TracksRepositoryImpl(get())

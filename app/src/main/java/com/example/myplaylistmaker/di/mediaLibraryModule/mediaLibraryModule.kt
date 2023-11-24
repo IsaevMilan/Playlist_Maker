@@ -6,7 +6,7 @@ import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.PlaylistViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val mediaLibraryModule=module {
+val mediaLibraryModule = module {
     viewModel { FavoritesViewModel() }
     viewModel { PlaylistViewModel() }
     viewModel { MediaLibraryViewModel() }
