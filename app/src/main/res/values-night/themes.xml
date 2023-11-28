@@ -26,4 +26,12 @@
         <item name="android:background">@color/fullBlack</item>
     </style>
 
+    <style name="Theme.MediaLibActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColor">@color/white1</item>
+        <item name="android:textSize">@dimen/playerArtistNameText14</item>
+        <item name="colorButtonNormal">@color/white1</item>
+        <item name="android:textColorHint">@color/white1</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
+
 </resources>

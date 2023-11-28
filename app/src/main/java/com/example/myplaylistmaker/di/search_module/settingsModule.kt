@@ -12,7 +12,7 @@ import com.example.myplaylistmaker.ui.settings.view_model.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val SettingsModule= module {
+val settingsModule= module {
 
     single<ThemeSettings> {
         ThemeSettingsImpl(get(), get())

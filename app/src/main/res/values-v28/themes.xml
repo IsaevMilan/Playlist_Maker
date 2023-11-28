@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools"><![CDATA[
-    ]]><!-- Base application theme. -->
-    <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+<?xml version="1.0" encoding="utf-8"?>
+<resources><![CDATA[
+    ]]><style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -21,28 +21,14 @@
         <!-- Switch color. -->
         <item name="thumbColor">@color/thumbSwitchDay</item>
         <item name="trackColor">@color/trackSwitchDay</item>
+        <item name="colorOnBackground">#c01A1B22</item>
         <item name="colorErrorContainer">#E6E8EB</item>
         <item name="colorOnTertiary">#000</item>
 
-        <item name="tabIndicator">@drawable/tablayout_indicator</item>
 
-
-    </style>
-
-    <style name="Theme.MainActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:background">@color/BackBlue</item>
-    </style>
-
-    <style name="Theme.MediaLibActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:textColor">@color/fullBlack</item>
-        <item name="android:textSize">@dimen/playerArtistNameText14</item>
-        <item name="colorButtonNormal">@color/fullBlack</item>
-        <item name="android:textColorHint">@color/fullBlack</item>
-        <item name="colorOnPrimary">@color/white</item>
 
 
     </style>
-
 
 
 </resources>

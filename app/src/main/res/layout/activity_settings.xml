@@ -40,8 +40,8 @@
         <TextView
         android:layout_gravity="center_vertical"
         android:text="@string/blacks"
-        android:textSize="@dimen/settingTextSize"
-        android:layout_marginStart="@dimen/iconSize"
+        android:textSize="@dimen/settingTextSize16"
+        android:layout_marginStart="@dimen/iconSize16"
         style="@style/SettingsTextStyle" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -66,7 +66,7 @@
         style="@style/SettingsFrameStyle">
         <TextView
             style="@style/SettingsTextStyle"
-            android:layout_marginStart="@dimen/iconSize"
+            android:layout_marginStart="@dimen/iconSize16"
             android:text="@string/SHARE"
             />
 
@@ -85,7 +85,7 @@
         style="@style/SettingsFrameStyle"
         android:foreground="?attr/selectableItemBackground">
         <TextView
-            android:layout_marginStart="@dimen/iconSize"
+            android:layout_marginStart="@dimen/iconSize16"
             style="@style/SettingsTextStyle"
             android:text="@string/support"
             />
@@ -106,7 +106,7 @@
         android:foreground="?attr/selectableItemBackground">
         <TextView
             style="@style/SettingsTextStyle"
-            android:layout_marginStart="@dimen/iconSize"
+            android:layout_marginStart="@dimen/iconSize16"
             android:text="@string/agreement" />
 
         <ImageView

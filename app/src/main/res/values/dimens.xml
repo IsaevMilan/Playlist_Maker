@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="textSizePlaylist">22sp</dimen>
-    <dimen name="settingTextSize">16sp</dimen>
-    <dimen name="smallTextSize">11sp</dimen>
-    <dimen name="iconSize">16dp</dimen>
-    <dimen name="playerTrackName">22sp</dimen>
-    <dimen name="playerTrackNameTop">24dp</dimen>
-    <dimen name="playerArtistNameTop">12dp</dimen>
-    <dimen name="playerArtistNameText">14sp</dimen>
-    <dimen name="playerPlusButtonTop">54dp</dimen>
-    <dimen name="playButtonMarginTop">30dp</dimen>
-    <dimen name="heartButtonMargTop">54dp</dimen>
-    <dimen name="coverAlbumMargTop">82dp</dimen>
-    <dimen name="backArrowMargTop">20dp</dimen>
-    <dimen name="backArrowMargStart">20dp</dimen>
-    <dimen name="trackTimeMargTop">30dp</dimen>
-    <dimen name="albumNameMargTop">16dp</dimen>
+    <dimen name="textSizePlaylist22">22sp</dimen>
+    <dimen name="settingTextSize16">16sp</dimen>
+    <dimen name="smallTextSize11">11sp</dimen>
+    <dimen name="iconSize16">16dp</dimen>
+    <dimen name="playerTrackName22">22sp</dimen>
+    <dimen name="playerTrackNameTop24">24dp</dimen>
+    <dimen name="playerArtistNameTop12">12dp</dimen>
+    <dimen name="playerArtistNameText14">14sp</dimen>
+    <dimen name="playerPlusButtonTop54">54dp</dimen>
+    <dimen name="playButtonMarginTop30">30dp</dimen>
+    <dimen name="heartButtonMargTop54">54dp</dimen>
+    <dimen name="coverAlbumMargTop82">82dp</dimen>
+    <dimen name="backArrowMargTop20">20dp</dimen>
+    <dimen name="backArrowMargStart20">20dp</dimen>
+    <dimen name="trackTimeMargTop30">30dp</dimen>
+    <dimen name="albumNameMargTop16">16dp</dimen>
     <dimen name="playerSmallText13sp">13sp</dimen>
+    <dimen name="mediaLibraryText19sp">19sp</dimen>
 </resources>
