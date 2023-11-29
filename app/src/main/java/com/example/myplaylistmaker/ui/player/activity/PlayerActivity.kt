@@ -1,5 +1,6 @@
 package com.example.myplaylistmaker.ui.player.activity
 
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
@@ -18,7 +19,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PlayerActivity : AppCompatActivity() {
 
     private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
-    private lateinit var playerState: PlayerState
     private val playerViewModel by viewModel<PlayerViewModel> ()
     private lateinit var binding: ActivityMediaPlayerBinding
     private var url=""
@@ -30,11 +30,8 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //вью-модель
-
-
         binding.playButton.isEnabled = false
 
-        playerState = PlayerState.STATE_PAUSED
         mainThreadHandler = Handler(Looper.getMainLooper())
         binding.backArrow4.setOnClickListener {
             finish()
@@ -62,13 +59,13 @@ class PlayerActivity : AppCompatActivity() {
         url = track?.previewUrl ?: return
 
 
-        playerViewModel.createPlayer(url) {
-            preparePlayer()
-        }
+        playerViewModel.createPlayer(url)
 
         binding.playButton.setOnClickListener {
-            playerViewModel.play()
+            if (playerViewModel.stateLiveData.value == PlayerState.STATE_PLAYING)
+                playerViewModel.pause() else playerViewModel.play()
         }
+
         binding.pauseButton.setOnClickListener {
             playerViewModel.pause()
         }
@@ -91,37 +88,42 @@ class PlayerActivity : AppCompatActivity() {
         playerViewModel.destroy()
     }
 
-    fun preparePlayer() {
+   private fun preparePlayer() {
         binding.playButton.isEnabled = true
         binding.playButton.visibility = View.VISIBLE
         binding.pauseButton.visibility = View.GONE
     }
 
-    fun playerStateDrawer() {
-        playerState = playerViewModel.playerStateListener()
-        when (playerState) {
-            PlayerState.STATE_DEFAULT -> {
-                binding.playButton.visibility = View.VISIBLE
-                binding.playButton.alpha = 0.5f
-                binding.pauseButton.visibility = View.GONE
-            }
+        @SuppressLint("ResourceType")
+        fun playerStateDrawer() {
+            playerViewModel.stateLiveData.observe(this) {
+                when (playerViewModel.stateLiveData.value) {
+                    PlayerState.STATE_DEFAULT -> {
+                     binding.playButton.setImageResource(R.drawable.buttonplay)
+                        binding.playButton.alpha = 0.5f
+                }
+
 
             PlayerState.STATE_PREPARED -> {
-                binding.playButton.visibility = View.VISIBLE
-                binding.playButton.alpha = 1f
-                binding.pauseButton.visibility = View.GONE
-            }
+            preparePlayer()
+            binding.playButton.setImageResource(R.drawable.buttonplay)
+            binding.playButton.alpha = 1f
+        }
+            PlayerState.STATE_PLAYING -> {
+            binding.playButton.setImageResource(R.drawable.pause_button)
+
+        }
 
             PlayerState.STATE_PAUSED -> {
-                binding.playButton.visibility = View.VISIBLE
-                binding.playButton.alpha = 1f
-                binding.pauseButton.visibility = View.GONE
-            }
+            binding.playButton.setImageResource(R.drawable.buttonplay)
+            binding.playButton.alpha = 1f
+        }
+            else -> {
 
-            PlayerState.STATE_PLAYING -> {
-                binding.pauseButton.visibility = View.VISIBLE
-                binding.playButton.visibility = View.GONE
-            }
+        }
+        }
+
+
         }
     }
 

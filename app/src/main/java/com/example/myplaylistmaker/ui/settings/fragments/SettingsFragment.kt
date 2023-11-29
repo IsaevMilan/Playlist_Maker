@@ -1,21 +1,20 @@
-package com.example.myplaylistmaker.ui.settings.activity
+package com.example.myplaylistmaker.ui.settings.fragments
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myplaylistmaker.databinding.ActivitySettingsBinding
+import com.example.myplaylistmaker.databinding.FragmentSettingsBinding
 import com.example.myplaylistmaker.ui.settings.view_model.SettingsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsFragment : AppCompatActivity() {
 
     private val settingsViewModel by viewModel<SettingsViewModel>()
-    private lateinit var binding: ActivitySettingsBinding
+    private lateinit var binding: FragmentSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivitySettingsBinding.inflate(layoutInflater)
+        binding=FragmentSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         //кнопка назад
         binding.arrowBack.setOnClickListener {
@@ -24,12 +23,11 @@ class SettingsActivity : AppCompatActivity() {
         settingsViewModel.getOnBackLiveData()
             .observe(this) { onBackLiveData -> onBackClick(onBackLiveData) }
 
-
         // обновление темы
         binding.themeSwitcher.isChecked = !(settingsViewModel.getThemeLiveData().value!!)
         binding.themeSwitcher.setOnClickListener {
-            settingsViewModel.themeSwitch()
-            binding.themeSwitcher.isChecked = !(settingsViewModel.getThemeLiveData().value!!)
+        settingsViewModel.themeSwitch()
+        binding.themeSwitcher.isChecked = !(settingsViewModel.getThemeLiveData().value!!)
         }
 
         //Поделиться
