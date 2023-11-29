@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:background">@color/settingsWhite</item>
+        <!--<item name="android:background">@color/settingsWhite</item>-->
         <item name="colorButtonNormal">@color/fullBlack</item>
         <item name="color">@color/fullBlack</item>
         <item name="android:textColorHint">@color/textGrey</item>
@@ -39,6 +39,7 @@
         <item name="colorButtonNormal">@color/fullBlack</item>
         <item name="android:textColorHint">@color/fullBlack</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
 
 
     </style>

@@ -20,20 +20,20 @@
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/ys_display_medium"
             android:text="@string/MediaLibrary"
-            android:textColor="?attr/colorOnSecondary"
+            android:textColor="?attr/colorButtonNormal"
             android:textSize="@dimen/playerTrackName22" />
     </FrameLayout>
-    <!-- сюда полоску с навигацией по фрагментам -->
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="?attr/colorSecondary"
         android:textAllCaps="false"
-        app:tabIndicatorColor="?attr/colorOnSecondary"
         app:tabTextAppearance="@style/TabLayoutTextAppearance"
-        app:tabTextColor="?attr/colorOnSecondary" />
+        app:tabIndicatorColor="?attr/colorButtonNormal"
+
+        app:tabTextColor="?attr/colorButtonNormal" />
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
         android:layout_width="match_parent"

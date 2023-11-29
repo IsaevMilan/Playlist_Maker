@@ -19,7 +19,9 @@
         <activity android:name=".ui.player.activity.PlayerActivity"
             android:exported="false" />
         <activity android:name=".ui.root.RootActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

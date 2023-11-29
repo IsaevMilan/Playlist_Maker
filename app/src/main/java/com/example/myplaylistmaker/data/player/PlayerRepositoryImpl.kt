@@ -16,6 +16,7 @@ class  PlayerRepositoryImpl(private val mediaPlayer:MediaPlayer) : PlayerReposit
     private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
     private lateinit var listener: PlayerStateListener
     override fun preparePlayer(url: String, listener: PlayerStateListener) {
+        this.listener = listener
         if (playerState != PlayerState.STATE_DEFAULT) return
         mediaPlayer.reset()
         mediaPlayer.setDataSource(url)
@@ -23,6 +24,7 @@ class  PlayerRepositoryImpl(private val mediaPlayer:MediaPlayer) : PlayerReposit
         mediaPlayer.setOnPreparedListener {
             playerState = PlayerState.STATE_PREPARED
             listener.onStateChanged(playerState)
+            Log.d ("playerStateRep", playerState.toString())
         }
         mediaPlayer.setOnCompletionListener {
             playerState = PlayerState.STATE_PREPARED
