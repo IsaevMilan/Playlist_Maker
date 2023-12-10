@@ -8,6 +8,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import android.view.View
 import android.view.ViewGroup
+import com.example.myplaylistmaker.R
 
 
 class MediaLibraryFragment : Fragment(), SelectPage {
@@ -27,8 +28,8 @@ class MediaLibraryFragment : Fragment(), SelectPage {
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Избранные треки"
-                1 -> tab.text = "Плейлист"
+                0 -> tab.text = getString(R.string.favoritTracks)
+                1 -> tab.text = getString(R.string.playlist)
             }
         }
         tabMediator.attach()

@@ -55,4 +55,6 @@
     <string name="medialib">Медиатека</string>
     <string name="settingsButton">Настройки</string>
     <string name="picture">Картинка</string>
+    <string name="favoritTracks">Избранные треки</string>
+    <string name="playlist">Плейлист</string>
 </resources>

@@ -16,11 +16,8 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.FragmentSearchBinding
 import com.example.myplaylistmaker.domain.search.models.Track
@@ -30,33 +27,32 @@ import com.example.myplaylistmaker.ui.search.view_model_for_activity.SearchViewM
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.IOException
 
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
 
     // viewModel:
-    private val searchViewModel by viewModel<SearchViewModel> ()
+    private val searchViewModel by viewModel<SearchViewModel>()
     private var isClickAllowed = true
 
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var historyAdapter: TrackAdapter
-    private lateinit var historyList: List<Track>
     private lateinit var bottomNavigator: BottomNavigationView
     private val handler = Handler(Looper.getMainLooper())
-
 
     private var isEnterPressed: Boolean = false
 
     private val KEY_TEXT = ""
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
         binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-       bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
+        bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
 
         //делаем ViewModel
         searchViewModel.getStateLiveData().observe(viewLifecycleOwner) { stateLiveData ->
@@ -73,8 +69,6 @@ class SearchFragment : Fragment() {
         }
 
 
-
-
         // ввод строки поиска и обработка кнопок
         onEditorFocus()
         onSearchTextChange()
@@ -89,13 +83,12 @@ class SearchFragment : Fragment() {
             }
         }
 
-    //recyclerView = binding.rvTracks
-    //recyclerView.layoutManager = LinearLayoutManager(this)
-    //recyclerView.adapter = trackAdapter
-    //это меняем на код ниже
+        //recyclerView = binding.rvTracks
+        //recyclerView.layoutManager = LinearLayoutManager(this)
+        //recyclerView.adapter = trackAdapter
+        //это меняем на код ниже
         binding.rvTracks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTracks.adapter = trackAdapter
-
 
 
         //история
@@ -111,19 +104,15 @@ class SearchFragment : Fragment() {
 
         binding.historyRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.historyRecycler.adapter = historyAdapter
-
         binding.clearHistoryButton.setOnClickListener {
             historyInVisible()
             searchViewModel.clearHistory()
         }
-        historyList = try {
-            val historyValue = searchViewModel.provideHistory().value
-            historyValue ?: emptyList()
 
-        } catch (e: IOException) {
-            emptyList()
+        searchViewModel.historyLiveData().observe(viewLifecycleOwner) {it:List<Track>->
+
         }
-        Log.d("historyListActivity", historyList.toString())
+
     }
 
     //сохраняем текст при повороте экрана
@@ -133,10 +122,13 @@ class SearchFragment : Fragment() {
         outState.putString(KEY_TEXT, inputEditText.text.toString())
     }
 
-//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-//        super.onRestoreInstanceState(savedInstanceState)
-//        savedInstanceState.getString(KEY_TEXT, "")
-//    }
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            val savedText = savedInstanceState.getString(KEY_TEXT, "")
+            binding.inputEditText.setText(savedText)
+        }
+    }
 
     //включаем кликдебаунсер
     override fun onResume() {
@@ -188,18 +180,21 @@ class SearchFragment : Fragment() {
     //если фокус на поле ввода поиска
     private fun onEditorFocus() {
         binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus && binding.inputEditText.text.isEmpty() &&
-                searchViewModel.provideHistory().value?.isNotEmpty() ?: false) {
-                searchViewModel.clearTrackList()
-            } else {
-                historyInVisible()
-                binding.SearchErrorLayout.visibility = GONE
-                binding.SearchError.visibility = GONE
-                binding.SearchErrorText.visibility = GONE
-                binding.LineErrorLayout.visibility = GONE
-                binding.LineError.visibility = GONE
-                binding.LineErrorText.visibility = GONE
-                binding.updateButton.visibility = GONE
+            run {
+                if (hasFocus && binding.inputEditText.text.isEmpty() &&
+                    searchViewModel.provideHistory().value?.isNotEmpty() ?: false
+                ) {
+                    searchViewModel.clearTrackList()
+                } else {
+                    historyInVisible()
+                    binding.SearchErrorLayout.visibility = GONE
+                    binding.SearchError.visibility = GONE
+                    binding.SearchErrorText.visibility = GONE
+                    binding.LineErrorLayout.visibility = GONE
+                    binding.LineError.visibility = GONE
+                    binding.LineErrorText.visibility = GONE
+                    binding.updateButton.visibility = GONE
+                }
             }
         }
     }
@@ -222,8 +217,9 @@ class SearchFragment : Fragment() {
                 }
                 if (!binding.inputEditText.text.isNullOrEmpty()) {
                     searchText = binding.inputEditText.text.toString()
-                    searchDebounce()
-
+                    if (!isEnterPressed) {
+                        searchDebounce()
+                    }
                 }
             }
 
@@ -255,7 +251,8 @@ class SearchFragment : Fragment() {
     private fun onClearIconClick() {
         binding.clearIcon.setOnClickListener {
             binding.inputEditText.setText("")
-            val keyboard = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val keyboard =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             keyboard.hideSoftInputFromWindow(
                 binding.inputEditText.windowToken, 0
             ) // скрыть клавиатуру

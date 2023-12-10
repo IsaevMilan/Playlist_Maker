@@ -12,11 +12,15 @@ import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_stat
 
 
 class SearchViewModel(
-    private var searchInteractor: SearchInteractor,
-    private var searchHistoryInteractor: SearchHistoryInteractor,
+    private val searchInteractor: SearchInteractor,
+    private val searchHistoryInteractor: SearchHistoryInteractor,
 ) : ViewModel() {
-    private var stateLiveData =
+    private val stateLiveData =
         MutableLiveData<SearchScreenState>(SearchScreenState.DefaultSearch)
+
+    private val historyLiveData = MutableLiveData<List<Track>>()
+
+    fun historyLiveData(): MutableLiveData<List<Track>> = historyLiveData
 
     fun getStateLiveData(): LiveData<SearchScreenState> {
         return stateLiveData
@@ -46,6 +50,8 @@ class SearchViewModel(
         }
     }
 
+
+
     fun searchRequesting(searchExpression: String) {
         if (searchExpression.isBlank()) {
             return
@@ -57,6 +63,8 @@ class SearchViewModel(
             stateLiveData.postValue(SearchScreenState.ConnectionError)
         }
     }
+
+
 
     //история
     private var trackHistoryList: MutableLiveData<List<Track>> =
@@ -72,19 +80,16 @@ class SearchViewModel(
         searchHistoryInteractor.clearHistory()
     }
 
-    fun provideHistory(): LiveData<List<Track>> {
-        val history = searchHistoryInteractor.provideHistory()
-        trackHistoryList.value = history!!
-        if (history.isEmpty()) {
-            trackHistoryList.postValue(emptyList())
-        }
-        return trackHistoryList
+    fun provideHistory() {
+        trackHistoryList.value = searchHistoryInteractor.provideHistory().orEmpty()
     }
 
     fun clearTrackList() {
         stateLiveData.value =
             trackHistoryList.value?.let { SearchScreenState.SearchWithHistory(it) }
     }
+
+
 
 
 

@@ -27,5 +27,6 @@
     <color name="trackSwitchNight">#9FBBF3</color>
     <color name="trackSwitchDay">#E6E8EB</color>
     <color name="thumbSwitchDay">#AEAFB4</color>
+    <color name="black20">#00FF</color>
 
 </resources>
