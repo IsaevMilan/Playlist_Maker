@@ -2,28 +2,27 @@ package com.example.myplaylistmaker.ui.mediaLibrary.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.fragment.app.Fragment
-import com.example.myplaylistmaker.databinding.FragmentMediaLibraryBinding
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.myplaylistmaker.R
+import com.example.myplaylistmaker.databinding.FragmentMediaLibraryBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 
-class MediaLibraryFragment : Fragment(), SelectPage {
+class MediaLibraryFragment : Fragment() {
 
-    private lateinit var binding: FragmentMediaLibraryBinding
+    private  var _binding: FragmentMediaLibraryBinding? = null
+    private val binding get() = _binding!!
     private lateinit var tabMediator: TabLayoutMediator
-     override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreate(savedInstanceState)
-        super.onCreate(savedInstanceState)
-        binding= FragmentMediaLibraryBinding.inflate(layoutInflater)
 
+        _binding = FragmentMediaLibraryBinding.inflate(layoutInflater)
         binding.pager.adapter = FragmentAdapter(this)
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
@@ -34,30 +33,14 @@ class MediaLibraryFragment : Fragment(), SelectPage {
         }
         tabMediator.attach()
 
-        binding.tabLayout.addOnTabSelectedListener(
-            object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab) {
-                    val currentPosition = tab.position
-                    binding.pager.currentItem = currentPosition
-                }
-
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
-            }
-
-        )
         return binding.root
     }
 
 
-    override fun NavigateTo(page: Int) {
-        binding.pager.currentItem = page
-    }
+    override fun onDestroyView() {
 
-     override fun onDestroyView() {
-    super.onDestroyView()
-    tabMediator.detach()
+        tabMediator.detach()
+        super.onDestroyView()
     }
- }
+}
 

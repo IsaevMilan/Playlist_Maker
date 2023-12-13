@@ -34,24 +34,24 @@ class SearchFragment : Fragment() {
     // viewModel:
     private val searchViewModel by viewModel<SearchViewModel>()
     private var isClickAllowed = true
-
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var bottomNavigator: BottomNavigationView
     private val handler = Handler(Looper.getMainLooper())
-
     private var isEnterPressed: Boolean = false
-
     private val KEY_TEXT = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
 
         //делаем ViewModel
@@ -110,7 +110,7 @@ class SearchFragment : Fragment() {
         }
 
         searchViewModel.historyLiveData().observe(viewLifecycleOwner) {it:List<Track>->
-
+            historyAdapter.setItems(it)
         }
 
     }
@@ -182,7 +182,7 @@ class SearchFragment : Fragment() {
         binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
             run {
                 if (hasFocus && binding.inputEditText.text.isEmpty() &&
-                    searchViewModel.provideHistory().value?.isNotEmpty() ?: false
+                    historyAdapter.itemCount > 0
                 ) {
                     searchViewModel.clearTrackList()
                 } else {
@@ -209,8 +209,9 @@ class SearchFragment : Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (binding.inputEditText.hasFocus() && p0?.isEmpty() == true &&
-                    searchViewModel.provideHistory().value?.isNotEmpty() ?: false) {
+                if (binding.inputEditText.hasFocus() && p0?.isEmpty() == true
+                    && historyAdapter.itemCount > 0
+                    ) {
                     searchViewModel.clearTrackList()
                 } else {
                     historyInVisible()
