@@ -10,7 +10,6 @@ import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.domain.search.saerchin_and_responding.SearchInteractor
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
 
-
 class SearchViewModel(
     private val searchInteractor: SearchInteractor,
     private val searchHistoryInteractor: SearchHistoryInteractor,
@@ -25,6 +24,9 @@ class SearchViewModel(
     fun getStateLiveData(): LiveData<SearchScreenState> {
         return stateLiveData
     }
+
+
+
 
     //поиск трека
     private val tracksConsumer = object : SearchInteractor.TracksConsumer {
@@ -50,8 +52,6 @@ class SearchViewModel(
         }
     }
 
-
-
     fun searchRequesting(searchExpression: String) {
         if (searchExpression.isBlank()) {
             return
@@ -63,7 +63,6 @@ class SearchViewModel(
             stateLiveData.postValue(SearchScreenState.ConnectionError)
         }
     }
-
 
 
     //история
@@ -80,7 +79,11 @@ class SearchViewModel(
         searchHistoryInteractor.clearHistory()
     }
 
-    fun provideHistory() {
+    init {
+        provideHistory()
+    }
+
+    private fun provideHistory() {
         trackHistoryList.value = searchHistoryInteractor.provideHistory().orEmpty()
     }
 
@@ -89,9 +92,5 @@ class SearchViewModel(
             trackHistoryList.value?.let { SearchScreenState.SearchWithHistory(it) }
     }
 
-
-
-
-
-
 }
+

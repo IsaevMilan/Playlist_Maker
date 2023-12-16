@@ -109,7 +109,11 @@ class SearchFragment : Fragment() {
             searchViewModel.clearHistory()
         }
 
+        //searchViewModel.provideHistory()
+
         searchViewModel.historyLiveData().observe(viewLifecycleOwner) {it:List<Track>->
+            //searchViewModel.provideHistory()
+
             historyAdapter.setItems(it)
         }
 
@@ -181,8 +185,8 @@ class SearchFragment : Fragment() {
     private fun onEditorFocus() {
         binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
             run {
-                if (hasFocus && binding.inputEditText.text.isEmpty() &&
-                    historyAdapter.itemCount > 0
+                if (hasFocus && binding.inputEditText.text.isEmpty()
+                    && historyAdapter.itemCount > 0
                 ) {
                     searchViewModel.clearTrackList()
                 } else {
@@ -210,7 +214,7 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (binding.inputEditText.hasFocus() && p0?.isEmpty() == true
-                    && historyAdapter.itemCount > 0
+                    && historyAdapter.itemCount < 0
                     ) {
                     searchViewModel.clearTrackList()
                 } else {
