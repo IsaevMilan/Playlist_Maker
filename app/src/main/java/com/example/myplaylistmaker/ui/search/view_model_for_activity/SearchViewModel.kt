@@ -17,16 +17,13 @@ class SearchViewModel(
     private val stateLiveData =
         MutableLiveData<SearchScreenState>(SearchScreenState.DefaultSearch)
 
-    private val historyLiveData = MutableLiveData<List<Track>>()
-
-    fun historyLiveData(): MutableLiveData<List<Track>> = historyLiveData
+//    private val historyLiveData = MutableLiveData<List<Track>>()
+//
+//    fun historyLiveData(): MutableLiveData<List<Track>> = historyLiveData
 
     fun getStateLiveData(): LiveData<SearchScreenState> {
         return stateLiveData
     }
-
-
-
 
     //поиск трека
     private val tracksConsumer = object : SearchInteractor.TracksConsumer {
@@ -66,10 +63,10 @@ class SearchViewModel(
 
 
     //история
-    private var trackHistoryList: MutableLiveData<List<Track>> =
-        MutableLiveData<List<Track>>().apply {
-            value = emptyList()
-        }
+//    private var trackHistoryList: MutableLiveData<List<Track>> =
+//        MutableLiveData<List<Track>>().apply {
+//            value = emptyList()
+//        }
 
     fun addItem(item: Track) {
         searchHistoryInteractor.addItem(item)
@@ -77,20 +74,33 @@ class SearchViewModel(
 
     fun clearHistory() {
         searchHistoryInteractor.clearHistory()
+        stateLiveData.postValue(SearchScreenState.DefaultSearch)
     }
 
-    init {
-        provideHistory()
+//    init {
+//        provideHistory()
+//    }
+//
+//    private fun provideHistory() {
+//        trackHistoryList.value = searchHistoryInteractor.provideHistory().orEmpty()
+//    }
+
+//    private fun provideHistory() {
+//        trackHistoryList.value = searchHistoryInteractor.provideHistory().orEmpty()
+//    }
+
+    fun getHistory() {
+        val history = searchHistoryInteractor.provideHistory()
+        val newState = if (!history.isNullOrEmpty()) {
+            SearchScreenState.SearchWithHistory(history)
+        } else {
+            SearchScreenState.DefaultSearch
+        }
+        stateLiveData.postValue(newState)
+    }
     }
 
-    private fun provideHistory() {
-        trackHistoryList.value = searchHistoryInteractor.provideHistory().orEmpty()
-    }
 
-    fun clearTrackList() {
-        stateLiveData.value =
-            trackHistoryList.value?.let { SearchScreenState.SearchWithHistory(it) }
-    }
 
-}
+
 

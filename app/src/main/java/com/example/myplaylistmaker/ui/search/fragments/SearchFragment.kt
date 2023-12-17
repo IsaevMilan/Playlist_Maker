@@ -29,8 +29,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
-    private lateinit var binding: FragmentSearchBinding
+    override fun onDetach() {
+        super.onDetach()
+        onDestroy()
+    }
 
+    private var _binding: FragmentSearchBinding?=null
+    private val binding get() = _binding!!
     // viewModel:
     private val searchViewModel by viewModel<SearchViewModel>()
     private var isClickAllowed = true
@@ -40,16 +45,20 @@ class SearchFragment : Fragment() {
     private val handler = Handler(Looper.getMainLooper())
     private var isEnterPressed: Boolean = false
     private val KEY_TEXT = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentSearchBinding.inflate(layoutInflater)
+        _binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
+
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        historyInVisible()
 
 
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
@@ -75,6 +84,7 @@ class SearchFragment : Fragment() {
         onClearIconClick()
         clearIconVisibilityChanger()
         startSearchByEnterPress()
+
 
         //поиск
         trackAdapter = TrackAdapter() {
@@ -111,13 +121,23 @@ class SearchFragment : Fragment() {
 
         //searchViewModel.provideHistory()
 
-        searchViewModel.historyLiveData().observe(viewLifecycleOwner) {it:List<Track>->
-            //searchViewModel.provideHistory()
-
-            historyAdapter.setItems(it)
-        }
+//        searchViewModel.historyLiveData().observe(viewLifecycleOwner) {it:List<Track>->
+//             historyAdapter.setItems(it)
+//
+//         }
 
     }
+
+//    private fun startAdapter(track: Track) {
+//        if (clickDebounce()) {
+//            searchViewModel.showHistoryList(track)
+//            val intent = Intent(requireContext(), PlayerActivity::class.java)
+//                .apply { putExtra(Track.TRACK, track) }
+//            clickDebounce()
+//            startActivity(intent)
+//        }
+//
+//    }
 
     //сохраняем текст при повороте экрана
     override fun onSaveInstanceState(outState: Bundle) {
@@ -188,16 +208,11 @@ class SearchFragment : Fragment() {
                 if (hasFocus && binding.inputEditText.text.isEmpty()
                     && historyAdapter.itemCount > 0
                 ) {
-                    searchViewModel.clearTrackList()
+                    searchViewModel.getHistory()
+
                 } else {
                     historyInVisible()
-                    binding.SearchErrorLayout.visibility = GONE
-                    binding.SearchError.visibility = GONE
-                    binding.SearchErrorText.visibility = GONE
-                    binding.LineErrorLayout.visibility = GONE
-                    binding.LineError.visibility = GONE
-                    binding.LineErrorText.visibility = GONE
-                    binding.updateButton.visibility = GONE
+
                 }
             }
         }
@@ -214,9 +229,10 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (binding.inputEditText.hasFocus() && p0?.isEmpty() == true
-                    && historyAdapter.itemCount < 0
+                    && historyAdapter.itemCount > 0
                     ) {
-                    searchViewModel.clearTrackList()
+                    searchViewModel.getHistory()
+
                 } else {
                     historyInVisible()
                 }
@@ -262,7 +278,7 @@ class SearchFragment : Fragment() {
                 binding.inputEditText.windowToken, 0
             ) // скрыть клавиатуру
             binding.inputEditText.clearFocus()
-            searchViewModel.clearTrackList()
+            searchViewModel.getHistory()
             binding.historyText.visibility = GONE
             binding.clearHistoryButton.visibility = GONE
             binding.historyRecycler.visibility = GONE
@@ -373,13 +389,15 @@ class SearchFragment : Fragment() {
     private fun historyInVisible() {
         binding.historyScrollView.visibility = GONE
         binding.historyRecycler.visibility = GONE
+        binding.clearHistoryButton.visibility = GONE
+        binding.historyText.visibility = GONE
 
 
     }
-
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
+
 }
