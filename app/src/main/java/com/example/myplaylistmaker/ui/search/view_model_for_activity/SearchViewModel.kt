@@ -1,5 +1,6 @@
 package com.example.myplaylistmaker.ui.search.view_model_for_activity
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,10 +17,6 @@ class SearchViewModel(
 ) : ViewModel() {
     private val stateLiveData =
         MutableLiveData<SearchScreenState>(SearchScreenState.DefaultSearch)
-
-//    private val historyLiveData = MutableLiveData<List<Track>>()
-//
-//    fun historyLiveData(): MutableLiveData<List<Track>> = historyLiveData
 
     fun getStateLiveData(): LiveData<SearchScreenState> {
         return stateLiveData
@@ -61,13 +58,6 @@ class SearchViewModel(
         }
     }
 
-
-    //история
-//    private var trackHistoryList: MutableLiveData<List<Track>> =
-//        MutableLiveData<List<Track>>().apply {
-//            value = emptyList()
-//        }
-
     fun addItem(item: Track) {
         searchHistoryInteractor.addItem(item)
     }
@@ -77,17 +67,9 @@ class SearchViewModel(
         stateLiveData.postValue(SearchScreenState.DefaultSearch)
     }
 
-//    init {
-//        provideHistory()
-//    }
-//
-//    private fun provideHistory() {
-//        trackHistoryList.value = searchHistoryInteractor.provideHistory().orEmpty()
-//    }
-
-//    private fun provideHistory() {
-//        trackHistoryList.value = searchHistoryInteractor.provideHistory().orEmpty()
-//    }
+    init {
+        Log.d("SaerchviewModel", "size= ${searchHistoryInteractor.provideHistory()?.size}")
+    }
 
     fun getHistory() {
         val history = searchHistoryInteractor.provideHistory()
@@ -98,7 +80,21 @@ class SearchViewModel(
         }
         stateLiveData.postValue(newState)
     }
+
+    fun onChangeFocus(hasFocus: Boolean, text: String) {
+
+        if (hasFocus && text.isEmpty()) {
+            getHistory()
+
+        } else if (text.isEmpty()) {
+
+            stateLiveData.value = SearchScreenState.DefaultSearch
+
+        }
+
     }
+
+}
 
 
 

@@ -29,13 +29,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
-    override fun onDetach() {
-        super.onDetach()
-        onDestroy()
-    }
 
-    private var _binding: FragmentSearchBinding?=null
+
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
+
     // viewModel:
     private val searchViewModel by viewModel<SearchViewModel>()
     private var isClickAllowed = true
@@ -58,7 +56,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        historyInVisible()
+        hideHistory()
 
 
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
@@ -93,10 +91,7 @@ class SearchFragment : Fragment() {
             }
         }
 
-        //recyclerView = binding.rvTracks
-        //recyclerView.layoutManager = LinearLayoutManager(this)
-        //recyclerView.adapter = trackAdapter
-        //это меняем на код ниже
+
         binding.rvTracks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTracks.adapter = trackAdapter
 
@@ -109,35 +104,14 @@ class SearchFragment : Fragment() {
             }
         }
 
-        //historyRecycler.layoutManager = LinearLayoutManager(this)
-        //historyRecycler.adapter = historyAdapter
-
         binding.historyRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.historyRecycler.adapter = historyAdapter
         binding.clearHistoryButton.setOnClickListener {
-            historyInVisible()
+            hideHistory()
             searchViewModel.clearHistory()
         }
 
-        //searchViewModel.provideHistory()
-
-//        searchViewModel.historyLiveData().observe(viewLifecycleOwner) {it:List<Track>->
-//             historyAdapter.setItems(it)
-//
-//         }
-
     }
-
-//    private fun startAdapter(track: Track) {
-//        if (clickDebounce()) {
-//            searchViewModel.showHistoryList(track)
-//            val intent = Intent(requireContext(), PlayerActivity::class.java)
-//                .apply { putExtra(Track.TRACK, track) }
-//            clickDebounce()
-//            startActivity(intent)
-//        }
-//
-//    }
 
     //сохраняем текст при повороте экрана
     override fun onSaveInstanceState(outState: Bundle) {
@@ -204,17 +178,9 @@ class SearchFragment : Fragment() {
     //если фокус на поле ввода поиска
     private fun onEditorFocus() {
         binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
-            run {
-                if (hasFocus && binding.inputEditText.text.isEmpty()
-                    && historyAdapter.itemCount > 0
-                ) {
-                    searchViewModel.getHistory()
 
-                } else {
-                    historyInVisible()
+            searchViewModel.onChangeFocus(hasFocus, binding.inputEditText.text.toString())
 
-                }
-            }
         }
     }
 
@@ -230,11 +196,11 @@ class SearchFragment : Fragment() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (binding.inputEditText.hasFocus() && p0?.isEmpty() == true
                     && historyAdapter.itemCount > 0
-                    ) {
+                ) {
                     searchViewModel.getHistory()
 
                 } else {
-                    historyInVisible()
+                    hideHistory()
                 }
                 if (!binding.inputEditText.text.isNullOrEmpty()) {
                     searchText = binding.inputEditText.text.toString()
@@ -306,7 +272,7 @@ class SearchFragment : Fragment() {
 
     //состояния экранов
     private fun defaultSearch() {
-        historyInVisible()
+        hideHistory()
         binding.rvTracks.visibility = GONE
         binding.SearchErrorLayout.visibility = GONE
         binding.SearchError.visibility = GONE
@@ -330,7 +296,7 @@ class SearchFragment : Fragment() {
         binding.LineErrorText.visibility = GONE
         binding.updateButton.visibility = GONE
 
-        historyInVisible()
+        hideHistory()
         trackAdapter.notifyDataSetChanged()
 
     }
@@ -346,7 +312,7 @@ class SearchFragment : Fragment() {
         binding.LineErrorText.visibility = GONE
         binding.updateButton.visibility = GONE
         trackAdapter.setItems(data)
-        historyInVisible()
+        hideHistory()
     }
 
     private fun nothingFound() {
@@ -359,7 +325,7 @@ class SearchFragment : Fragment() {
         binding.SearchErrorLayout.visibility = VISIBLE
         binding.SearchError.visibility = VISIBLE
         binding.SearchErrorText.visibility = VISIBLE
-        historyInVisible()
+        hideHistory()
     }
 
     private fun connectionError() {
@@ -373,7 +339,7 @@ class SearchFragment : Fragment() {
         binding.LineErrorText.visibility = VISIBLE
         binding.updateButton.visibility = VISIBLE
         binding.updateButton.setOnClickListener { search() }
-        historyInVisible()
+        hideHistory()
     }
 
     private fun searchWithHistory(historyData: List<Track>) {
@@ -386,12 +352,12 @@ class SearchFragment : Fragment() {
 
     }
 
-    private fun historyInVisible() {
+    private fun hideHistory() {
+
         binding.historyScrollView.visibility = GONE
         binding.historyRecycler.visibility = GONE
         binding.clearHistoryButton.visibility = GONE
         binding.historyText.visibility = GONE
-
 
     }
 

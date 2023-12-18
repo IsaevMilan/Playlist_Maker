@@ -8,11 +8,13 @@
     <item
         android:id="@+id/mediaLibraryFragment"
         android:icon="@drawable/media"
+
         android:title="@string/medialib" />
 
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/settings"
+
         android:title="@string/settingsButton" />
 
 
