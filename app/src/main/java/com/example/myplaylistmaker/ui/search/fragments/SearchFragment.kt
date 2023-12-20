@@ -30,7 +30,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
-
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
@@ -42,7 +41,6 @@ class SearchFragment : Fragment() {
     private lateinit var bottomNavigator: BottomNavigationView
     private val handler = Handler(Looper.getMainLooper())
     private var isEnterPressed: Boolean = false
-    private val KEY_TEXT = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,13 +49,11 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         hideHistory()
-
 
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
 
@@ -75,14 +71,12 @@ class SearchFragment : Fragment() {
             }
         }
 
-
         // ввод строки поиска и обработка кнопок
         onEditorFocus()
         onSearchTextChange()
         onClearIconClick()
         clearIconVisibilityChanger()
         startSearchByEnterPress()
-
 
         //поиск
         trackAdapter = TrackAdapter() {
@@ -91,13 +85,10 @@ class SearchFragment : Fragment() {
             }
         }
 
-
         binding.rvTracks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTracks.adapter = trackAdapter
 
-
         //история
-
         historyAdapter = TrackAdapter() {
             if (clickDebounce()) {
                 clickAdapting(it)
@@ -111,21 +102,6 @@ class SearchFragment : Fragment() {
             searchViewModel.clearHistory()
         }
 
-    }
-
-    //сохраняем текст при повороте экрана
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val inputEditText = binding.inputEditText
-        outState.putString(KEY_TEXT, inputEditText.text.toString())
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        if (savedInstanceState != null) {
-            val savedText = savedInstanceState.getString(KEY_TEXT, "")
-            binding.inputEditText.setText(savedText)
-        }
     }
 
     //включаем кликдебаунсер
@@ -180,7 +156,6 @@ class SearchFragment : Fragment() {
         binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
 
             searchViewModel.onChangeFocus(hasFocus, binding.inputEditText.text.toString())
-
         }
     }
 
@@ -281,8 +256,6 @@ class SearchFragment : Fragment() {
         binding.LineError.visibility = GONE
         binding.LineErrorText.visibility = GONE
         binding.updateButton.visibility = GONE
-
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -298,7 +271,6 @@ class SearchFragment : Fragment() {
 
         hideHistory()
         trackAdapter.notifyDataSetChanged()
-
     }
 
     private fun searchIsOk(data: List<Track>) {
@@ -349,7 +321,6 @@ class SearchFragment : Fragment() {
         binding.historyText.visibility = VISIBLE
         binding.clearHistoryButton.visibility = VISIBLE
         historyAdapter.setItems(historyData)
-
     }
 
     private fun hideHistory() {
@@ -358,7 +329,6 @@ class SearchFragment : Fragment() {
         binding.historyRecycler.visibility = GONE
         binding.clearHistoryButton.visibility = GONE
         binding.historyText.visibility = GONE
-
     }
 
     companion object {
