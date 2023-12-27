@@ -19,4 +19,6 @@
     <dimen name="albumNameMargTop16">16dp</dimen>
     <dimen name="playerSmallText13sp">13sp</dimen>
     <dimen name="mediaLibraryText19sp">19sp</dimen>
+    <dimen name="forAnyReasons16dp">16dp</dimen>
+
 </resources>

@@ -5,4 +5,6 @@ import com.example.myplaylistmaker.domain.search.models.SearchResult
 
 interface NetworkClient {
     fun doRequest(request: TrackSearchRequest): SearchResult
+
+
 }

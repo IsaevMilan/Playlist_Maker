@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Playlist Maker</string>
-    <string name="ww">Медиатека</string>
+    <string name="MediaLibrary">Медиатека</string>
     <string name="settings">Настройки</string>
     <string name="search">Поиск</string>
     <string name="Setting">Настройки</string>
@@ -49,4 +49,12 @@
     <string name="emptyMedia">Ваша медиатека пуста</string>
     <string name="noplaylist">Вы не создали\n ни одного плейлиста</string>
     <string name="newPlaylist">Новый плейлист</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="searchText">Поиск</string>
+    <string name="medialib">Медиатека</string>
+    <string name="settingsButton">Настройки</string>
+    <string name="picture">Картинка</string>
+    <string name="favoritTracks">Избранные треки</string>
+    <string name="playlist">Плейлист</string>
 </resources>

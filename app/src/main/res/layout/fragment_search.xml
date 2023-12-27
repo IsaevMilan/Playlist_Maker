@@ -3,31 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.search.activity.SearchActivity">
-
+    tools:context="com.example.myplaylistmaker.ui.search.fragments.SearchFragment">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/arrowBack3"
-            style="@style/BackArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/todo22" />
-
-
         <TextView
             style="@style/TopText"
             android:text="@string/search1" />
     </FrameLayout>
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="36dp"
@@ -39,7 +27,6 @@
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         tools:ignore="RtlSymmetry">
-
         <EditText
             android:id="@+id/inputEditText"
             android:layout_width="match_parent"
@@ -73,17 +60,16 @@
             android:src="@drawable/clear_icon"
             android:visibility="gone" />
     </FrameLayout>
-    
 
-    <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="140dp"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="140dp"
+        app:indicatorColor="@color/ypBlue"
+        android:indeterminate="true"
+        android:visibility="gone" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTracks"
         android:layout_width="match_parent"

@@ -15,8 +15,8 @@ class PlayerInteractorImpl (private val repository: PlayerRepository): PlayerInt
         repository.destroy()
     }
 
-    override fun createPlayer(url: String, completion: () -> Unit) {
-        repository.preparePlayer(url, completion)
+    override fun createPlayer(url: String, listener:PlayerStateListener) {
+        repository.preparePlayer(url, listener)
     }
 
     override fun getTime(): String {

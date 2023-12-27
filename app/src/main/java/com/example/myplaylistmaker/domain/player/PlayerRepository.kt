@@ -5,7 +5,7 @@ interface PlayerRepository {
     fun play()
     fun pause()
     fun destroy()
-    fun preparePlayer(url: String, completion: () -> Unit)
+    fun preparePlayer(url: String, listener:PlayerStateListener)
     fun timeTransfer() :String
     fun playerStateReporter() : PlayerState
 }
