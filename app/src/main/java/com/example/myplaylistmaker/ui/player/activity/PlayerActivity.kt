@@ -5,34 +5,37 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.example.myplaylistmaker.domain.player.PlayerState
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.ui.player.view_model.PlayerViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class PlayerActivity : AppCompatActivity() {
 
-    private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
+//    private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
     private val playerViewModel by viewModel<PlayerViewModel> ()
     private lateinit var binding: ActivityMediaPlayerBinding
     private var url=""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_media_player)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         binding=ActivityMediaPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //вью-модель
-        binding.playButton.isEnabled = false
+        //  binding.playButton.isEnabled = false
 
-        mainThreadHandler = Handler(Looper.getMainLooper())
+//        mainThreadHandler = Handler(Looper.getMainLooper())
         binding.backArrow4.setOnClickListener {
             finish()
         }
@@ -66,15 +69,25 @@ class PlayerActivity : AppCompatActivity() {
                 playerViewModel.pause() else playerViewModel.play()
         }
 
-        binding.pauseButton.setOnClickListener {
-            playerViewModel.pause()
+        updateButton()
+
+        playerViewModel.putTime().observe(this) { timer ->
+            binding.trackTimer.text = timer
+            Log.d("время в активити", timer)
         }
-        mainThreadHandler?.post(
-            updateButton()
-        )
-        mainThreadHandler?.post(
-            updateTimer()
-        )
+
+//        binding.pauseButton.setOnClickListener {
+//            playerViewModel.pause()
+//        }
+
+//        mainThreadHandler?.post(
+//            updateButton()
+//        )
+//
+//
+//        mainThreadHandler?.post(
+//            updateTimer()
+//        )
 
     }
 
@@ -121,30 +134,38 @@ class PlayerActivity : AppCompatActivity() {
             else -> {
 
         }
-        }
-
-
-        }
+       }
+      }
     }
 
-    private fun updateButton(): Runnable {
-        val updatedButton = Runnable {
+    private fun updateButton() {
+
+        lifecycleScope.launch {
+            delay (PLAYER_BUTTON_PRESSING_DELAY)
             playerStateDrawer()
-            mainThreadHandler?.postDelayed(updateButton(), PLAYER_BUTTON_PRESSING_DELAY)
+
         }
-        return updatedButton
     }
 
-    private fun updateTimer(): Runnable {
-        val updatedTimer = Runnable {
-            binding.trackTimer.text = playerViewModel.getTime()
-            mainThreadHandler?.postDelayed(updateTimer(), PLAYER_BUTTON_PRESSING_DELAY)
-        }
-        return updatedTimer
-    }
+//    private var buttonClickJob:Job?=null
+//    private fun clickDebounce (action:() -> Unit) {
+//        if (buttonClickJob?.isActive == true) return
+//        buttonClickJob = lyfecycleScope.launch {
+//            action.invoke()
+//            delay (PLAYER_BUTTON_PRESSING_DELAY)
+//        }
+//    }
+
+//    private fun updateTimer(): Runnable {
+//        val updatedTimer = Runnable {
+//            binding.trackTimer.text = playerViewModel.getTime()
+////            mainThreadHandler?.postDelayed(updateTimer(), PLAYER_BUTTON_PRESSING_DELAY)
+//        }
+//        return updatedTimer
+//    }
 
     companion object {
-        const val PLAYER_BUTTON_PRESSING_DELAY = 100L
+        const val PLAYER_BUTTON_PRESSING_DELAY = 300L
     }
 }
 
