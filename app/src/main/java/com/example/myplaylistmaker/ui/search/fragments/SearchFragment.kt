@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -87,7 +90,8 @@ class SearchFragment : Fragment() {
                 if (isClickAllowed) {
                     clickAdapting(it)
                 }
-            })
+            },
+            longClickListener = {})
 
         binding.rvTracks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTracks.adapter = trackAdapter
@@ -98,7 +102,8 @@ class SearchFragment : Fragment() {
                 if (isClickAllowed) {
                     clickAdapting(it)
                 }
-            })
+            },
+            longClickListener = {})
 
         binding.historyRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.historyRecycler.adapter = historyAdapter
