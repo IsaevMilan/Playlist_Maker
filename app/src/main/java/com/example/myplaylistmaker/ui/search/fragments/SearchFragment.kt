@@ -27,6 +27,7 @@ import com.example.myplaylistmaker.ui.search.adapter.TrackAdapter
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.SearchViewModel
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -44,7 +45,7 @@ class SearchFragment : Fragment() {
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var historyAdapter: TrackAdapter
     private lateinit var bottomNavigator: BottomNavigationView
-    private var searchJob: Job?=null
+    private var searchJob: Job? = null
     private var searchText: String? = null
     private var isEnterPressed: Boolean = false
 
@@ -111,7 +112,7 @@ class SearchFragment : Fragment() {
             hideHistory()
             searchViewModel.clearHistory()
         }
-        clickDebounceManager()
+
     }
 
     //включаем кликдебаунсер
@@ -120,9 +121,6 @@ class SearchFragment : Fragment() {
         isClickAllowed = true
     }
 
-    private fun clickDebounceManager() {
-        GlobalScope.launch { clickDebouncer() }
-    }
 
     private suspend fun clickDebouncer() {
         isClickAllowed
@@ -137,7 +135,7 @@ class SearchFragment : Fragment() {
         searchViewModel.addItem(item)
         val intent = Intent(requireContext(), PlayerActivity::class.java)
         intent.putExtra("track", item)
-        this.startActivity(intent)
+        startActivity(intent)
     }
 
     //видимость кнопки удаления введенной строки (крестик)
@@ -150,18 +148,17 @@ class SearchFragment : Fragment() {
     }
 
     //поиск
-    private suspend fun search() {
-        searchViewModel.searchRequesting(binding.inputEditText.text.toString())
-    }
+
 
     private fun searchDebounce() {
-        val changedText = binding.inputEditText.text.toString()
-        if (searchText == changedText) return
-        searchText = changedText
+//        val changedText = binding.inputEditText.text.toString()
+//       if (searchText == changedText) {
+//         return }
+//        searchText = changedText
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
-            search()
+            searchViewModel.searchRequesting(searchText.toString())
         }
 
     }
@@ -170,14 +167,9 @@ class SearchFragment : Fragment() {
     //если фокус на поле ввода поиска
     private fun onEditorFocus() {
         binding.inputEditText.setOnFocusChangeListener { view, hasFocus ->
-            run {
-                if (hasFocus && binding.inputEditText.text.isEmpty() && searchViewModel.provideHistory().value?.isNotEmpty() ?: false) {
-                    searchViewModel.clearTrackList()
 
-                } else {
+            searchViewModel.onChangeFocus(hasFocus, binding.inputEditText.text.toString())
 
-                }
-            }
         }
     }
 

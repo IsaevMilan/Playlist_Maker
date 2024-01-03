@@ -1,6 +1,5 @@
 package com.example.myplaylistmaker.ui.search.view_model_for_activity
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +22,6 @@ class SearchViewModel(
     fun getStateLiveData(): LiveData<SearchScreenState> {
         return stateLiveData
     }
-
     //поиск трека
 //    private val tracksConsumer = object : SearchInteractor. {
 //        override fun consume(result: SearchResult) {
@@ -49,30 +47,31 @@ class SearchViewModel(
 //    }
 
     suspend fun searchRequesting(searchExpression: String) {
-        if (searchExpression.isBlank()) {
+        if (searchExpression.isNotBlank()) {
             stateLiveData.postValue(SearchScreenState.Loading)
             viewModelScope.launch {
-            }
-            try {
-                searchInteractor.search(searchExpression).collect {
-                    when (it.message) {
-                        ErrorClass.CONNECTION_ERROR -> stateLiveData.postValue(
-                            SearchScreenState.ConnectionError
-                        )
-
-                        ErrorClass.SERVER_ERROR -> stateLiveData.postValue(SearchScreenState.NothingFound)
-                        else -> {
-                            trackResultList.postValue(it.data)
-                            stateLiveData.postValue(
-                                if (it.data.isNullOrEmpty())
-                                    SearchScreenState.NothingFound
-                                else SearchScreenState.SearchIsOk(it.data)
+                try {
+                    searchInteractor.search(searchExpression).collect {
+                        when (it.message) {
+                            ErrorClass.CONNECTION_ERROR -> stateLiveData.postValue(
+                                SearchScreenState.ConnectionError
                             )
+
+                            ErrorClass.SERVER_ERROR -> stateLiveData.postValue(SearchScreenState.NothingFound)
+                            else -> {
+                                trackResultList.postValue(it.data)
+                                stateLiveData.postValue(
+                                    if (it.data.isNullOrEmpty())
+                                        SearchScreenState.NothingFound
+                                    else SearchScreenState.SearchIsOk(it.data)
+                                )
+                            }
                         }
                     }
+                } catch (error: Error) {
+                    stateLiveData.postValue(SearchScreenState.ConnectionError)
                 }
-            } catch (error: Error) {
-                stateLiveData.postValue(SearchScreenState.ConnectionError)
+
             }
         }
     }
@@ -82,6 +81,7 @@ class SearchViewModel(
         MutableLiveData<List<Track>>().apply {
             value = emptyList()
         }
+
 
     fun addItem(item: Track) {
         searchHistoryInteractor.addItem(item)
@@ -100,14 +100,37 @@ class SearchViewModel(
         return trackHistoryList
     }
 
-    fun clearTrackList() {
-        trackResultList.value = emptyList()
-        trackHistoryList.value = searchHistoryInteractor.provideHistory()
-        stateLiveData.value =
-            trackHistoryList.value?.let { SearchScreenState.SearchWithHistory(it) }
-        Log.d("История", trackHistoryList.value.toString())
+    //    fun clearTrackList() {
+//        trackResultList.value = emptyList()
+//        trackHistoryList.value = searchHistoryInteractor.provideHistory()
+//        stateLiveData.value =
+//            trackHistoryList.value?.let { SearchScreenState.SearchWithHistory(it) }
+//        Log.d("История", trackHistoryList.value.toString())
+//    }
+    fun onChangeFocus(hasFocus: Boolean, text: String) {
+
+        if (hasFocus && text.isEmpty()) {
+            getHistory()
+
+        } else if (text.isEmpty()) {
+
+            stateLiveData.value = SearchScreenState.DefaultSearch
+
+        }
+    }
+
+    fun getHistory() {
+        val history = searchHistoryInteractor.provideHistory()
+        val newState = if (!history.isNullOrEmpty()) {
+            SearchScreenState.SearchWithHistory(history)
+        } else {
+            SearchScreenState.DefaultSearch
+        }
+        stateLiveData.postValue(newState)
     }
 }
+
+
 
 
 

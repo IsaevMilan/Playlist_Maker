@@ -1,6 +1,5 @@
 package com.example.myplaylistmaker.ui.player.view_model
 
-import android.media.MediaPlayer
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,22 +13,23 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
-   private val playerInteractor: PlayerInteractor
+    private val playerInteractor: PlayerInteractor
 ) : ViewModel() {
 
-    var timeJob: Job?=null
-    var stateLiveData = MutableLiveData<PlayerState>()
-    var playTimer = MutableLiveData ("00:00")
+    var timeJob: Job? = null
+    var stateLiveData = MutableLiveData(PlayerState.STATE_DEFAULT)
+    var playTimer = MutableLiveData("00:00")
 
     fun createPlayer(url: String) {
-        playerInteractor.createPlayer(url,listener = object : PlayerStateListener {
+        playerInteractor.createPlayer(url, listener = object : PlayerStateListener {
             override fun onStateChanged(state: PlayerState) {
                 stateLiveData.postValue(state)
 
             }
 
         })
-   }
+    }
+
 
     fun play() {
         playerInteractor.play()
@@ -38,6 +38,7 @@ class PlayerViewModel(
 
     fun pause() {
         playerInteractor.pause()
+        timeJob?.cancel()
     }
 
     fun destroy() {
@@ -45,28 +46,28 @@ class PlayerViewModel(
         timeJob?.cancel()
     }
 
-        fun getTimeFromInteractor(): LiveData<String> {
-            timeJob=viewModelScope.launch {
-                while (true) {
-                    delay(PLAYER_BUTTON_PRESSING_DELAY)
-                    playerInteractor.getTime().collect() {
-                        playTimer.postValue(it)
-                    }
-                }
+    fun getTimeFromInteractor(): LiveData<String> {
+        timeJob = viewModelScope.launch {
+            while (true) {
+                delay(PLAYER_BUTTON_PRESSING_DELAY)
+
+                playTimer.postValue(playerInteractor.getTime())
             }
-            return playTimer
         }
 
-        fun putTime(): LiveData<String> {
-            getTimeFromInteractor()
-            playTimer.value?.let { Log.d("время в модели", it) }
-            return playTimer
-        }
-
-        companion object {
-            const val PLAYER_BUTTON_PRESSING_DELAY = 300L
-        }
+        return playTimer
     }
+
+    fun putTime(): LiveData<String> {
+        getTimeFromInteractor()
+        playTimer.value?.let { Log.d("время в модели", it) }
+        return playTimer
+    }
+
+    companion object {
+        const val PLAYER_BUTTON_PRESSING_DELAY = 300L
+    }
+}
 
 
 

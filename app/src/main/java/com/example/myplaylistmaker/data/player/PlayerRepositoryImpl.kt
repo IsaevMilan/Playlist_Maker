@@ -12,13 +12,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerRepository {
 
     private var playerState = PlayerState.STATE_DEFAULT
     private lateinit var listener: PlayerStateListener
     private var trackTime = MutableStateFlow("00:00")
-    private var playButtonJob: Job? = null
+
     override fun preparePlayer(url: String, listener: PlayerStateListener) {
         this.listener = listener
         if (playerState != PlayerState.STATE_DEFAULT) return
@@ -28,7 +29,7 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         mediaPlayer.setOnPreparedListener {
             playerState = PlayerState.STATE_PREPARED
             listener.onStateChanged(playerState)
-            playButtonJob?.start()
+
         }
         mediaPlayer.setOnCompletionListener {
             playerState = PlayerState.STATE_PREPARED
@@ -37,10 +38,11 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
     }
 
     override fun play() {
-        mediaPlayer.start()
-        playerState = PlayerState.STATE_PLAYING
-        listener.onStateChanged(playerState)
-
+        if (playerState != PlayerState.STATE_DEFAULT) {
+            mediaPlayer.start()
+            playerState = PlayerState.STATE_PLAYING
+            listener.onStateChanged(playerState)
+        }
     }
 
     override fun pause() {
@@ -54,21 +56,20 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         mediaPlayer.release()
         playerState = PlayerState.STATE_DEFAULT
         listener.onStateChanged(playerState)
-        playButtonJob?.cancel()
         Log.d("playerStateRep", playerState.toString())
     }
 
-    @SuppressLint("SimpleDateFormat")
-    override fun timing(): Flow<String> = flow {
-        val sdf = SimpleDateFormat("mm:ss")
-        while (true) {
-            if ((playerState == PlayerState.STATE_PLAYING) or (playerState == PlayerState.STATE_PAUSED)) {
-                emit(sdf.format(mediaPlayer.currentPosition))
-            } else {
-                emit("00:00")
-            }
-            delay(DELAY_MILLIS)
+
+    override fun timing(): String {
+        val sdf = SimpleDateFormat("mm:ss", Locale.getDefault())
+
+        if ((playerState == PlayerState.STATE_PLAYING) or (playerState == PlayerState.STATE_PAUSED)) {
+            return (sdf.format(mediaPlayer.currentPosition))
+        } else {
+            return ("00:00")
         }
+
+
     }
 
     override fun timeTransfer(): String {

@@ -21,7 +21,7 @@ class PlayerInteractorImpl (private val repository: PlayerRepository): PlayerInt
         repository.preparePlayer(url, listener)
     }
 
-    override fun getTime(): Flow<String> {
+    override fun getTime(): String {
         return repository.timing()
     }
 

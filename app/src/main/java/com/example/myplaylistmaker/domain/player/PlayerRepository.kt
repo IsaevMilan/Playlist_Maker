@@ -10,5 +10,5 @@ interface PlayerRepository {
     fun preparePlayer(url: String, listener:PlayerStateListener)
     fun timeTransfer() :String
     fun playerStateReporter() : PlayerState
-    fun timing(): Flow<String>
+    fun timing(): String
 }
