@@ -1,6 +1,5 @@
 package com.example.myplaylistmaker.ui.player.view_model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,10 +29,17 @@ class PlayerViewModel(
         })
     }
 
-
     fun play() {
         playerInteractor.play()
-        timeJob?.start()
+        /*timeJob?.start()*/
+        timeJob = viewModelScope.launch {
+            while (true) {
+                playTimer.postValue(playerInteractor.getTime())
+                delay(PLAYER_BUTTON_PRESSING_DELAY)
+
+
+            }
+        }
     }
 
     fun pause() {
@@ -47,20 +53,8 @@ class PlayerViewModel(
     }
 
     fun getTimeFromInteractor(): LiveData<String> {
-        timeJob = viewModelScope.launch {
-            while (true) {
-                delay(PLAYER_BUTTON_PRESSING_DELAY)
 
-                playTimer.postValue(playerInteractor.getTime())
-            }
-        }
 
-        return playTimer
-    }
-
-    fun putTime(): LiveData<String> {
-        getTimeFromInteractor()
-        playTimer.value?.let { Log.d("время в модели", it) }
         return playTimer
     }
 

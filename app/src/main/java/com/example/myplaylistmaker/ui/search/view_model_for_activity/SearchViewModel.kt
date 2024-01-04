@@ -9,6 +9,7 @@ import com.example.myplaylistmaker.domain.search.history.SearchHistoryInteractor
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.domain.search.saerchin_and_responding.SearchInteractor
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -18,33 +19,13 @@ class SearchViewModel(
     private val stateLiveData =
         MutableLiveData<SearchScreenState>(SearchScreenState.DefaultSearch)
 
+    private val isClickAllowed = MutableLiveData(true)
+
     private var trackResultList: MutableLiveData<List<Track>?> = MutableLiveData<List<Track>?>()
+
     fun getStateLiveData(): LiveData<SearchScreenState> {
         return stateLiveData
     }
-    //поиск трека
-//    private val tracksConsumer = object : SearchInteractor. {
-//        override fun consume(result: SearchResult) {
-//            when (result) {
-//                is SearchResult.Failure -> {
-//                    if (result.errorType.error == ERROR_NO_CONNECTION) {
-//                        stateLiveData.postValue(SearchScreenState.ConnectionError)
-//                    } else {
-//                        //можно сделать вывод других исключений, но пока оставлю так
-//                        stateLiveData.postValue(SearchScreenState.ConnectionError)
-//                    }
-//                }
-//
-//                is SearchResult.Success -> {
-//                    if (result.list.isEmpty()) {
-//                        stateLiveData.postValue(SearchScreenState.NothingFound)
-//                    } else {
-//                        stateLiveData.postValue(SearchScreenState.SearchIsOk(result.list))
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     suspend fun searchRequesting(searchExpression: String) {
         if (searchExpression.isNotBlank()) {
@@ -82,6 +63,8 @@ class SearchViewModel(
             value = emptyList()
         }
 
+    fun getIsClickAllowed(): LiveData<Boolean> = isClickAllowed
+
 
     fun addItem(item: Track) {
         searchHistoryInteractor.addItem(item)
@@ -100,13 +83,18 @@ class SearchViewModel(
         return trackHistoryList
     }
 
-    //    fun clearTrackList() {
-//        trackResultList.value = emptyList()
-//        trackHistoryList.value = searchHistoryInteractor.provideHistory()
-//        stateLiveData.value =
-//            trackHistoryList.value?.let { SearchScreenState.SearchWithHistory(it) }
-//        Log.d("История", trackHistoryList.value.toString())
-//    }
+    fun clickDebouncer() {
+
+        if (isClickAllowed.value == true) {
+            viewModelScope.launch {
+                isClickAllowed.value = false
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed.value = true
+            }
+        }
+    }
+
+
     fun onChangeFocus(hasFocus: Boolean, text: String) {
 
         if (hasFocus && text.isEmpty()) {
@@ -127,6 +115,10 @@ class SearchViewModel(
             SearchScreenState.DefaultSearch
         }
         stateLiveData.postValue(newState)
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }
 

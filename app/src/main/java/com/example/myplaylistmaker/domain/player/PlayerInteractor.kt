@@ -1,7 +1,5 @@
 package com.example.myplaylistmaker.domain.player
 
-import kotlinx.coroutines.flow.Flow
-
 interface PlayerInteractor {
     fun play()
     fun pause()

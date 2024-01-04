@@ -17,6 +17,10 @@ import java.util.Locale
 class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerRepository {
 
     private var playerState = PlayerState.STATE_DEFAULT
+        set(value) {
+            Log.v("String", value.name)
+            field = value
+        }
     private lateinit var listener: PlayerStateListener
     private var trackTime = MutableStateFlow("00:00")
 
@@ -25,16 +29,18 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         if (playerState != PlayerState.STATE_DEFAULT) return
         mediaPlayer.reset()
         mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
+        mediaPlayer.setOnCompletionListener {
+            playerState = PlayerState.STATE_PREPARED
+            listener.onStateChanged(playerState)
+        }
         mediaPlayer.setOnPreparedListener {
             playerState = PlayerState.STATE_PREPARED
             listener.onStateChanged(playerState)
 
         }
-        mediaPlayer.setOnCompletionListener {
-            playerState = PlayerState.STATE_PREPARED
-            listener.onStateChanged(playerState)
-        }
+
+        mediaPlayer.prepareAsync()
+
     }
 
     override fun play() {
@@ -62,7 +68,7 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
 
     override fun timing(): String {
         val sdf = SimpleDateFormat("mm:ss", Locale.getDefault())
-
+        Log.v ("String", "timing = ${playerState.name}")
         if ((playerState == PlayerState.STATE_PLAYING) or (playerState == PlayerState.STATE_PAUSED)) {
             return (sdf.format(mediaPlayer.currentPosition))
         } else {

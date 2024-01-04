@@ -3,8 +3,6 @@ package com.example.myplaylistmaker.ui.player.activity
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +20,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerActivity : AppCompatActivity() {
 
-    //    private var mainThreadHandler: Handler? = Handler(Looper.getMainLooper())
     private val playerViewModel by viewModel<PlayerViewModel>()
     private lateinit var binding: ActivityMediaPlayerBinding
     private var url = ""
@@ -33,9 +30,6 @@ class PlayerActivity : AppCompatActivity() {
         binding = ActivityMediaPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //  binding.playButton.isEnabled = false
-
-//        mainThreadHandler = Handler(Looper.getMainLooper())
         binding.backArrow4.setOnClickListener {
             finish()
         }
@@ -69,25 +63,12 @@ class PlayerActivity : AppCompatActivity() {
                 playerViewModel.pause() else playerViewModel.play()
         }
 
-        updateButton()
+        playerStateDrawer()
 
         playerViewModel.getTimeFromInteractor().observe(this) { timer ->
             binding.trackTimer.text = timer
             Log.d("время в активити", timer)
         }
-
-//        binding.pauseButton.setOnClickListener {
-//            playerViewModel.pause()
-//        }
-
-//        mainThreadHandler?.post(
-//            updateButton()
-//        )
-//
-//
-//        mainThreadHandler?.post(
-//            updateTimer()
-//        )
 
     }
 
@@ -107,21 +88,19 @@ class PlayerActivity : AppCompatActivity() {
         binding.pauseButton.visibility = View.GONE
     }
 
-    @SuppressLint("ResourceType")
     fun playerStateDrawer() {
         playerViewModel.stateLiveData.observe(this) {
             when (playerViewModel.stateLiveData.value) {
                 PlayerState.STATE_DEFAULT -> {
-                    binding.playButton.isEnabled=false
                     binding.playButton.setImageResource(R.drawable.buttonplay)
-                    binding.playButton.alpha = 0.5f
+
                 }
 
 
                 PlayerState.STATE_PREPARED -> {
                     preparePlayer()
                     binding.playButton.setImageResource(R.drawable.buttonplay)
-                    binding.playButton.alpha = 1f
+
                 }
 
                 PlayerState.STATE_PLAYING -> {
@@ -131,7 +110,7 @@ class PlayerActivity : AppCompatActivity() {
 
                 PlayerState.STATE_PAUSED -> {
                     binding.playButton.setImageResource(R.drawable.buttonplay)
-                    binding.playButton.alpha = 1f
+
                 }
 
                 else -> {
@@ -140,32 +119,6 @@ class PlayerActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun updateButton() {
-
-        lifecycleScope.launch {
-            delay(PLAYER_BUTTON_PRESSING_DELAY)
-            playerStateDrawer()
-
-        }
-    }
-
-//    private var buttonClickJob:Job?=null
-//    private fun clickDebounce (action:() -> Unit) {
-//        if (buttonClickJob?.isActive == true) return
-//        buttonClickJob = lyfecycleScope.launch {
-//            action.invoke()
-//            delay (PLAYER_BUTTON_PRESSING_DELAY)
-//        }
-//    }
-
-//    private fun updateTimer(): Runnable {
-//        val updatedTimer = Runnable {
-//            binding.trackTimer.text = playerViewModel.getTime()
-////            mainThreadHandler?.postDelayed(updateTimer(), PLAYER_BUTTON_PRESSING_DELAY)
-//        }
-//        return updatedTimer
-//    }
 
     companion object {
         const val PLAYER_BUTTON_PRESSING_DELAY = 300L

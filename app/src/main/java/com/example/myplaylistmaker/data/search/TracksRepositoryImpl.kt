@@ -13,45 +13,46 @@ import kotlinx.coroutines.flow.flow
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class TracksRepositoryImpl (private val networkClient: NetworkClient) : TracksRepository {
-    override fun searchTracks(expression: String): Flow<Resource<List<Track>>> = flow{
+class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {
+    override fun searchTracks(expression: String): Flow<Resource<List<Track>>> = flow {
         try {
             val response = networkClient.doRequest(TrackSearchRequest(expression))
             when (response.resultCode) {
                 -1 -> {
-                   emit(Resource.Error(ErrorClass.CONNECTION_ERROR))
+                    emit(Resource.Error(message = ErrorClass.CONNECTION_ERROR))
                 }
 
                 200 -> {
-                      emit(Resource.Success((response as TrackResponse).results.map {
-                            Track(
-                                it.trackName,
-                                it.artistName,
+                    emit(Resource.Success((response as TrackResponse).results.map {
+                        Track(
+                            it.trackName,
+                            it.artistName,
 
-                                SimpleDateFormat(
-                                    "mm:ss",
-                                    Locale.getDefault()
-                                ).format(it.trackTimeMillis),
-                                it.artworkUrl100,
-                                it.trackId,
-                                it.collectionName,
-                                it.releaseDate,
-                                it.primaryGenreName,
-                                it.country,
-                                it.previewUrl
-                            )
+                            SimpleDateFormat(
+                                "mm:ss",
+                                Locale.getDefault()
+                            ).format(it.trackTimeMillis),
+                            it.artworkUrl100,
+                            it.trackId,
+                            it.collectionName,
+                            it.releaseDate,
+                            it.primaryGenreName,
+                            it.country,
+                            it.previewUrl
+                        )
 
-                }))
+                    }))
+                }
+
+                else -> {
+
+                    emit(Resource.Error(message = ErrorClass.SERVER_ERROR))
+                }
             }
 
-            else -> {
-
-            emit(Resource.Error(ErrorClass.SERVER_ERROR))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(Resource.Error(message = ErrorClass.SERVER_ERROR))
         }
-    }
-
-    } catch (error: Error) {
-        throw Exception(error)
-    }
     }
 }
