@@ -65,7 +65,6 @@ class SearchViewModel(
 
     fun getIsClickAllowed(): LiveData<Boolean> = isClickAllowed
 
-
     fun addItem(item: Track) {
         searchHistoryInteractor.addItem(item)
     }

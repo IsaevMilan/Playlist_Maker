@@ -139,13 +139,7 @@ class SearchFragment : Fragment() {
     }
 
     //поиск
-
-
     private fun searchDebounce() {
-//        val changedText = binding.inputEditText.text.toString()
-//       if (searchText == changedText) {
-//         return }
-//        searchText = changedText
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
@@ -153,7 +147,6 @@ class SearchFragment : Fragment() {
         }
 
     }
-
 
     //если фокус на поле ввода поиска
     private fun onEditorFocus() {

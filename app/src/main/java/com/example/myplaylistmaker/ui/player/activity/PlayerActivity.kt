@@ -1,20 +1,16 @@
 package com.example.myplaylistmaker.ui.player.activity
 
-import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.example.myplaylistmaker.domain.player.PlayerState
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.ui.player.view_model.PlayerViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

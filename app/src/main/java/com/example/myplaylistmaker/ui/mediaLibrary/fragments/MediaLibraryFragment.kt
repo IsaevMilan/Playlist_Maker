@@ -36,7 +36,6 @@ class MediaLibraryFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onDestroyView() {
 
         tabMediator.detach()

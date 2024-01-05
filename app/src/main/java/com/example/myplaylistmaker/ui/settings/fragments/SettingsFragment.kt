@@ -28,7 +28,6 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         settingsViewModel.getOnBackLiveData()
 
-
         // обновление темы
         binding.themeSwitcher.isChecked = !(settingsViewModel.getThemeLiveData().value!!)
         binding.themeSwitcher.setOnClickListener {
@@ -51,6 +50,5 @@ class SettingsFragment : Fragment() {
             settingsViewModel.readAgreement()
         }
     }
-
 
 }
