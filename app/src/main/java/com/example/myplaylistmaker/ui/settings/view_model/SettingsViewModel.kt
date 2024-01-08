@@ -13,15 +13,10 @@ class SettingsViewModel(
     private var settingsInteractor: SettingsInteractor
 ) : ViewModel() {
 
-
     //нажатие на кнопку назад
     private var onBackLiveData = MutableLiveData(false)
-    fun onBackClick() {
-        onBackLiveData.value = true
-    }
 
     fun getOnBackLiveData(): LiveData<Boolean> = onBackLiveData
-
 
     //Сохраняем тему в LiveData
 
@@ -56,7 +51,6 @@ class SettingsViewModel(
     fun writeSupport() {
         sharingInteractor.openSupport()
     }
-
 
     //читаем соглашение
     fun readAgreement() {

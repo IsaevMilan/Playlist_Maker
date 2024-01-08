@@ -43,7 +43,5 @@ val dataModule = module {
     factory { Gson() }
     factory { SearchMapper() }
 
-
-
 }
 

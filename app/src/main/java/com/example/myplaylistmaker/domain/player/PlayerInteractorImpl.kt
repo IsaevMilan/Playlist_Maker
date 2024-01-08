@@ -20,7 +20,7 @@ class PlayerInteractorImpl (private val repository: PlayerRepository): PlayerInt
     }
 
     override fun getTime(): String {
-        return repository.timeTransfer()
+        return repository.timing()
     }
 
     override fun playerStateListener(): PlayerState {
