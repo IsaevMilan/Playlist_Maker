@@ -19,7 +19,5 @@ val repositoryModule = module {
 
     factory { TrackConvertor() }
 
-    single<HistoryRepository> {
-        HistoryRepositoryImpl(get(), get())
-    }
+   
 }

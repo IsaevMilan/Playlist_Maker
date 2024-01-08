@@ -2,6 +2,7 @@ package com.example.myplaylistmaker.data.search.request_and_response
 
 data class TrackDto (
     val trackName: String,
+    val addTime: Long?,
     val artistName: String,
     val trackTimeMillis: Long,
     val artworkUrl100: String,
@@ -11,4 +12,6 @@ data class TrackDto (
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String
-)
+) {
+
+}

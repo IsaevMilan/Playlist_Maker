@@ -10,6 +10,7 @@ class SearchMapper : Mapper<TrackDto, Track> {
     override fun mapItem(item: TrackDto): Track {
         return Track(
             trackName = item.trackName,
+            addTime = item.addTime,
             artistName = item.artistName,
             SimpleDateFormat("mm:ss", Locale.getDefault()).format(item.trackTimeMillis),
             artworkUrl100 = item.artworkUrl100,
