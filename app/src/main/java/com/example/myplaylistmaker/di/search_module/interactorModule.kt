@@ -16,4 +16,8 @@ val interactorModule = module {
     single <SearchHistoryInteractor> {
         SearchHistoryInteractorImpl (get())
     }
+
+    single<HistoryInteractor> {
+        HistoryInteractorImpl(get())
+    }
 }

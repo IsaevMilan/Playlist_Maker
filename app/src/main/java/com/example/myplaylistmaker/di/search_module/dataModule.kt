@@ -2,7 +2,9 @@ package com.example.myplaylistmaker.di.search_module
 
 import android.content.Context
 import android.media.MediaPlayer
+import androidx.room.Room
 import com.example.myplaylistmaker.app.App
+import com.example.myplaylistmaker.data.db.AppDatabase
 import com.example.myplaylistmaker.data.search.history.SEARCH_SHARED_PREFS_KEY
 import com.example.myplaylistmaker.data.search.request_and_response.ITunesSearchAPI
 import com.example.myplaylistmaker.data.search.request_and_response.NetworkClient
@@ -43,5 +45,9 @@ val dataModule = module {
     factory { Gson() }
     factory { SearchMapper() }
 
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .build()
+    }
 }
 

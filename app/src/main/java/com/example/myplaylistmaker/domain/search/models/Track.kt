@@ -5,8 +5,9 @@ import android.os.Parcelable
 
 
 data class Track(
-    val trackName: String?, // Название композиции
-    val artistName: String?, // Имя исполнителя
+    val trackName: String?,
+    var addTime:Long?,
+    val artistName: String?,
     val trackTimeMillis: String?, // Продолжительность трека
     val artworkUrl100: String?, // Ссылка на изображение обложки
     val trackId: Long?,
@@ -14,10 +15,13 @@ data class Track(
     val releaseDate: String?,
     val primaryGenreName: String?,
     val country: String?,
-    val previewUrl: String?
+    val previewUrl: String?,
+    var isFavorite: Boolean = false
+
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
+        parcel.readValue(Long::class.java.classLoader) as? Long,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -26,9 +30,10 @@ data class Track(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
-    )
-
+        parcel.readString(),
+        parcel.readByte() != 0.toByte()
+    ) {
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -36,13 +41,13 @@ data class Track(
         val track = other as Track
         return trackId == track.trackId
     }
-
     override fun hashCode(): Int {
         return trackId.hashCode()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(trackName)
+        parcel.writeValue(addTime)
         parcel.writeString(artistName)
         parcel.writeString(trackTimeMillis)
         parcel.writeString(artworkUrl100)
@@ -52,6 +57,7 @@ data class Track(
         parcel.writeString(primaryGenreName)
         parcel.writeString(country)
         parcel.writeString(previewUrl)
+        parcel.writeByte(if (isFavorite) 1 else 0)
     }
 
     override fun describeContents(): Int {

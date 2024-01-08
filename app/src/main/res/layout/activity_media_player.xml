@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/playButtonMarginTop30"
             android:src="@drawable/buttonplay"
-            app:layout_constraintEnd_toStartOf="@+id/favourites"
+            app:layout_constraintEnd_toStartOf="@+id/favorites"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
             app:layout_constraintTop_toBottomOf="@id/playerArtistName"
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/playButtonMarginTop30"
             android:src="@drawable/pause_button"
-            app:layout_constraintEnd_toStartOf="@+id/favourites"
+            app:layout_constraintEnd_toStartOf="@+id/favorites"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
             app:layout_constraintTop_toBottomOf="@id/playerArtistName"
@@ -119,13 +119,14 @@
             />
 
         <ImageButton
-            android:id="@+id/favourites"
+            android:id="@+id/favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/heartButtonMargTop54"
             android:src="@drawable/buttonhert"
             app:layout_constraintEnd_toEndOf="@+id/playerTrackName"
             app:layout_constraintTop_toBottomOf="@id/playerArtistName"
+            app:tintMode="multiply"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
@@ -137,7 +138,7 @@
             android:text="@string/_00"
             android:textColor="?attr/colorButtonNormal"
             android:textSize="@dimen/playerArtistNameText14"
-            app:layout_constraintEnd_toStartOf="@+id/favourites"
+            app:layout_constraintEnd_toStartOf="@+id/favorites"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
             app:layout_constraintTop_toTopOf="@+id/playerTrackName" />

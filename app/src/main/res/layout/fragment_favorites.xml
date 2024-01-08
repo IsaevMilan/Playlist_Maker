@@ -4,6 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favouritesRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
     <ImageView
         android:id="@+id/emptyMediaLibrary"
         android:layout_width="wrap_content"
@@ -16,6 +22,7 @@
         android:contentDescription="@string/picture" />
 
     <TextView
+        android:id="@+id/emptyMediaLibraryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
