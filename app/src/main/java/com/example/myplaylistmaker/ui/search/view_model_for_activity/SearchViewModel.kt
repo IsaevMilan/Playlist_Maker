@@ -58,7 +58,7 @@ class SearchViewModel(
     }
 
 
-    private var trackHistoryList: MutableLiveData<List<Track>> =
+    private val trackHistoryList: MutableLiveData<List<Track>> =
         MutableLiveData<List<Track>>().apply {
             value = emptyList()
         }

@@ -20,7 +20,7 @@ class FavouritesViewModel(
     fun favouritesMaker() : LiveData<List<Track>?> {
         viewModelScope.launch {
             while (true) {
-                delay (300)
+                delay (200)
                 favoritesInteractor.favouritesGet()
                     .collect { trackList ->
                         if (!trackList.isNullOrEmpty()) {

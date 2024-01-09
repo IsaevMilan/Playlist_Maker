@@ -20,8 +20,8 @@ class PlayerViewModel(
 ) : ViewModel() {
 
     var timeJob: Job? = null
-    var stateLiveData = MutableLiveData(PlayerState.STATE_DEFAULT)
-    var playTimer = MutableLiveData("00:00")
+    val stateLiveData = MutableLiveData(PlayerState.STATE_DEFAULT)
+    val playTimer = MutableLiveData("00:00")
     val favouritesIndicator = MutableLiveData<Boolean>()
     var favouritesJob:Job?=null
 
@@ -36,8 +36,8 @@ class PlayerViewModel(
     }
 
     fun play() {
+        timeJob?.cancel()
         playerInteractor.play()
-        /*timeJob?.start()*/
         timeJob = viewModelScope.launch {
             while (true) {
                 playTimer.postValue(playerInteractor.getTime())
@@ -94,7 +94,7 @@ class PlayerViewModel(
     }
 
     companion object {
-        const val PLAYER_BUTTON_PRESSING_DELAY = 300L
+        const val PLAYER_BUTTON_PRESSING_DELAY = 200L
     }
 }
 
