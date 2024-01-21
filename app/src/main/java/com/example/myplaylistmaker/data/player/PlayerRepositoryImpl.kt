@@ -1,26 +1,17 @@
 package com.example.myplaylistmaker.data.player
 
-import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import android.util.Log
 import com.example.myplaylistmaker.domain.player.PlayerRepository
 import com.example.myplaylistmaker.domain.player.PlayerState
 import com.example.myplaylistmaker.domain.player.PlayerStateListener
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerRepository {
 
     private var playerState = PlayerState.STATE_DEFAULT
-        set(value) {
-            Log.v("String", value.name)
-            field = value
-        }
     private lateinit var listener: PlayerStateListener
     private var trackTime = MutableStateFlow("00:00")
 
@@ -36,11 +27,8 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         mediaPlayer.setOnPreparedListener {
             playerState = PlayerState.STATE_PREPARED
             listener.onStateChanged(playerState)
-
         }
-
         mediaPlayer.prepareAsync()
-
     }
 
     override fun play() {
@@ -65,17 +53,13 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         Log.d("playerStateRep", playerState.toString())
     }
 
-
     override fun timing(): String {
-        val sdf = SimpleDateFormat("mm:ss", Locale.getDefault())
-        Log.v ("String", "timing = ${playerState.name}")
+        val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
         if ((playerState == PlayerState.STATE_PLAYING) or (playerState == PlayerState.STATE_PAUSED)) {
-            return (sdf.format(mediaPlayer.currentPosition))
+            return (dateFormat.format(mediaPlayer.currentPosition))
         } else {
             return ("00:00")
         }
-
-
     }
 
     override fun timeTransfer(): String {

@@ -26,6 +26,7 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
                     emit(Resource.Success((response as TrackResponse).results.map {
                         Track(
                             it.trackName,
+                            it.addTime,
                             it.artistName,
 
                             SimpleDateFormat(

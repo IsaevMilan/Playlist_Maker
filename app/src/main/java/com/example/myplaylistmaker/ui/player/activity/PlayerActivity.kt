@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.example.myplaylistmaker.domain.player.PlayerState
@@ -42,11 +43,13 @@ class PlayerActivity : AppCompatActivity() {
             "100x100bb.jpg",
             "512x512bb.jpg"
         )
+        val radius = 8
         if (getImage != "Unknown Cover") {
             getImage.replace("100x100bb.jpg", "512x512bb.jpg")
             Glide.with(this)
                 .load(getImage)
                 .placeholder(R.drawable.placeholdermedia)
+                .transform(RoundedCorners(radius))
                 .into(binding.trackCover)
         }
         url = track?.previewUrl ?: return
@@ -64,6 +67,19 @@ class PlayerActivity : AppCompatActivity() {
         playerViewModel.getTimeFromInteractor().observe(this) { timer ->
             binding.trackTimer.text = timer
             Log.d("время в активити", timer)
+        }
+
+        //нажатие на кнопку нравится
+        binding.favorites.setOnClickListener {
+            playerViewModel.onFavoriteClicked(track)
+        }
+
+        playerViewModel.favouritesChecker(track).observe(this) { favourtitesIndicator ->
+            if (favourtitesIndicator) {
+                binding.favorites.setImageResource(R.drawable.like_button)
+            } else binding.favorites.setImageResource(
+                R.drawable.buttonhert
+            )
         }
 
     }
