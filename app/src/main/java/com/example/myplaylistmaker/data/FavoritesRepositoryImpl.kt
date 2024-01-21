@@ -21,7 +21,7 @@ class FavouritesRepositoryImpl(
 
     override fun deleteTrack(track: Track) {
         track.isFavorite = false
-        converter.mapTrackToFavourite(track)?.let { dataBase.trackDao().deleteTrack(it) }
+        converter.mapTrackToFavourite(track).let { dataBase.trackDao().deleteTrack(it) }
     }
 
     override fun getFavourites(): Flow<List<Track>> = flow {

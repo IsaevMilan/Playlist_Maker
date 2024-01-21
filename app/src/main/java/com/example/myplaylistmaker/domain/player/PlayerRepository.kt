@@ -8,5 +8,5 @@ interface PlayerRepository {
     fun preparePlayer(url: String, listener:PlayerStateListener)
     fun timeTransfer() :String
     fun playerStateReporter() : PlayerState
-    fun timing(): String
+    fun playingTime(): String
 }

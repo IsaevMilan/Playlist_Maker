@@ -1,6 +1,5 @@
 package com.example.myplaylistmaker.ui.player.view_model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,10 +19,22 @@ class PlayerViewModel(
 ) : ViewModel() {
 
     var timeJob: Job? = null
-    val stateLiveData = MutableLiveData(PlayerState.STATE_DEFAULT)
-    val playTimer = MutableLiveData("00:00")
-    val favouritesIndicator = MutableLiveData<Boolean>()
+    private val stateLiveData = MutableLiveData(PlayerState.STATE_DEFAULT)
+    private val playTimer = MutableLiveData("00:00")
+    private val favouritesIndicator = MutableLiveData<Boolean>()
     var favouritesJob:Job?=null
+
+    fun getStateLiveData(): LiveData<PlayerState> {
+        return stateLiveData
+    }
+
+   /* fun getPlayTimerLiveData(): LiveData<String> {
+        return playTimer
+    }
+
+    fun getFavouritesIndicatorLiveData(): LiveData<Boolean> {
+        return favouritesIndicator
+    }*/
 
     fun createPlayer(url: String) {
         playerInteractor.createPlayer(url, listener = object : PlayerStateListener {
@@ -41,7 +52,7 @@ class PlayerViewModel(
         timeJob = viewModelScope.launch {
             while (true) {
                 playTimer.postValue(playerInteractor.getTime())
-                delay(PLAYER_BUTTON_PRESSING_DELAY)
+                delay(PLAYER_BUTTON_PRESSING_DELAY_MILLIS)
 
 
             }
@@ -59,14 +70,10 @@ class PlayerViewModel(
     }
 
     fun getTimeFromInteractor(): LiveData<String> {
-
-
         return playTimer
     }
 
     fun onFavoriteClicked(track: Track) {
-        Log.d("PlayerViewModel", "onFavoriteClicked")
-        Log.d("PlayerViewModel", "$track")
         if (track.isFavorite) {
             track.trackId?.let { favouritesInteractor.favouritesDelete(track) }
         } else track.trackId?.let {
@@ -76,12 +83,12 @@ class PlayerViewModel(
         }
     }
 
-    fun favouritesChecker (track: Track) : LiveData<Boolean> {
+    fun cliclFavourites (track: Track) : LiveData<Boolean> {
 
         favouritesJob=viewModelScope.launch{
 
             while (true) {
-                delay(PLAYER_BUTTON_PRESSING_DELAY)
+                delay(PLAYER_BUTTON_PRESSING_DELAY_MILLIS)
                 track.trackId?.let { id ->
                     favouritesInteractor.favouritesCheck(id)
                         .collect {value ->
@@ -94,7 +101,7 @@ class PlayerViewModel(
     }
 
     companion object {
-        const val PLAYER_BUTTON_PRESSING_DELAY = 200L
+        const val PLAYER_BUTTON_PRESSING_DELAY_MILLIS = 200L
     }
 }
 

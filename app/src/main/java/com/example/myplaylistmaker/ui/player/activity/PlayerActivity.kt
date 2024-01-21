@@ -54,11 +54,10 @@ class PlayerActivity : AppCompatActivity() {
         }
         url = track?.previewUrl ?: return
 
-
         playerViewModel.createPlayer(url)
 
         binding.playButton.setOnClickListener {
-            if (playerViewModel.stateLiveData.value == PlayerState.STATE_PLAYING)
+            if (playerViewModel.getStateLiveData().value == PlayerState.STATE_PLAYING)
                 playerViewModel.pause() else playerViewModel.play()
         }
 
@@ -74,14 +73,13 @@ class PlayerActivity : AppCompatActivity() {
             playerViewModel.onFavoriteClicked(track)
         }
 
-        playerViewModel.favouritesChecker(track).observe(this) { favourtitesIndicator ->
+        playerViewModel.cliclFavourites(track).observe(this) { favourtitesIndicator ->
             if (favourtitesIndicator) {
                 binding.favorites.setImageResource(R.drawable.like_button)
             } else binding.favorites.setImageResource(
                 R.drawable.buttonhert
             )
         }
-
     }
 
     override fun onPause() {
@@ -101,13 +99,12 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     fun playerStateDrawer() {
-        playerViewModel.stateLiveData.observe(this) {
-            when (playerViewModel.stateLiveData.value) {
+        playerViewModel.getStateLiveData().observe(this) {
+            when (playerViewModel.getStateLiveData().value) {
                 PlayerState.STATE_DEFAULT -> {
                     binding.playButton.setImageResource(R.drawable.buttonplay)
 
                 }
-
 
                 PlayerState.STATE_PREPARED -> {
                     preparePlayer()
@@ -124,7 +121,6 @@ class PlayerActivity : AppCompatActivity() {
                     binding.playButton.setImageResource(R.drawable.buttonplay)
 
                 }
-
                 else -> {
 
                 }
