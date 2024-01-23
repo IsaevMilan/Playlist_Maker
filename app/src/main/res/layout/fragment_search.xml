@@ -27,7 +27,7 @@
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         tools:ignore="RtlSymmetry">
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/inputEditText"
             android:layout_width="match_parent"
             android:layout_height="36dp"

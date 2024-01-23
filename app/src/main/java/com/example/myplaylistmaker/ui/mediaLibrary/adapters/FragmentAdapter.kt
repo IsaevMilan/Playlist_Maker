@@ -1,7 +1,9 @@
-package com.example.myplaylistmaker.ui.mediaLibrary.fragments
+package com.example.myplaylistmaker.ui.mediaLibrary.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.myplaylistmaker.ui.mediaLibrary.fragments.FavoritesFragment
+import com.example.myplaylistmaker.ui.mediaLibrary.fragments.PlaylistFragment
 
 class FragmentAdapter(
     parentFragment: Fragment

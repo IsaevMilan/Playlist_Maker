@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/Theme.MyApp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-
+    android:theme="@style/Theme.MyApp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -35,8 +32,7 @@
             android:layout_marginTop="@dimen/backArrowMargTop20"
             android:src="@drawable/arrow_back"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/trackCover"
@@ -54,8 +50,8 @@
             android:id="@+id/playerTrackName"
             android:layout_width="0dp"
             android:layout_height="26dp"
-            android:layout_marginTop="@dimen/playerTrackNameTop24"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="@dimen/playerTrackNameTop24"
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:fontFamily="@font/ys_display_medium"
@@ -102,21 +98,20 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
             app:layout_constraintTop_toBottomOf="@id/playerArtistName"
-            tools:ignore="UnknownId,SpeakableTextPresentCheck"
-            />
+            tools:ignore="UnknownId,SpeakableTextPresentCheck" />
+
         <ImageButton
             android:id="@+id/pauseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/playButtonMarginTop30"
             android:src="@drawable/pause_button"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/favorites"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/playlistAddButton"
             app:layout_constraintTop_toBottomOf="@id/playerArtistName"
-            tools:ignore="UnknownId,SpeakableTextPresentCheck"
-            android:visibility="gone"
-            />
+            tools:ignore="UnknownId,SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/favorites"
