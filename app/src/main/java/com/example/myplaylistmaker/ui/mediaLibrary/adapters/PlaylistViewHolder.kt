@@ -5,9 +5,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myplaylistmaker.R
+import com.example.myplaylistmaker.databinding.PlaylistItemBinding
 import com.example.myplaylistmaker.domain.newPlaylist.NewPlaylist
 
-class PlaylistViewHolder(private val binding: PlaylistLayoutBinding) :
+class PlaylistViewHolder(private val binding: PlaylistItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(item: NewPlaylist) {
         binding.playlistlittleName.text = item.playlistName
@@ -22,10 +23,10 @@ class PlaylistViewHolder(private val binding: PlaylistLayoutBinding) :
         val number = "$innerNumber $text"
         binding.playlistlittleSongNumber.text = number
 
-        val radius = itemView.resources.getDimensionPixelSize(R.dimen.trackCornerRadius)
+        val radius = itemView.resources.getDimensionPixelSize(R.dimen.forAnyReasons16dp)
 
         if (item.uri.isEmpty()) {
-            val imageResource = R.drawable.musicalbum
+            val imageResource = R.drawable.add_picture
             binding.playlistlittleCover.setImageResource(imageResource)
             val layoutParams = binding.playlistlittleCover.layoutParams
             layoutParams.width = 104
@@ -37,7 +38,7 @@ class PlaylistViewHolder(private val binding: PlaylistLayoutBinding) :
             val height = 160
             Glide.with(itemView)
                 .load(item.uri)
-                .placeholder(R.drawable.musicalbum)
+                .placeholder(R.drawable.add_picture)
                 .transform(CenterCrop(), RoundedCorners(radius))
                 .override(width, height)
                 .into(binding.playlistlittleCover)

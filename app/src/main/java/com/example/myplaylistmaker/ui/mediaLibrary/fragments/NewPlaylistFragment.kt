@@ -15,6 +15,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -22,30 +23,33 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myplaylistmaker.R
+import com.example.myplaylistmaker.databinding.FragmentNewPlaylistBinding
 import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.NewPlaylistViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.tbruyelle.rxpermissions3.RxPermissions
 import java.io.File
 import java.io.FileOutputStream
 
 
 class NewPlaylistFragment : Fragment() {
-    private lateinit var newPlaylistBinding: NewPlaylistBinding
+    private lateinit var newPlaylistBinding: FragmentNewPlaylistBinding
     private lateinit var bottomNavigator: BottomNavigationView
     var isFileLoaded = false
-    private val viewModel: NewPlaylistViewModel by viewModel()
+    private val viewModel: NewPlaylistViewModel = TODO()
     private var selectedUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        newPlaylistBinding = newPlaylistBinding.inflate(inflater, container, false)
+    ): View {
+        newPlaylistBinding = FragmentNewPlaylistBinding.inflate(inflater, container, false)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
         bottomNavigator.visibility = GONE
@@ -83,7 +87,7 @@ class NewPlaylistFragment : Fragment() {
         val rxPermissions = RxPermissions(this)
 
         //отработка на кнопку назад
-        newPlaylistBinding.playlistBackButtonArrow.setOnClickListener {
+        newPlaylistBinding.backButton.setOnClickListener {
             onBackClick()
         }
 
@@ -120,7 +124,7 @@ class NewPlaylistFragment : Fragment() {
                         .placeholder(R.drawable.add_picture)
                         .transform(CenterCrop(), RoundedCorners(radius))
                         .override(width, height)
-                        .into(newPlaylistBinding.playlistCover)
+                        .into(newPlaylistBinding.playlistPic)
                     saveImageToPrivateStorage(uri)
 
                 } else {
@@ -129,7 +133,7 @@ class NewPlaylistFragment : Fragment() {
             }
 
         //обработка нажатия на область обложки
-        newPlaylistBinding.playlistCover.setOnClickListener {
+        newPlaylistBinding.playlistPic.setOnClickListener {
             rxPermissions.request(android.Manifest.permission.READ_MEDIA_IMAGES)
                 .subscribe { granted: Boolean ->
                     if (granted) {
@@ -169,9 +173,9 @@ class NewPlaylistFragment : Fragment() {
     }
     private fun onBackClick() {
         val name = newPlaylistBinding.playlistNameEditText.text
-        val descr = newPlaylistBinding.playlistDescriptEditText.text
+        val description = newPlaylistBinding.playlistDescription.text
 
-        if (isFileLoaded || !(name.isNullOrEmpty()) || (!descr.isNullOrEmpty())) {
+        if (isFileLoaded && !(name.isNullOrEmpty()) || (!description.isNullOrEmpty())) {
             val textColor: Int
             val isDarkTheme = viewModel.isAppThemeDark()
             if (isDarkTheme) {
@@ -203,20 +207,20 @@ class NewPlaylistFragment : Fragment() {
 
     private fun turnOffCreateButton() {
         newPlaylistBinding.createButton.backgroundTintList =
-            (ContextCompat.getColorStateList(requireContext(), R.color.settingsIconGray))
+            (ContextCompat.getColorStateList(requireContext(), R.color.thumbSwitchDay))
         newPlaylistBinding.createButton.isEnabled = false
     }
 
     private fun turnOnCreateButton() {
         newPlaylistBinding.createButton.backgroundTintList =
-            (ContextCompat.getColorStateList(requireContext(), R.color.))
+            (ContextCompat.getColorStateList(requireContext(), R.color.ypBlue))
         newPlaylistBinding.createButton.isEnabled = true
     }
 
     private fun createPlaylist() {
         viewModel.addPlayList(
             newPlaylistBinding.playlistNameEditText.text.toString(),
-            newPlaylistBinding.playlistDescriptEditText.text.toString(),
+            newPlaylistBinding.descriptionEditText.editText.toString(),
             selectedUri.toString(),
         )
     }

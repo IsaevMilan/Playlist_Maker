@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.FragmentNewPlaylistBinding
+import com.example.myplaylistmaker.databinding.FragmentPlaylistBinding
 import com.example.myplaylistmaker.ui.mediaLibrary.adapters.PlaylistAdapter
 import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.PlaylistViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -18,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlaylistFragment : Fragment() {
     private val playlistViewModel by viewModel<PlaylistViewModel>()
-    private lateinit var nullablePlaylistBinding: FragmentNewPlaylistBinding
+    private lateinit var nullablePlaylistBinding: FragmentPlaylistBinding
     private lateinit var bottomNavigator: BottomNavigationView
 
 
@@ -27,7 +28,7 @@ class PlaylistFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        nullablePlaylistBinding = FragmentNewPlaylistBinding.inflate(inflater, container, false)
+        nullablePlaylistBinding = FragmentPlaylistBinding.inflate(inflater, container, false)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
         bottomNavigator.visibility = VISIBLE
 
@@ -38,12 +39,12 @@ class PlaylistFragment : Fragment() {
         }
 
         //список плейлистов
-        val recyclerView = nullablePlaylistBinding.playlistList
+        val recyclerView = nullablePlaylistBinding.playlist
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
         recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlaylistAdapter(it, {}) }
-        if (playlistViewModel.playlistList.value.isNullOrEmpty()) nullablePlaylistBinding.playlistList.visibility=GONE
+        if (playlistViewModel.playlistList.value.isNullOrEmpty()) nullablePlaylistBinding.playlist.visibility=GONE
 
-        nullablePlaylistBinding.playlistList.visibility=VISIBLE
+        nullablePlaylistBinding.playlist.visibility=VISIBLE
         return nullablePlaylistBinding.root
     }
 
@@ -54,7 +55,7 @@ class PlaylistFragment : Fragment() {
                 noPlaylist()
                 return@observe
             } else {
-                nullablePlaylistBinding.playlistList.adapter=PlaylistAdapter(playlistList) {}
+                nullablePlaylistBinding.playlist.adapter=PlaylistAdapter(playlistList) {}
                 existPlaylist()
                 return@observe
             }
@@ -64,13 +65,13 @@ class PlaylistFragment : Fragment() {
     private fun noPlaylist(){
         nullablePlaylistBinding.emptyPlaylist.visibility=VISIBLE
         nullablePlaylistBinding.emptyPlaylistText.visibility=VISIBLE
-        nullablePlaylistBinding.playlistList.visibility=GONE
+        nullablePlaylistBinding.playlist.visibility=GONE
     }
 
     private fun existPlaylist(){
         nullablePlaylistBinding.emptyPlaylist.visibility=GONE
         nullablePlaylistBinding.emptyPlaylistText.visibility=GONE
-        nullablePlaylistBinding.playlistList.visibility=VISIBLE
+        nullablePlaylistBinding.playlist.visibility=VISIBLE
     }
 
     companion object {

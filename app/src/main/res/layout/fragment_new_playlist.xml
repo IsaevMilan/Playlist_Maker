@@ -6,7 +6,7 @@
     android:background="?attr/colorSecondary">
 
     <ImageView
-        android:id="@+id/back_button"
+        android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -17,7 +17,7 @@
         app:tint="?attr/colorOnSecondary" />
 
     <TextView
-        android:id="@+id/top_text"
+        android:id="@+id/topText"
         style="@style/SettingsText"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
@@ -25,12 +25,12 @@
         android:text="@string/new_play_list"
         android:textColor="?attr/colorOnSecondary"
         android:textSize="@dimen/playerTrackName22"
-        app:layout_constraintStart_toEndOf="@id/back_button"
+        app:layout_constraintStart_toEndOf="@id/backButton"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
-        android:id="@+id/playlist_pic"
+        android:id="@+id/playlistPic"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -41,7 +41,7 @@
         app:layout_constraintDimensionRatio="h, 1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_text" />
+        app:layout_constraintTop_toBottomOf="@+id/topText" />
 
     <ImageView
         android:id="@+id/playlistPlaceHolder"
@@ -52,11 +52,11 @@
         android:layout_marginEnd="0dp"
         android:src="@drawable/add_picture"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/playlist_pic"
+        app:layout_constraintBottom_toBottomOf="@+id/playlistPic"
         app:layout_constraintDimensionRatio="h, 1:1"
-        app:layout_constraintEnd_toEndOf="@+id/playlist_pic"
-        app:layout_constraintStart_toStartOf="@+id/playlist_pic"
-        app:layout_constraintTop_toTopOf="@+id/playlist_pic" />
+        app:layout_constraintEnd_toEndOf="@+id/playlistPic"
+        app:layout_constraintStart_toStartOf="@+id/playlistPic"
+        app:layout_constraintTop_toTopOf="@+id/playlistPic" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/playlistName"
@@ -80,7 +80,7 @@
         app:hintTextColor="#3772E7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/playlist_pic">
+        app:layout_constraintTop_toBottomOf="@+id/playlistPic">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/playlistNameEditText"
@@ -98,7 +98,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/playlistDescription"
+        android:id="@+id/descriptionEditText"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
         app:layout_constraintTop_toBottomOf="@+id/playlistName">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/playlist_description"
+            android:id="@+id/playlistDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/description"
