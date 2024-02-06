@@ -26,8 +26,47 @@
         android:label="activity_media_player"
         tools:layout="@layout/activity_media_player" />
     <fragment
-        android:id="@+id/testFragment"
-        android:name="com.example.myplaylistmaker.test.TestFragment"
-        android:label="fragment_test"
-        tools:layout="@layout/fragment_test" />
+        android:id="@+id/playlistFragment"
+        android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.NewPlaylistFragment"
+        android:label="PlaylistFragment" >
+        <action
+            android:id="@+id/action_playlistFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/playerActivity"
+        android:name="com.example.myplaylistmaker.ui.player.activity.PlayerActivity"
+        android:label="player_activity"
+        tools:layout="@layout/activity_media_player" >
+        <action
+            android:id="@+id/action_playerFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
+        <action
+            android:id="@+id/action_playerFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
+        <action
+            android:id="@+id/action_playerFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </activity>
+    <fragment
+        android:id="@+id/newPlaylistFragment"
+        android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.NewPlaylistFragment"
+        android:label="newPlaylistFragment" />
+    <activity
+        android:id="@+id/rootActivity"
+        android:name="com.example.myplaylistmaker.ui.root.RootActivity"
+        android:label="RootActivity" />
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.FavoritesFragment"
+        android:label="FavouritesFragment" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_playerFragment"
+            app:destination="@id/playerActivity" />
+        <action
+            android:id="@+id/action_favouritesFragment_to_playerFragment2"
+            app:destination="@id/playerActivity" />
+    </fragment>
 </navigation>
+
+

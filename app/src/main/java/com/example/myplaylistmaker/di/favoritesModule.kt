@@ -26,9 +26,9 @@ val favouritesModule = module {
     single<FavouritesRepository>
     { FavouritesRepositoryImpl(get(), get()) }
 
-    single <FavoritesInteractor> { FavoritesInteractorImpl(get()) }
+    single<FavoritesInteractor> { FavoritesInteractorImpl(get()) }
 
-    viewModel{
+    viewModel {
         FavouritesViewModel(get(), get())
     }
 }

@@ -31,7 +31,6 @@ class FavoritesFragment : Fragment() {
             longClickListener = {})
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,8 +38,8 @@ class FavoritesFragment : Fragment() {
     ): View {
         nullableFavouritesBinding = FragmentFavoritesBinding.inflate(inflater, container, false)
 
-        nullableFavouritesBinding.emptyMediaLibrary.visibility = View.GONE
-        nullableFavouritesBinding.emptyMediaLibraryText.visibility = View.GONE
+        nullableFavouritesBinding.emptyMediaLibrary.visibility = GONE
+        nullableFavouritesBinding.emptyMediaLibraryText.visibility = GONE
 
         nullableFavouritesBinding.favouritesRecycler.layoutManager = LinearLayoutManager(requireContext())
         nullableFavouritesBinding.favouritesRecycler.adapter = favoritesAdapter

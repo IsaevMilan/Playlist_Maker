@@ -41,7 +41,6 @@ class MediaAdapter(
             }
     }
 
-
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
         holder.bind(listDiffer.currentList[position])
     }
