@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/heartButtonMargTop54"
-            android:src="@drawable/buttonhert"
+            android:src="@drawable/button_heart"
             app:layout_constraintEnd_toEndOf="@+id/playerTrackName"
             app:layout_constraintTop_toBottomOf="@id/playerArtistName"
             app:tintMode="multiply"

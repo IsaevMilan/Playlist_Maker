@@ -36,6 +36,12 @@ class PlayerFragment : Fragment() {
     private var url = ""
     private lateinit var bottomNavigator: BottomNavigationView
     private lateinit var playlistAdapter: PlayerBottomSheetAdapter
+    private var track: Track? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        track = arguments?.getParcelable("track")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,18 +58,6 @@ class PlayerFragment : Fragment() {
         }
         return binding.root
     }
-    companion object {
-        // Метод newInstance для создания нового экземпляра PlayerFragment
-        fun newInstance(track: Track): PlayerFragment {
-            val fragment = PlayerFragment()
-            val args = Bundle()
-            // Помещаем данные трека в аргументы фрагмента
-            args.putParcelable("track", track)
-            fragment.arguments = args
-            Log.d("PlayerFragment", "newInstance() вызван")
-            return fragment
-        }
-    }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
@@ -72,8 +66,8 @@ class PlayerFragment : Fragment() {
             binding.backArrow4.setOnClickListener {
                 findNavController().popBackStack()
             }
-            val track = arguments?.getParcelable<Track>("track")
 
+            binding.favorites.setImageResource(if (track?.isFavorite == true) R.drawable.like_button else R.drawable.button_heart)
             binding.playerTrackName.text = track?.trackName ?: "Unknown Track"
             binding.playerArtistName.text = track?.artistName ?: "Unknown Artist"
             binding.time.text = track?.trackTimeMillis ?: "00:00"
@@ -99,7 +93,7 @@ class PlayerFragment : Fragment() {
             playerViewModel.createPlayer(url)
 
             binding.playButton.setOnClickListener {
-                if (playerViewModel.getStateLiveData().value == PlayerState.STATE_PLAYING)
+                if (playerViewModel.stateLiveData().value == PlayerState.STATE_PLAYING)
                     playerViewModel.pause() else playerViewModel.play()
             }
 
@@ -115,14 +109,23 @@ class PlayerFragment : Fragment() {
                 playerViewModel.onFavoriteClicked(track)
             }
 
-            playerViewModel.cliclFavourites(track)
-                .observe(viewLifecycleOwner) { favourtitesIndicator ->
-                    if (favourtitesIndicator) {
-                        binding.favorites.setImageResource(R.drawable.like_button)
-                    } else binding.favorites.setImageResource(
-                        R.drawable.buttonhert
-                    )
+            playerViewModel.isFavoriteLiveData()
+                .observe(viewLifecycleOwner) { isFavorite ->
+                    val imageResId = if (isFavorite) R.drawable.like_button else R.drawable.button_heart
+                    binding.favorites.setImageResource(imageResId)
                 }
+
+
+//             playerViewModel.clickFavourites(track)
+//               .observe(viewLifecycleOwner) { favourtitesIndicator ->
+//                   if (favourtitesIndicator) {
+//                       binding.favorites.setImageResource(R.drawable.like_button)
+//                   } else binding.favorites.setImageResource(
+//                       R.drawable.buttonhert
+//                   )
+//               }
+
+
 
             //BottomSheet
 
@@ -202,8 +205,8 @@ class PlayerFragment : Fragment() {
         }
 
         fun playerStateDrawer() {
-            playerViewModel.getStateLiveData().observe(viewLifecycleOwner) {
-                when (playerViewModel.getStateLiveData().value) {
+            playerViewModel.stateLiveData().observe(viewLifecycleOwner) {
+                when (playerViewModel.stateLiveData().value) {
                     PlayerState.STATE_DEFAULT -> {
                         binding.playButton.setImageResource(R.drawable.buttonplay)
 
@@ -237,7 +240,8 @@ class PlayerFragment : Fragment() {
         fragmentmanager.popBackStack()
     }
 
-    private fun playlistClickAdapting(track: Track, playlist: Playlist) {
+    private fun playlistClickAdapting(track: Track?, playlist: Playlist) {
+        track ?: return
         var trackIsAdded = false
         playerViewModel.addTrack(track, playlist)
         lifecycleScope.launch {
@@ -272,6 +276,15 @@ class PlayerFragment : Fragment() {
 
 
     }
+
+/* val favouritesIndicatorLiveData = playerViewModel.getFavouritesIndicator()
+            favouritesIndicatorLiveData.observe(viewLifecycleOwner) { isFavourite ->
+                if (isFavourite) {
+                    binding.favorites.setImageResource(R.drawable.like_button)
+                } else {
+                    binding.favorites.setImageResource(R.drawable.buttonhert)
+                }
+            }*/
 
 
    /*override fun onCreate(savedInstanceState: Bundle?) {

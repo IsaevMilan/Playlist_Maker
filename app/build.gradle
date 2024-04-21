@@ -83,6 +83,7 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'com.markodevcic:peko:2.1.2'
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0"
 
 
 

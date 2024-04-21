@@ -13,6 +13,7 @@ import com.example.myplaylistmaker.domain.player.PlayerStateListener
 import com.example.myplaylistmaker.domain.search.models.Track
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
@@ -21,22 +22,17 @@ class PlayerViewModel(
     private val playlistInteractor: PlaylistInteractor
 ) : ViewModel() {
 
-    var timeJob: Job? = null
+    private var timeJob: Job? = null
+    private var favoritesJob: Job? = null
     private val stateLiveData = MutableLiveData(PlayerState.STATE_DEFAULT)
+    private val isFavoriteLiveData = MutableLiveData<Boolean>()
     private val playTimer = MutableLiveData("00:00")
-    private val favouritesIndicator = MutableLiveData<Boolean>()
-    var favouritesJob:Job?=null
     val myPlaylist: MutableLiveData<List<Playlist>> = MutableLiveData<List<Playlist>>(emptyList())
 
-    fun getStateLiveData(): LiveData<PlayerState> {
-        return stateLiveData
-    }
+    fun stateLiveData(): LiveData<PlayerState> = stateLiveData
+    fun isFavoriteLiveData(): LiveData<Boolean> = isFavoriteLiveData
 
-   /* fun getPlayTimerLiveData(): LiveData<String> {
-        return playTimer
-    }
-
-    fun getFavouritesIndicatorLiveData(): LiveData<Boolean> {
+    /*fun getFavouritesIndicator(): LiveData<Boolean> {
         return favouritesIndicator
     }*/
 
@@ -77,32 +73,40 @@ class PlayerViewModel(
         return playTimer
     }
 
-    fun onFavoriteClicked(track: Track) {
-        if (track.isFavorite) {
-            track.trackId?.let { favouritesInteractor.favouritesDelete(track) }
-        } else track.trackId?.let {
-            favouritesInteractor.favouritesAdd(
-                track
-            )
-        }
-    }
-
-    fun cliclFavourites (track: Track) : LiveData<Boolean> {
-
-        favouritesJob=viewModelScope.launch{
-
-            while (true) {
-                delay(PLAYER_BUTTON_PRESSING_DELAY_MILLIS)
-                track.trackId?.let { id ->
-                    favouritesInteractor.favouritesCheck(id)
-                        .collect {value ->
-                          favouritesIndicator.postValue(value)
-                        }
-                }
+    fun onFavoriteClicked(track: Track?) {
+        track ?: return
+//        val isFavorite = track.isFavorite
+//        track.isFavorite = !isFavorite
+        favoritesJob?.cancel()
+        favoritesJob = viewModelScope.launch {
+            if (track.isFavorite) {
+                favouritesInteractor.favouritesDelete(track)
+            } else {
+                favouritesInteractor.favouritesAdd(track)
             }
+            isFavoriteLiveData.value = track.isFavorite
         }
-        return favouritesIndicator
     }
+
+//    fun clickFavourites(track: Track): LiveData<Boolean> {
+//        val trackId = track.trackId ?: return
+//        favoritesJob?.cancel()
+//        favoritesJob = viewModelScope.launch {
+//
+//
+//
+//            while (isActive) {
+//                delay(PLAYER_BUTTON_PRESSING_DELAY_MILLIS)
+//                track.trackId?.let { id ->
+//                    favouritesInteractor.favouritesCheck(id)
+//                        .collect { value ->
+//                            favouritesIndicator.postValue(value)
+//                        }
+//                }
+//            }
+//        }
+//        return favouritesIndicator
+//    }
 
 
     fun playlistMaker(): LiveData<List<Playlist>> {
@@ -119,7 +123,7 @@ class PlayerViewModel(
         return myPlaylist
     }
 
-    val playlistAdding =MutableLiveData(false)
+    val playlistAdding = MutableLiveData(false)
 
     fun addTrack(track: Track, playlist: Playlist) {
         if (playlist.trackArray.contains(track.trackId)) {
@@ -128,16 +132,38 @@ class PlayerViewModel(
 
         } else {
             playlistAdding.postValue(false)
-            /*playlist.trackArray = (playlist.trackArray + track.trackId)!!
-            playlist.arrayNumber = (playlist.arrayNumber?.plus(1))!!*/
+            playlist.trackArray = (playlist.trackArray + track.trackId)!!
+            playlist.arrayNumber = (playlist.arrayNumber?.plus(1))!!
             playlistInteractor.update(track, playlist)
 
         }
     }
+
     companion object {
         const val PLAYER_BUTTON_PRESSING_DELAY_MILLIS = 200L
     }
 }
 
+/*fun onFavoriteClicked(track: Track) {
+       if (track.isFavorite) {
+           track.trackId?.let { favouritesInteractor.favouritesDelete(track) }
+       } else track.trackId?.let {
+           favouritesInteractor.favouritesAdd(
+               track
+           )
+       }
+   }*/
+
+/* fun cliclFavourites(track: Track): LiveData<Boolean> {
+     val trackId = track.trackId ?: return MutableLiveData(false)
+     return favouritesInteractor.favouritesCheck(trackId).asLiveData()
+ }*/
 
 
+/* fun getPlayTimerLiveData(): LiveData<String> {
+       return playTimer
+   }
+
+   fun getFavouritesIndicatorLiveData(): LiveData<Boolean> {
+       return favouritesIndicator
+   }*/

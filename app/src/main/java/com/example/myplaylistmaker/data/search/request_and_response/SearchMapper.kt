@@ -19,7 +19,8 @@ class SearchMapper : Mapper<TrackDto, Track> {
             releaseDate = item.releaseDate,
             primaryGenreName = item.primaryGenreName,
             country = item.country,
-            previewUrl = item.previewUrl
+            previewUrl = item.previewUrl,
+            isFavorite = false
         )
     }
 }

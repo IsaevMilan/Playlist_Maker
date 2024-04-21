@@ -16,6 +16,76 @@ import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.FavouritesViewMode
 import com.example.myplaylistmaker.ui.search.adapter.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
+class FavoritesFragment : Fragment() {
+    private val favoritesViewModel by viewModel<FavouritesViewModel>()
+    private lateinit var binding: FragmentFavoritesBinding
+
+    private var isClickAllowed = true
+    private val favoritesAdapter: TrackAdapter by lazy {
+        TrackAdapter(
+            clickListener = this::clickAdapting,
+            longClickListener = {}
+        )
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        setupRecyclerView()
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        favoritesViewModel.loadFavourites()
+    }
+
+    private fun setupRecyclerView() {
+        binding.favouritesRecycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = favoritesAdapter
+        }
+    }
+
+    private fun clickAdapting(item: Track) {
+        if (isClickAllowed) {
+            isClickAllowed = false // Блокируем повторные нажатия
+            favoritesViewModel.addItem(item)
+            val bundle = Bundle().apply { putParcelable("track", item) }
+            findNavController().navigate(R.id.playerFragment, bundle)
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeFavourites()
+        observeDestinationChanges()
+    }
+
+    private fun observeFavourites() {
+        favoritesViewModel.favourites.observe(viewLifecycleOwner) { trackList ->
+            binding.emptyMediaLibrary.visibility = if (trackList.isNullOrEmpty()) VISIBLE else GONE
+            binding.emptyMediaLibraryText.visibility = if (trackList.isNullOrEmpty()) VISIBLE else GONE
+            binding.favouritesRecycler.visibility = if (trackList.isNullOrEmpty()) GONE else VISIBLE
+            favoritesAdapter.setItems(trackList)
+        }
+    }
+
+    private fun observeDestinationChanges() {
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.playerFragment) {
+                isClickAllowed = true // Разблокируем возможность нажатия
+            }
+        }
+    }
+}
+
+/*
 class FavoritesFragment : Fragment() {
     private val favoritesViewModel by viewModel<FavouritesViewModel>()
     private lateinit var nullableFavouritesBinding: FragmentFavoritesBinding
@@ -46,6 +116,18 @@ class FavoritesFragment : Fragment() {
         return nullableFavouritesBinding.root
     }
 
+    private fun clickAdapting(item: Track) {
+        if (isClickAllowed) {
+            isClickAllowed = false // Блокируем повторные нажатия
+            favoritesViewModel.addItem(item)
+            val bundle = Bundle()
+            bundle.putParcelable("track", item)
+            val navController = findNavController()
+            navController.navigate(R.id.playerFragment, bundle)
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         favoritesViewModel.favouritesMaker().observe(viewLifecycleOwner) {
@@ -60,39 +142,18 @@ class FavoritesFragment : Fragment() {
                 nullableFavouritesBinding.emptyMediaLibraryText.visibility = GONE
                 nullableFavouritesBinding.favouritesRecycler.visibility=VISIBLE
                 favoritesAdapter.setItems(favoritesViewModel.trackResultList.value!!)
-                favoritesAdapter.notifyDataSetChanged()
+            }
+        }
+
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.playerFragment) {
+                isClickAllowed = true // Разблокируем возможность нажатия
             }
         }
     }
 
-    private fun clickAdapting(item: Track) {
-        if (isClickAllowed) {
-            favoritesViewModel.clickDebouncer()
-            favoritesViewModel.addItem(item)
-            val bundle = Bundle()
-            bundle.putParcelable("track", item)
-            val navController = findNavController()
-            navController.navigate(R.id.action_favouritesFragment_to_playerFragment, bundle)
-        }
-    }
-
-   /* private fun clickAdapting(item: Track) {
-        favoritesViewModel.addItem(item)
-        // Создаем и показываем PlayerFragment
-        val playerFragment = PlayerFragment.newInstance(item)
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.container, playerFragment)
-            .addToBackStack(null)
-            .commit()
-    }*/
-    /*private fun clickAdapting(item: Track) {
-        favoritesViewModel.addItem(item)
-        val intent = Intent(requireContext(), PlayerFragment::class.java)
-        intent.putExtra("track", item)
-        this.startActivity(intent)
-    }*/
     companion object {
         fun newInstance() = FavoritesFragment()
 
     }
-}
+}*/
