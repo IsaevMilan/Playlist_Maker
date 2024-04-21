@@ -9,33 +9,46 @@
         android:id="@+id/mediaLibraryFragment"
         android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.MediaLibraryFragment"
         android:label="MediaLibraryFragment"
-        tools:layout="@layout/fragment_media_library" />
+        tools:layout="@layout/fragment_media_library" >
+        <!-- Действие перехода с FavoritesFragment на PlayerFragment -->
+        <action
+            android:id="@+id/action_favouritesFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+
+        <!-- Действие перехода с PlaylistFragment на PlayerFragment -->
+        <action
+            android:id="@+id/action_playlistFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
+
+        <!-- Вложенный FavoritesFragment -->
+        <fragment
+            android:id="@+id/favouritesFragment"
+            android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.FavoritesFragment"
+            android:label="FavouritesFragment" />
+
+        <!-- Вложенный PlaylistFragment -->
+        <fragment
+            android:id="@+id/playlistFragment"
+            android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.PlaylistFragment"
+            android:label="PlaylistFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.myplaylistmaker.ui.search.fragments.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_playerFragment"
+                app:destination="@id/playerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.myplaylistmaker.ui.settings.fragments.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings" />
-    <activity
-        android:id="@+id/activity_media_player"
-        android:name="com.example.myplaylistmaker.ui.player.activity.PlayerActivity"
-        android:label="activity_media_player"
-        tools:layout="@layout/activity_media_player" />
     <fragment
-        android:id="@+id/playlistFragment"
-        android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.NewPlaylistFragment"
-        android:label="PlaylistFragment" >
-        <action
-            android:id="@+id/action_playlistFragment_to_newPlaylistFragment"
-            app:destination="@id/newPlaylistFragment" />
-    </fragment>
-    <activity
-        android:id="@+id/playerActivity"
-        android:name="com.example.myplaylistmaker.ui.player.activity.PlayerActivity"
+        android:id="@+id/playerFragment"
+        android:name="com.example.myplaylistmaker.ui.player.fragment.PlayerFragment"
         android:label="player_activity"
         tools:layout="@layout/activity_media_player" >
         <action
@@ -47,26 +60,16 @@
         <action
             android:id="@+id/action_playerFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
-    </activity>
+    </fragment>
     <fragment
         android:id="@+id/newPlaylistFragment"
         android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.NewPlaylistFragment"
         android:label="newPlaylistFragment" />
     <activity
-        android:id="@+id/rootActivity"
+        android:id="@+id/RootActivity"
         android:name="com.example.myplaylistmaker.ui.root.RootActivity"
         android:label="RootActivity" />
-    <fragment
-        android:id="@+id/favouritesFragment"
-        android:name="com.example.myplaylistmaker.ui.mediaLibrary.fragments.FavoritesFragment"
-        android:label="FavouritesFragment" >
-        <action
-            android:id="@+id/action_favouritesFragment_to_playerFragment"
-            app:destination="@id/playerActivity" />
-        <action
-            android:id="@+id/action_favouritesFragment_to_playerFragment2"
-            app:destination="@id/playerActivity" />
-    </fragment>
+
 </navigation>
 
 

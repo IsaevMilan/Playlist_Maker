@@ -1,6 +1,5 @@
 package com.example.myplaylistmaker.ui.mediaLibrary.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,12 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.FragmentFavoritesBinding
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.FavouritesViewModel
-import com.example.myplaylistmaker.ui.player.activity.PlayerActivity
 import com.example.myplaylistmaker.ui.search.adapter.TrackAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -64,12 +64,33 @@ class FavoritesFragment : Fragment() {
             }
         }
     }
+
     private fun clickAdapting(item: Track) {
+        if (isClickAllowed) {
+            favoritesViewModel.clickDebouncer()
+            favoritesViewModel.addItem(item)
+            val bundle = Bundle()
+            bundle.putParcelable("track", item)
+            val navController = findNavController()
+            navController.navigate(R.id.action_mediaLibraryFragment_to_playerFragment, bundle)
+        }
+    }
+
+   /* private fun clickAdapting(item: Track) {
         favoritesViewModel.addItem(item)
-        val intent = Intent(requireContext(), PlayerActivity::class.java)
+        // Создаем и показываем PlayerFragment
+        val playerFragment = PlayerFragment.newInstance(item)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.container, playerFragment)
+            .addToBackStack(null)
+            .commit()
+    }*/
+    /*private fun clickAdapting(item: Track) {
+        favoritesViewModel.addItem(item)
+        val intent = Intent(requireContext(), PlayerFragment::class.java)
         intent.putExtra("track", item)
         this.startActivity(intent)
-    }
+    }*/
     companion object {
         fun newInstance() = FavoritesFragment()
 

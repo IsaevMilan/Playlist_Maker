@@ -34,7 +34,7 @@
         android:id="@+id/playlistlittleSongNumber"
         android:layout_width="match_parent"
         android:layout_height="16dp"
-        android:text="0"
+        android:text="120 треков"
         android:ellipsize="end"
         android:fontFamily="@font/ys_display_regular"
         android:maxLines="1"

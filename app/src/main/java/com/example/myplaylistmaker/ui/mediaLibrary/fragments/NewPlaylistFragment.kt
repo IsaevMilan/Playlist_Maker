@@ -23,7 +23,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -33,7 +32,9 @@ import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.NewPlaylistViewMod
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tbruyelle.rxpermissions3.RxPermissions
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.FileOutputStream
 
 
@@ -41,7 +42,7 @@ class NewPlaylistFragment : Fragment() {
     private lateinit var newPlaylistBinding: FragmentNewPlaylistBinding
     private lateinit var bottomNavigator: BottomNavigationView
     var isFileLoaded = false
-    private val viewModel: NewPlaylistViewModel = TODO()
+    private val viewModel: NewPlaylistViewModel by viewModel()
     private var selectedUri: Uri? = null
 
     override fun onCreateView(
@@ -91,7 +92,7 @@ class NewPlaylistFragment : Fragment() {
             onBackClick()
         }
 
-        //устанавливаем цвет кнопки "Создать"
+        //устанавливаем вкл\выкл кнопки "Создать"
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 turnOffCreateButton()
@@ -162,7 +163,14 @@ class NewPlaylistFragment : Fragment() {
         }
         val fileCount = filePath.listFiles()?.size ?: 0
         val file = File(filePath, "first_cover_${fileCount + 1}.jpg")
-        val inputStream = requireActivity().contentResolver.openInputStream(uri)
+      /*  val inputStream = requireActivity().contentResolver.openInputStream(uri)
+        Если изображение не доступно по предоставленному Uri. Необходимо обработать это исключение*/
+        val inputStream = try {
+            requireActivity().contentResolver.openInputStream(uri)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+            return
+        }
         val outputStream = FileOutputStream(file)
         BitmapFactory
             .decodeStream(inputStream)
@@ -218,10 +226,12 @@ class NewPlaylistFragment : Fragment() {
     }
 
     private fun createPlaylist() {
-        viewModel.addPlayList(
-            newPlaylistBinding.playlistNameEditText.text.toString(),
-            newPlaylistBinding.descriptionEditText.editText.toString(),
-            selectedUri.toString(),
-        )
+        selectedUri?.let { uri ->
+            viewModel.addPlayList(
+                newPlaylistBinding.playlistNameEditText.text.toString(),
+                newPlaylistBinding.playlistDescription.text.toString(),
+                uri.toString(),
+            )
+        }
     }
 }

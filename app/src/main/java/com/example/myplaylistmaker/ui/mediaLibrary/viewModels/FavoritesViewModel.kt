@@ -15,6 +15,7 @@ class FavouritesViewModel(
     private val searchHistoryInteractor: SearchHistoryInteractor
 ) : ViewModel() {
 
+    private val isClickAllowed = MutableLiveData(true)
     var trackResultList: MutableLiveData<List<Track>?> = MutableLiveData<List<Track>?>()
 
     fun favouritesMaker() : LiveData<List<Track>?> {
@@ -31,8 +32,21 @@ class FavouritesViewModel(
         }
         return trackResultList
     }
+    fun clickDebouncer() {
 
+        if (isClickAllowed.value == true) {
+            viewModelScope.launch {
+                isClickAllowed.value = false
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed.value = true
+            }
+        }
+    }
     fun addItem(item: Track) {
         searchHistoryInteractor.addItem(item)
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }

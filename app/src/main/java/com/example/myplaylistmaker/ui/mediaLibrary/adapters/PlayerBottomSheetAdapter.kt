@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myplaylistmaker.databinding.PlaylistItemBinding
-import com.example.myplaylistmaker.domain.newPlaylist.NewPlaylist
+import com.example.myplaylistmaker.domain.playlist.Playlist
 
-class PlaylistAdapter (
-    private var plalists: List<NewPlaylist>,
+class PlayerBottomSheetAdapter (
+    private var playlists: List<Playlist>,
     private val clickListener: PlaylistClick
 ) :
 RecyclerView.Adapter<PlaylistViewHolder>() {
@@ -17,18 +17,18 @@ RecyclerView.Adapter<PlaylistViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return plalists.size
+        return playlists.size
     }
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
-        holder.bind(plalists[position])
+        holder.bind(playlists[position])
         holder.itemView.setOnClickListener {
-            clickListener.onClick(plalists[position])
+            clickListener.onClick(playlists[position])
             //notifyDataSetChanged()
         }
     }
 
     fun interface PlaylistClick {
-        fun onClick(playlist: NewPlaylist)
+        fun onClick(playlist: Playlist)
     }
 }

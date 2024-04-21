@@ -35,7 +35,6 @@
         app:tabTextAppearance="@style/TabLayoutTextAppearance"
         app:tabIndicatorColor="?attr/colorButtonNormal"
         app:tabIndicatorHeight="3dp"
-
         app:tabTextColor="?attr/colorButtonNormal" />
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

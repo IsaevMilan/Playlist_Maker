@@ -6,11 +6,11 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.PlaylistItemBinding
-import com.example.myplaylistmaker.domain.newPlaylist.NewPlaylist
+import com.example.myplaylistmaker.domain.playlist.Playlist
 
 class PlaylistViewHolder(private val binding: PlaylistItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: NewPlaylist) {
+    fun bind(item: Playlist) {
         binding.playlistlittleName.text = item.playlistName
         val innerNumber = item.arrayNumber.toString()
         val text = if (innerNumber.toInt() % 10 == 1 && innerNumber.toInt() % 100 != 11) {

@@ -4,14 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplaylistmaker.domain.newPlaylist.NewPlaylist
-import com.example.myplaylistmaker.domain.newPlaylist.NewPlaylistInteractor
+import com.example.myplaylistmaker.domain.playlist.Playlist
+import com.example.myplaylistmaker.domain.playlist.PlaylistInteractor
 import kotlinx.coroutines.launch
 
-class PlaylistViewModel(private val interactor: NewPlaylistInteractor) : ViewModel() {
-    val playlistList: MutableLiveData<List<NewPlaylist>> = MutableLiveData<List<NewPlaylist>>()
-    fun playlistMaker(): LiveData<List<NewPlaylist>> {
+class PlaylistViewModel(private val interactor: PlaylistInteractor) : ViewModel() {
+    val playlistList: MutableLiveData<List<Playlist>> = MutableLiveData()
+
+    fun playlistMaker(): LiveData<List<Playlist>> {
         viewModelScope.launch {
+
             interactor.queryPlaylist()
                 .collect {
                     if (it.isNotEmpty()) {
@@ -21,6 +23,7 @@ class PlaylistViewModel(private val interactor: NewPlaylistInteractor) : ViewMod
                     }
                 }
         }
+
         return playlistList
     }
 

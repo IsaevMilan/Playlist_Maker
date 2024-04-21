@@ -61,4 +61,5 @@
     <string name="description">Описание</string>
     <string name="create">Создать</string>
     <string name="new_play_list">Новый плейлист</string>
+    <string name="add_to_playlist">Добавить в плейлист</string>
 </resources>

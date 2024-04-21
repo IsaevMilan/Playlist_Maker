@@ -10,9 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myplaylistmaker.R
-import com.example.myplaylistmaker.databinding.FragmentNewPlaylistBinding
 import com.example.myplaylistmaker.databinding.FragmentPlaylistBinding
-import com.example.myplaylistmaker.ui.mediaLibrary.adapters.PlaylistAdapter
+import com.example.myplaylistmaker.ui.mediaLibrary.adapters.PlayerBottomSheetAdapter
 import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.PlaylistViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,7 +40,7 @@ class PlaylistFragment : Fragment() {
         //список плейлистов
         val recyclerView = nullablePlaylistBinding.playlist
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-        recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlaylistAdapter(it, {}) }
+        recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlayerBottomSheetAdapter(it, {}) }
         if (playlistViewModel.playlistList.value.isNullOrEmpty()) nullablePlaylistBinding.playlist.visibility=GONE
 
         nullablePlaylistBinding.playlist.visibility=VISIBLE
@@ -51,11 +50,11 @@ class PlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         playlistViewModel.playlistMaker().observe(viewLifecycleOwner) { playlistList ->
-            if (playlistViewModel.playlistMaker().value.isNullOrEmpty()) {
+            if (playlistList.isNullOrEmpty()) {
                 noPlaylist()
                 return@observe
             } else {
-                nullablePlaylistBinding.playlist.adapter=PlaylistAdapter(playlistList) {}
+                nullablePlaylistBinding.playlist.adapter=PlayerBottomSheetAdapter(playlistList) {}
                 existPlaylist()
                 return@observe
             }

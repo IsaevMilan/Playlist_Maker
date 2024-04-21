@@ -2,7 +2,6 @@ package com.example.myplaylistmaker.ui.search.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,11 +14,11 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.FragmentSearchBinding
 import com.example.myplaylistmaker.domain.search.models.Track
-import com.example.myplaylistmaker.ui.player.activity.PlayerActivity
 import com.example.myplaylistmaker.ui.search.adapter.TrackAdapter
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.SearchViewModel
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
@@ -123,11 +122,13 @@ class SearchFragment : Fragment() {
         if (isClickAllowed) {
             searchViewModel.clickDebouncer()
             searchViewModel.addItem(item)
-            val intent = Intent(requireContext(), PlayerActivity::class.java)
-            intent.putExtra("track", item)
-            startActivity(intent)
+            val bundle = Bundle()
+            bundle.putParcelable("track", item)
+            val navController = findNavController()
+            navController.navigate(R.id.action_searchFragment_to_playerFragment, bundle)
         }
     }
+
 
     //видимость кнопки удаления введенной строки (крестик)
     private fun clearButtonVisibility(s: CharSequence?): Int {
@@ -193,7 +194,7 @@ class SearchFragment : Fragment() {
     private fun startSearchByEnterPress() {
         binding.inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (binding.inputEditText.text.isNotEmpty()) {
+                if (binding.inputEditText.text.toString().isNotBlank()) {
                     searchText = binding.inputEditText.text.toString()
                     bottomNavigator.visibility = VISIBLE
                     searchDebounce()

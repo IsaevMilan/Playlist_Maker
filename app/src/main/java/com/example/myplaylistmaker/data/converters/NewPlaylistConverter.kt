@@ -2,16 +2,16 @@ package com.example.myplaylistmaker.data.converters
 
 import android.util.Log
 import com.example.myplaylistmaker.data.db.entity.NewPlaylistEntity
-import com.example.myplaylistmaker.domain.newPlaylist.NewPlaylist
+import com.example.myplaylistmaker.domain.playlist.Playlist
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 
 class NewPlaylistConverter {
     val gson = Gson()
-    fun mapplaylistEntityToClass(item: NewPlaylistEntity): NewPlaylist {
+    fun mapplaylistEntityToClass(item: NewPlaylistEntity): Playlist {
 
-        return NewPlaylist(
+        return Playlist(
             item.playlistId,
             item.playlistName,
             item.description,
@@ -21,7 +21,7 @@ class NewPlaylistConverter {
         )
     }
 
-    fun mapplaylistClassToEntity(item: NewPlaylist): NewPlaylistEntity {
+    fun mapplaylistClassToEntity(item: Playlist): NewPlaylistEntity {
         val tracklist = item.trackArray.toString()
         Log.d("Запись в плейлист", "пишем в конвертер  $tracklist")
         return NewPlaylistEntity(

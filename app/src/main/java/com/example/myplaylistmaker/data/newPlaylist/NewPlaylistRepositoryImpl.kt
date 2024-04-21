@@ -3,8 +3,8 @@ package com.example.myplaylistmaker.data.newPlaylist
 import com.example.myplaylistmaker.data.converters.NewPlaylistConverter
 import com.example.myplaylistmaker.data.db.NewPlaylistDatabase
 import com.example.myplaylistmaker.data.db.TrackInPlaylistDatabase
-import com.example.myplaylistmaker.domain.newPlaylist.NewPlaylist
-import com.example.myplaylistmaker.domain.newPlaylist.NewPlaylistRepository
+import com.example.myplaylistmaker.domain.playlist.Playlist
+import com.example.myplaylistmaker.domain.playlist.PlaylistRepository
 import com.example.myplaylistmaker.domain.search.models.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,14 +14,14 @@ class NewPlaylistRepositoryImpl (
     private val newPlaylistDatabase: NewPlaylistDatabase,
     private val converter: NewPlaylistConverter,
     private val trackInDatabase: TrackInPlaylistDatabase
-) : NewPlaylistRepository {
+) : PlaylistRepository {
 
     override fun addPlaylist(
         playlistName: String,
         description: String?,
         uri: String
     ) {
-        val playlist = NewPlaylist(
+        val playlist = Playlist(
             null,
             playlistName,
             description,
@@ -34,12 +34,12 @@ class NewPlaylistRepositoryImpl (
         )
     }
 
-    override fun deletePlaylist(item: NewPlaylist) {
+    override fun deletePlaylist(item: Playlist) {
         converter.mapplaylistClassToEntity(item)
             ?.let { newPlaylistDatabase.playlistDao().deletePlaylist(it) }
     }
 
-    override fun queryPlaylist(): Flow<List<NewPlaylist>> = flow {
+    override fun queryPlaylist(): Flow<List<Playlist>> = flow {
         val playlistConverted =
             newPlaylistDatabase.playlistDao().queryPlaylist()
                 .map { converter.mapplaylistEntityToClass(it) }
@@ -48,7 +48,7 @@ class NewPlaylistRepositoryImpl (
 
     }
 
-    override fun update(track: Track, playlist: NewPlaylist) {
+    override fun update(track: Track, playlist: Playlist) {
 
         newPlaylistDatabase.playlistDao().updatePlaylist(converter.mapplaylistClassToEntity(playlist))
         trackInDatabase.tracklistDao().insertTrack(track)
