@@ -5,12 +5,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myplaylistmaker.R
-import com.example.myplaylistmaker.databinding.NewPlaylistItemBinding
+import com.example.myplaylistmaker.databinding.BottomSheetPlaylistItemBinding
 import com.example.myplaylistmaker.domain.playlist.Playlist
 
 class PlayerBottomSheetViewHolder(
-    private val binding: NewPlaylistItemBinding
-) :RecyclerView.ViewHolder(binding.root) {
+    private val binding: BottomSheetPlaylistItemBinding
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Playlist) {
         binding.playlistName.text = item.playlistName
         val innerNumber = item.arrayNumber.toString()
@@ -19,8 +19,6 @@ class PlayerBottomSheetViewHolder(
             innerNumber.toInt() % 10 == 2 && innerNumber.toInt() % 100 != 12 -> " трека"
             innerNumber.toInt() % 10 == 3 && innerNumber.toInt() % 100 != 13 -> " трека"
             innerNumber.toInt() % 10 == 4 && innerNumber.toInt() % 100 != 14 -> " трека"
-
-
             else -> " треков"
         }
         val number = "$innerNumber $text"
@@ -34,9 +32,7 @@ class PlayerBottomSheetViewHolder(
             .placeholder(R.drawable.placeholder)
             .transform(CenterCrop(), RoundedCorners(radius))
             .override(width, height)
-
-
-                .into(binding.trackImage)
+            .into(binding.trackImage)
     }
 }
 

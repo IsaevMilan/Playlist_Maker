@@ -18,7 +18,8 @@ import com.example.myplaylistmaker.databinding.ActivityMediaPlayerBinding
 import com.example.myplaylistmaker.domain.playlist.Playlist
 import com.example.myplaylistmaker.domain.player.PlayerState
 import com.example.myplaylistmaker.domain.search.models.Track
-import com.example.myplaylistmaker.ui.mediaLibrary.adapters.PlayerBottomSheetAdapter
+import com.example.myplaylistmaker.ui.mediaLibrary.adapters.PlaylistAdapter
+import com.example.myplaylistmaker.ui.player.adapterAndViewHolder.PlayerBottomSheetAdapter
 import com.example.myplaylistmaker.ui.player.view_model.PlayerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -35,7 +36,7 @@ class PlayerFragment : Fragment() {
     private lateinit var binding: ActivityMediaPlayerBinding
     private var url = ""
     private lateinit var bottomNavigator: BottomNavigationView
-    private lateinit var playlistAdapter: PlayerBottomSheetAdapter
+    private lateinit var bottomSheetAdapter: PlayerBottomSheetAdapter
     private var track: Track? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,18 +116,6 @@ class PlayerFragment : Fragment() {
                     binding.favorites.setImageResource(imageResId)
                 }
 
-
-//             playerViewModel.clickFavourites(track)
-//               .observe(viewLifecycleOwner) { favourtitesIndicator ->
-//                   if (favourtitesIndicator) {
-//                       binding.favorites.setImageResource(R.drawable.like_button)
-//                   } else binding.favorites.setImageResource(
-//                       R.drawable.buttonhert
-//                   )
-//               }
-
-
-
             //BottomSheet
 
             val bottomSheetContainer = binding.standardBottomSheet
@@ -163,7 +152,7 @@ class PlayerFragment : Fragment() {
 
             //список плейлистов
             if (!playerViewModel.myPlaylist.value.isNullOrEmpty()) {
-                playlistAdapter = playerViewModel.myPlaylist.value?.let { it ->
+                bottomSheetAdapter = playerViewModel.myPlaylist.value?.let { it ->
                     PlayerBottomSheetAdapter(it) {
                         playlistClickAdapting(track, it)
                         bottomSheetBehavior.state = STATE_HIDDEN
@@ -172,11 +161,11 @@ class PlayerFragment : Fragment() {
                     }
                 }!!
             } else {
-                playlistAdapter = PlayerBottomSheetAdapter(emptyList()) {}
+                bottomSheetAdapter = PlayerBottomSheetAdapter(emptyList()) {}
             }
             val recyclerView = binding.playlistRecycler
             recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-            recyclerView.adapter = playlistAdapter
+            recyclerView.adapter = bottomSheetAdapter
 
             playerViewModel.playlistMaker().observe(viewLifecycleOwner) { playlistList ->
                 if (playlistList.isNullOrEmpty()) return@observe
@@ -200,7 +189,7 @@ class PlayerFragment : Fragment() {
 
         private fun preparePlayer() {
             binding.playButton.isEnabled = true
-            binding.playButton.visibility = View.VISIBLE
+            binding.playButton.visibility = VISIBLE
             binding.pauseButton.visibility = View.GONE
         }
 

@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.FragmentPlaylistBinding
-import com.example.myplaylistmaker.ui.mediaLibrary.adapters.PlayerBottomSheetAdapter
+import com.example.myplaylistmaker.ui.mediaLibrary.adapters.PlaylistAdapter
 import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.PlaylistViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,7 +40,7 @@ class PlaylistFragment : Fragment() {
         //список плейлистов
         val recyclerView = nullablePlaylistBinding.playlist
         recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-        recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlayerBottomSheetAdapter(it, {}) }
+        recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlaylistAdapter(it, {}) }
         if (playlistViewModel.playlistList.value.isNullOrEmpty()) nullablePlaylistBinding.playlist.visibility=GONE
 
         nullablePlaylistBinding.playlist.visibility=VISIBLE
@@ -54,7 +54,7 @@ class PlaylistFragment : Fragment() {
                 noPlaylist()
                 return@observe
             } else {
-                nullablePlaylistBinding.playlist.adapter=PlayerBottomSheetAdapter(playlistList) {}
+                nullablePlaylistBinding.playlist.adapter=PlaylistAdapter(playlistList) {}
                 existPlaylist()
                 return@observe
             }

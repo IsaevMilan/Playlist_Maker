@@ -364,7 +364,7 @@
                 android:layout_marginTop="24dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:reverseLayout="true"
-                tools:listitem="@layout/new_playlist_item"/>
+                tools:listitem="@layout/bottom_sheet_playlist_item"/>
 
         </LinearLayout>
 

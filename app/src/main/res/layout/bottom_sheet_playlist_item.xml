@@ -56,9 +56,6 @@
             android:textSize="@dimen/smallTextSize11"
             tools:ignore="TextContrastCheck"
             tools:text="120 треков" />
-
-
-
     </LinearLayout>
 
-   </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

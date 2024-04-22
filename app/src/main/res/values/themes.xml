@@ -21,6 +21,7 @@
         <!-- Switch color. -->
         <item name="thumbColor">@color/thumbSwitchDay</item>
         <item name="trackColor">@color/trackSwitchDay</item>
+        <item name="boxStrokeColor">@color/white</item>
 
     </style>
 
@@ -31,7 +32,7 @@
         <item name="android:textSize">@dimen/playerArtistNameText14</item>
         <item name="colorButtonNormal">@color/fullBlack</item>
         <item name="android:textColorHint">@color/fullBlack</item>
-
+        <item name="boxStrokeColor">@color/white</item>
     </style>
 
 

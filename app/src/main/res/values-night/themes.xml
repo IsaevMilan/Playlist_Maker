@@ -20,6 +20,7 @@
         <!-- Switch color. -->
         <item name="thumbColor">@color/BackBlue</item>
 ,       <item name="trackColor">@color/trackSwitchNight</item>
+        <item name="boxStrokeColor">@color/textGrey</item>
     </style>
 
     <style name="Theme.MediaLibActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -27,7 +28,7 @@
         <item name="android:textSize">@dimen/playerArtistNameText14</item>
         <item name="colorButtonNormal">@color/white1</item>
         <item name="android:textColorHint">@color/white1</item>
-
+        <item name="boxStrokeColor">@color/textGrey</item>
 
     </style>
 

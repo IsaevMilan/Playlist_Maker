@@ -3,7 +3,7 @@ package com.example.myplaylistmaker.ui.player.adapterAndViewHolder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myplaylistmaker.databinding.NewPlaylistItemBinding
+import com.example.myplaylistmaker.databinding.BottomSheetPlaylistItemBinding
 import com.example.myplaylistmaker.domain.playlist.Playlist
 
 class PlayerBottomSheetAdapter(
@@ -13,7 +13,7 @@ class PlayerBottomSheetAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerBottomSheetViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
-        return PlayerBottomSheetViewHolder(NewPlaylistItemBinding.inflate(layoutInspector, parent, false))
+        return PlayerBottomSheetViewHolder(BottomSheetPlaylistItemBinding.inflate(layoutInspector, parent, false))
     }
 
     override fun getItemCount(): Int {

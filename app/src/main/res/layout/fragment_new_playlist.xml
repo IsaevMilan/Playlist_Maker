@@ -76,8 +76,8 @@
         android:textColor="?attr/colorButtonNormal"
         android:textColorHint="?attr/colorButtonNormal"
         android:textSize="@dimen/settingTextSize16"
-        app:boxStrokeColor="?attr/colorButtonNormal"
-        app:hintTextColor="?attr/colorButtonNormal"
+        app:boxStrokeColor="@color/box_stroke_color"
+        app:hintTextColor="@color/ypBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playlistPic">
@@ -93,8 +93,8 @@
             android:maxLines="1"
             android:textColor="?attr/colorButtonNormal"
             android:textColorHint="?attr/colorButtonNormal"
-            app:boxStrokeColor="?attr/colorButtonNormal"
-            app:hintTextColor="?attr/colorButtonNormal" />
+            app:boxStrokeColor="@color/box_stroke_color"
+            app:hintTextColor="@color/ypBlue" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -115,7 +115,8 @@
         android:textColor="?attr/colorButtonNormal"
         android:textColorHint="?attr/colorButtonNormal"
         android:textSize="@dimen/settingTextSize16"
-        app:boxStrokeColor="?attr/colorButtonNormal"
+        app:hintTextColor="@color/ypBlue"
+        app:boxStrokeColor="@color/box_stroke_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playlistName">
@@ -131,7 +132,8 @@
             android:maxLines="1"
             android:textColor="?attr/colorButtonNormal"
             android:textColorHint="?attr/colorButtonNormal"
-            app:hintTextColor="?attr/colorButtonNormal" />
+            app:boxStrokeColor="@color/box_stroke_color"
+            app:hintTextColor="@color/ypBlue" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
