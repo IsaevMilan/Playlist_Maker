@@ -24,7 +24,7 @@ class PlayerBottomSheetViewHolder(
         val number = "$innerNumber $text"
         binding.tracksQuantity.text = number
 
-        val radius = itemView.resources.getDimensionPixelSize(R.dimen.cornerRadius8)
+        val radius = itemView.resources.getDimensionPixelSize(R.dimen.cornerRadius2)
         val width = 45
         val height = 45
         Glide.with(itemView)

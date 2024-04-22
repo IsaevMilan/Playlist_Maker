@@ -26,5 +26,4 @@ class PlaylistViewModel(private val interactor: PlaylistInteractor) : ViewModel(
 
         return playlistList
     }
-
 }

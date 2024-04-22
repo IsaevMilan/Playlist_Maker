@@ -5,7 +5,10 @@ import com.example.myplaylistmaker.domain.playlist.Playlist
 import com.example.myplaylistmaker.domain.playlist.PlaylistInteractor
 import com.example.myplaylistmaker.domain.settings.SettingsInteractor
 
-class NewPlaylistViewModel(private val interactor: PlaylistInteractor, private val settingsInteractor: SettingsInteractor) : ViewModel() {
+class NewPlaylistViewModel(
+    private val interactor: PlaylistInteractor,
+    private val settingsInteractor: SettingsInteractor
+) : ViewModel() {
 
     fun addPlayList(
         playlistName: String,
@@ -20,7 +23,7 @@ class NewPlaylistViewModel(private val interactor: PlaylistInteractor, private v
         interactor.deletePlaylist(item)
     }
 
-    fun isAppThemeDark() :Boolean{
+    fun isAppThemeDark(): Boolean {
         return settingsInteractor.isAppThemeDark()
     }
 }

@@ -21,5 +21,6 @@
     <dimen name="mediaLibraryText19sp">19sp</dimen>
     <dimen name="forAnyReasons16dp">16dp</dimen>
     <dimen name="cornerRadius8">8dp</dimen>
+    <dimen name="cornerRadius2">2dp</dimen>
 
 </resources>

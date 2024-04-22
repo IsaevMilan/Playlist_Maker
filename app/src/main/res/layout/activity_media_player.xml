@@ -307,10 +307,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 
+        <View
+            android:id="@+id/overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99000000"
+            android:visibility="gone"/>
 
 <!-- Вёрстка Bottom Sheet с кнопкой и списком -->
-
-
 
         <LinearLayout
             android:id="@+id/standard_bottom_sheet"

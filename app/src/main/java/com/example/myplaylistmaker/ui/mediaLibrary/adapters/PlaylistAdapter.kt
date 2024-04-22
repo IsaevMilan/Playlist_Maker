@@ -34,8 +34,4 @@ class PlaylistAdapter(
         fun onClick(playlist: Playlist)
     }
 
-    /* fun updatePlaylistList(newPlaylistList: List<Playlist>) {
-         playlists = newPlaylistList
-         notifyDataSetChanged()
-     }*/
 }

@@ -60,168 +60,171 @@ class PlayerFragment : Fragment() {
         return binding.root
     }
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
-            Log.d("PlayerFragment", "onViewCreated() вызван")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("PlayerFragment", "onViewCreated() вызван")
 
-            binding.backArrow4.setOnClickListener {
-                findNavController().popBackStack()
+        binding.backArrow4.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.favorites.setImageResource(if (track?.isFavorite == true) R.drawable.like_button else R.drawable.button_heart)
+        binding.playerTrackName.text = track?.trackName ?: "Unknown Track"
+        binding.playerArtistName.text = track?.artistName ?: "Unknown Artist"
+        binding.time.text = track?.trackTimeMillis ?: "00:00"
+        binding.album.text = track?.collectionName ?: "Unknown Album"
+        binding.year.text = (track?.releaseDate ?: "Year").take(4)
+        binding.genre.text = track?.primaryGenreName ?: "Unknown Genre"
+        binding.country.text = track?.country ?: "Unknown Country"
+        val getImage = (track?.artworkUrl100 ?: "Unknown Cover").replace(
+            "100x100bb.jpg",
+            "512x512bb.jpg"
+        )
+        val radius = 8
+        if (getImage != "Unknown Cover") {
+            getImage.replace("100x100bb.jpg", "512x512bb.jpg")
+            Glide.with(this)
+                .load(getImage)
+                .placeholder(R.drawable.placeholdermedia)
+                .transform(RoundedCorners(radius))
+                .into(binding.trackCover)
+        }
+        url = track?.previewUrl ?: return
+
+        playerViewModel.createPlayer(url)
+
+        binding.playButton.setOnClickListener {
+            if (playerViewModel.stateLiveData().value == PlayerState.STATE_PLAYING)
+                playerViewModel.pause() else playerViewModel.play()
+        }
+
+        playerStateDrawer()
+
+        playerViewModel.getTimeFromInteractor().observe(viewLifecycleOwner) { timer ->
+            binding.trackTimer.text = timer
+            Log.d("время в активити", timer)
+        }
+
+        //нажатие на кнопку нравится
+        binding.favorites.setOnClickListener {
+            playerViewModel.onFavoriteClicked(track)
+        }
+
+        playerViewModel.isFavoriteLiveData()
+            .observe(viewLifecycleOwner) { isFavorite ->
+                val imageResId = if (isFavorite) R.drawable.like_button else R.drawable.button_heart
+                binding.favorites.setImageResource(imageResId)
             }
 
-            binding.favorites.setImageResource(if (track?.isFavorite == true) R.drawable.like_button else R.drawable.button_heart)
-            binding.playerTrackName.text = track?.trackName ?: "Unknown Track"
-            binding.playerArtistName.text = track?.artistName ?: "Unknown Artist"
-            binding.time.text = track?.trackTimeMillis ?: "00:00"
-            binding.album.text = track?.collectionName ?: "Unknown Album"
-            binding.year.text = (track?.releaseDate ?: "Year").take(4)
-            binding.genre.text = track?.primaryGenreName ?: "Unknown Genre"
-            binding.country.text = track?.country ?: "Unknown Country"
-            val getImage = (track?.artworkUrl100 ?: "Unknown Cover").replace(
-                "100x100bb.jpg",
-                "512x512bb.jpg"
-            )
-            val radius = 8
-            if (getImage != "Unknown Cover") {
-                getImage.replace("100x100bb.jpg", "512x512bb.jpg")
-                Glide.with(this)
-                    .load(getImage)
-                    .placeholder(R.drawable.placeholdermedia)
-                    .transform(RoundedCorners(radius))
-                    .into(binding.trackCover)
+        //BottomSheet
+
+        val bottomSheetContainer = binding.standardBottomSheet
+        val standardBottomSheet = binding.standardBottomSheet
+        val overlay = binding.overlay
+        val bottomSheetBehavior = BottomSheetBehavior
+            .from(bottomSheetContainer)
+            .apply {
+                state = STATE_HIDDEN
             }
-            url = track?.previewUrl ?: return
+        bottomSheetBehavior
+            .addBottomSheetCallback(
+                object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        when (newState) {
+                            STATE_HIDDEN -> {
+                                standardBottomSheet.visibility = View.GONE
+                                overlay.visibility = View.GONE
+                            }
 
-            playerViewModel.createPlayer(url)
-
-            binding.playButton.setOnClickListener {
-                if (playerViewModel.stateLiveData().value == PlayerState.STATE_PLAYING)
-                    playerViewModel.pause() else playerViewModel.play()
-            }
-
-            playerStateDrawer()
-
-            playerViewModel.getTimeFromInteractor().observe(viewLifecycleOwner) { timer ->
-                binding.trackTimer.text = timer
-                Log.d("время в активити", timer)
-            }
-
-            //нажатие на кнопку нравится
-            binding.favorites.setOnClickListener {
-                playerViewModel.onFavoriteClicked(track)
-            }
-
-            playerViewModel.isFavoriteLiveData()
-                .observe(viewLifecycleOwner) { isFavorite ->
-                    val imageResId = if (isFavorite) R.drawable.like_button else R.drawable.button_heart
-                    binding.favorites.setImageResource(imageResId)
-                }
-
-            //BottomSheet
-
-            val bottomSheetContainer = binding.standardBottomSheet
-            val standardBottomSheet = binding.standardBottomSheet
-            val bottomSheetBehavior = BottomSheetBehavior
-                .from(bottomSheetContainer)
-                .apply {
-                    state = STATE_HIDDEN
-                }
-            bottomSheetBehavior
-                .addBottomSheetCallback(
-                    object : BottomSheetBehavior.BottomSheetCallback() {
-                        override fun onStateChanged(bottomSheet: View, newState: Int) {
-                            when (newState) {
-                                STATE_HIDDEN -> {
-                                    standardBottomSheet.visibility = View.GONE
-                                }
-
-                                else -> {
-                                    standardBottomSheet.visibility = VISIBLE
-                                }
+                            else -> {
+                                standardBottomSheet.visibility = VISIBLE
+                                overlay.visibility = VISIBLE
                             }
                         }
-
-                        override fun onSlide(bottomSheet: View, slideOffset: Float) {}
                     }
-                )
 
-            //нажатие на кнопку "добавить в плейлист"
-            binding.playlistAddButton.setOnClickListener {
-                bottomSheetBehavior.state = STATE_COLLAPSED
-                binding.standardBottomSheet.visibility = VISIBLE
-            }
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+                }
+            )
 
-            //список плейлистов
-            if (!playerViewModel.myPlaylist.value.isNullOrEmpty()) {
-                bottomSheetAdapter = playerViewModel.myPlaylist.value?.let { it ->
-                    PlayerBottomSheetAdapter(it) {
-                        playlistClickAdapting(track, it)
-                        bottomSheetBehavior.state = STATE_HIDDEN
+        //нажатие на кнопку "добавить в плейлист"
+        binding.playlistAddButton.setOnClickListener {
+            bottomSheetBehavior.state = STATE_COLLAPSED
+            binding.standardBottomSheet.visibility = VISIBLE
+        }
 
-
-                    }
-                }!!
-            } else {
-                bottomSheetAdapter = PlayerBottomSheetAdapter(emptyList()) {}
-            }
-            val recyclerView = binding.playlistRecycler
-            recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-            recyclerView.adapter = bottomSheetAdapter
-
-            playerViewModel.playlistMaker().observe(viewLifecycleOwner) { playlistList ->
-                if (playlistList.isNullOrEmpty()) return@observe
-                binding.playlistRecycler.adapter = PlayerBottomSheetAdapter(playlistList) {
+        //список плейлистов
+        if (!playerViewModel.myPlaylist.value.isNullOrEmpty()) {
+            bottomSheetAdapter = playerViewModel.myPlaylist.value?.let { it ->
+                PlayerBottomSheetAdapter(it) {
                     playlistClickAdapting(track, it)
                     bottomSheetBehavior.state = STATE_HIDDEN
-                    Log.d("Запись в плейлист", "click!")
+
+
+                }
+            }!!
+        } else {
+            bottomSheetAdapter = PlayerBottomSheetAdapter(emptyList()) {}
+        }
+        val recyclerView = binding.playlistRecycler
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.adapter = bottomSheetAdapter
+
+        playerViewModel.playlistMaker().observe(viewLifecycleOwner) { playlistList ->
+            if (playlistList.isNullOrEmpty()) return@observe
+            binding.playlistRecycler.adapter = PlayerBottomSheetAdapter(playlistList) {
+                playlistClickAdapting(track, it)
+                bottomSheetBehavior.state = STATE_HIDDEN
+                Log.d("Запись в плейлист", "click!")
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        playerViewModel.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        playerViewModel.destroy()
+    }
+
+    private fun preparePlayer() {
+        binding.playButton.isEnabled = true
+        binding.playButton.visibility = VISIBLE
+        binding.pauseButton.visibility = View.GONE
+    }
+
+    fun playerStateDrawer() {
+        playerViewModel.stateLiveData().observe(viewLifecycleOwner) {
+            when (playerViewModel.stateLiveData().value) {
+                PlayerState.STATE_DEFAULT -> {
+                    binding.playButton.setImageResource(R.drawable.buttonplay)
+
+                }
+
+                PlayerState.STATE_PREPARED -> {
+                    preparePlayer()
+                    binding.playButton.setImageResource(R.drawable.buttonplay)
+
+                }
+
+                PlayerState.STATE_PLAYING -> {
+                    binding.playButton.setImageResource(R.drawable.pause_button)
+
+                }
+
+                PlayerState.STATE_PAUSED -> {
+                    binding.playButton.setImageResource(R.drawable.buttonplay)
+
+                }
+
+                else -> {
                 }
             }
         }
-
-        override fun onPause() {
-            super.onPause()
-            playerViewModel.pause()
-        }
-
-        override fun onDestroy() {
-            super.onDestroy()
-            playerViewModel.destroy()
-        }
-
-        private fun preparePlayer() {
-            binding.playButton.isEnabled = true
-            binding.playButton.visibility = VISIBLE
-            binding.pauseButton.visibility = View.GONE
-        }
-
-        fun playerStateDrawer() {
-            playerViewModel.stateLiveData().observe(viewLifecycleOwner) {
-                when (playerViewModel.stateLiveData().value) {
-                    PlayerState.STATE_DEFAULT -> {
-                        binding.playButton.setImageResource(R.drawable.buttonplay)
-
-                    }
-
-                    PlayerState.STATE_PREPARED -> {
-                        preparePlayer()
-                        binding.playButton.setImageResource(R.drawable.buttonplay)
-
-                    }
-
-                    PlayerState.STATE_PLAYING -> {
-                        binding.playButton.setImageResource(R.drawable.pause_button)
-
-                    }
-
-                    PlayerState.STATE_PAUSED -> {
-                        binding.playButton.setImageResource(R.drawable.buttonplay)
-
-                    }
-
-                    else -> {
-                    }
-                }
-            }
-        }
+    }
 
     private fun closer() {
         val fragmentmanager = requireActivity().supportFragmentManager
@@ -262,132 +265,8 @@ class PlayerFragment : Fragment() {
             }
         }
     }
+}
 
-
-    }
-
-/* val favouritesIndicatorLiveData = playerViewModel.getFavouritesIndicator()
-            favouritesIndicatorLiveData.observe(viewLifecycleOwner) { isFavourite ->
-                if (isFavourite) {
-                    binding.favorites.setImageResource(R.drawable.like_button)
-                } else {
-                    binding.favorites.setImageResource(R.drawable.buttonhert)
-                }
-            }*/
-
-
-   /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_media_player)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        binding = ActivityMediaPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.backArrow4.setOnClickListener {
-            finish()
-        }
-        val track = intent.getParcelableExtra<Track>("track")
-
-        binding.playerTrackName.text = track?.trackName ?: "Unknown Track"
-        binding.playerArtistName.text = track?.artistName ?: "Unknown Artist"
-        binding.time.text = track?.trackTimeMillis ?: "00:00"
-        binding.album.text = track?.collectionName ?: "Unknown Album"
-        binding.year.text = (track?.releaseDate ?: "Year").take(4)
-        binding.genre.text = track?.primaryGenreName ?: "Unknown Genre"
-        binding.country.text = track?.country ?: "Unknown Country"
-        val getImage = (track?.artworkUrl100 ?: "Unknown Cover").replace(
-            "100x100bb.jpg",
-            "512x512bb.jpg"
-        )
-        val radius = 8
-        if (getImage != "Unknown Cover") {
-            getImage.replace("100x100bb.jpg", "512x512bb.jpg")
-            Glide.with(this)
-                .load(getImage)
-                .placeholder(R.drawable.placeholdermedia)
-                .transform(RoundedCorners(radius))
-                .into(binding.trackCover)
-        }
-        url = track?.previewUrl ?: return
-
-        playerViewModel.createPlayer(url)
-
-        binding.playButton.setOnClickListener {
-            if (playerViewModel.getStateLiveData().value == PlayerState.STATE_PLAYING)
-                playerViewModel.pause() else playerViewModel.play()
-        }
-
-        playerStateDrawer()
-
-        playerViewModel.getTimeFromInteractor().observe(this) { timer ->
-            binding.trackTimer.text = timer
-            Log.d("время в активити", timer)
-        }
-
-        //нажатие на кнопку нравится
-        binding.favorites.setOnClickListener {
-            playerViewModel.onFavoriteClicked(track)
-        }
-
-        playerViewModel.cliclFavourites(track).observe(this) { favourtitesIndicator ->
-            if (favourtitesIndicator) {
-                binding.favorites.setImageResource(R.drawable.like_button)
-            } else binding.favorites.setImageResource(
-                R.drawable.buttonhert
-            )
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        playerViewModel.pause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        playerViewModel.destroy()
-    }
-
-    private fun preparePlayer() {
-        binding.playButton.isEnabled = true
-        binding.playButton.visibility = View.VISIBLE
-        binding.pauseButton.visibility = View.GONE
-    }
-
-    fun playerStateDrawer() {
-        playerViewModel.getStateLiveData().observe(this) {
-            when (playerViewModel.getStateLiveData().value) {
-                PlayerState.STATE_DEFAULT -> {
-                    binding.playButton.setImageResource(R.drawable.buttonplay)
-
-                }
-
-                PlayerState.STATE_PREPARED -> {
-                    preparePlayer()
-                    binding.playButton.setImageResource(R.drawable.buttonplay)
-
-                }
-
-                PlayerState.STATE_PLAYING -> {
-                    binding.playButton.setImageResource(R.drawable.pause_button)
-
-                }
-
-                PlayerState.STATE_PAUSED -> {
-                    binding.playButton.setImageResource(R.drawable.buttonplay)
-
-                }
-                else -> {
-
-                }
-            }
-        }
-    }
-
-    companion object {
-        const val PLAYER_BUTTON_PRESSING_DELAY = 300L
-    }
-}*/
 
 
 

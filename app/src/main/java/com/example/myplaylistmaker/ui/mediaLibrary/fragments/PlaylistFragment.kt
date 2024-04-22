@@ -39,11 +39,12 @@ class PlaylistFragment : Fragment() {
 
         //список плейлистов
         val recyclerView = nullablePlaylistBinding.playlist
-        recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
-        recyclerView.adapter= playlistViewModel.playlistList.value?.let { PlaylistAdapter(it, {}) }
-        if (playlistViewModel.playlistList.value.isNullOrEmpty()) nullablePlaylistBinding.playlist.visibility=GONE
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.adapter = playlistViewModel.playlistList.value?.let { PlaylistAdapter(it, {}) }
+        if (playlistViewModel.playlistList.value.isNullOrEmpty()) nullablePlaylistBinding.playlist.visibility =
+            GONE
 
-        nullablePlaylistBinding.playlist.visibility=VISIBLE
+        nullablePlaylistBinding.playlist.visibility = VISIBLE
         return nullablePlaylistBinding.root
     }
 
@@ -54,23 +55,23 @@ class PlaylistFragment : Fragment() {
                 noPlaylist()
                 return@observe
             } else {
-                nullablePlaylistBinding.playlist.adapter=PlaylistAdapter(playlistList) {}
+                nullablePlaylistBinding.playlist.adapter = PlaylistAdapter(playlistList) {}
                 existPlaylist()
                 return@observe
             }
         }
     }
 
-    private fun noPlaylist(){
-        nullablePlaylistBinding.emptyPlaylist.visibility=VISIBLE
-        nullablePlaylistBinding.emptyPlaylistText.visibility=VISIBLE
-        nullablePlaylistBinding.playlist.visibility=GONE
+    private fun noPlaylist() {
+        nullablePlaylistBinding.emptyPlaylist.visibility = VISIBLE
+        nullablePlaylistBinding.emptyPlaylistText.visibility = VISIBLE
+        nullablePlaylistBinding.playlist.visibility = GONE
     }
 
-    private fun existPlaylist(){
-        nullablePlaylistBinding.emptyPlaylist.visibility=GONE
-        nullablePlaylistBinding.emptyPlaylistText.visibility=GONE
-        nullablePlaylistBinding.playlist.visibility=VISIBLE
+    private fun existPlaylist() {
+        nullablePlaylistBinding.emptyPlaylist.visibility = GONE
+        nullablePlaylistBinding.emptyPlaylistText.visibility = GONE
+        nullablePlaylistBinding.playlist.visibility = VISIBLE
     }
 
     companion object {

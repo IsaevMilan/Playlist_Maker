@@ -33,9 +33,9 @@ class PlayerBottomSheetAdapter(
         fun onClick(playlist: Playlist)
     }
 
-    fun setItems(items: List<Playlist>) {
+    /*fun setItems(items: List<Playlist>) {
         playlists = items
         notifyDataSetChanged()
-    }
+    }*/
 }
 
