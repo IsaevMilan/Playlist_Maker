@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myplaylistmaker.R
+import com.example.myplaylistmaker.databinding.FragmentPlaylistBinding
 import com.example.myplaylistmaker.databinding.FragmentSearchBinding
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.ui.search.adapter.TrackAdapter
@@ -34,6 +35,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     // viewModel:
+    private lateinit var nullablePlaylistBinding: FragmentSearchBinding
     private val searchViewModel by viewModel<SearchViewModel>()
     private var isClickAllowed = true
     private lateinit var trackAdapter: TrackAdapter
@@ -49,7 +51,10 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSearchBinding.inflate(layoutInflater)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility = VISIBLE
         return binding.root
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

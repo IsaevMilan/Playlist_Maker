@@ -14,6 +14,7 @@ import com.example.myplaylistmaker.databinding.FragmentFavoritesBinding
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.FavouritesViewModel
 import com.example.myplaylistmaker.ui.search.adapter.TrackAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : Fragment() {
@@ -36,6 +37,7 @@ class FavoritesFragment : Fragment() {
 
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         setupRecyclerView()
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility = VISIBLE
         return binding.root
     }
 
