@@ -153,8 +153,32 @@ class NewPlaylistFragment : Fragment() {
         }
 
     }
-
     private fun saveImageToPrivateStorage(uri: Uri) {
+        val filePath =
+            File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
+        if (!filePath.exists()) {
+            filePath.mkdirs()
+        }
+        val fileCount = filePath.listFiles()?.size ?: 0
+        val file = File(filePath, "first_cover_${fileCount + 1}.jpg")
+//        //*  val inputStream = requireActivity().contentResolver.openInputStream(uri)
+//        Если изображение не доступно по предоставленному Uri. Необходимо обработать это исключение*//*
+        val inputStream = try {
+            requireActivity().contentResolver.openInputStream(uri)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+            return
+        }
+        val outputStream = FileOutputStream(file)
+        BitmapFactory
+            .decodeStream(inputStream)
+            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+        newPlaylistBinding.playlistPlaceHolder.visibility = GONE
+        isFileLoaded = true
+        selectedUri = file.toUri()
+    }
+
+   /* private fun saveImageToPrivateStorage(uri: Uri) {
         val filePath =
             File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
         if (!filePath.exists()) {
@@ -171,13 +195,13 @@ class NewPlaylistFragment : Fragment() {
         newPlaylistBinding.playlistPic.setImageResource(R.drawable.placeholder)
         isFileLoaded = true
         selectedUri = file.toUri()
-    }
+    }*/
 
     private fun onBackClick() {
         val name = newPlaylistBinding.playlistNameEditText.text
-        val description = newPlaylistBinding.playlistDescription.text
-
-        if (isFileLoaded && !(name.isNullOrEmpty()) || (!description.isNullOrEmpty())) {
+//        val description = newPlaylistBinding.playlistDescription.text
+        if (isFileLoaded || !(name.isNullOrEmpty())) {
+//        if ((isFileLoaded && !(name.isNullOrEmpty())) || (!description.isNullOrEmpty())) {
             val textColor: Int
             val isDarkTheme = viewModel.isAppThemeDark()
             if (isDarkTheme) {

@@ -56,7 +56,7 @@
     <string name="settingsButton">Настройки</string>
     <string name="picture">Картинка</string>
     <string name="favoritTracks">Избранные треки</string>
-    <string name="playlist">Плейлист</string>
+    <string name="playlist">Плейлисты</string>
     <string name="name_of_tracklist">Название*</string>
     <string name="description">Описание</string>
     <string name="create">Создать</string>

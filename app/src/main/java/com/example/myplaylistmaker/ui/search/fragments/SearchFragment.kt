@@ -35,7 +35,6 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     // viewModel:
-    private lateinit var nullablePlaylistBinding: FragmentSearchBinding
     private val searchViewModel by viewModel<SearchViewModel>()
     private var isClickAllowed = true
     private lateinit var trackAdapter: TrackAdapter
@@ -53,8 +52,6 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(layoutInflater)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility = VISIBLE
         return binding.root
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

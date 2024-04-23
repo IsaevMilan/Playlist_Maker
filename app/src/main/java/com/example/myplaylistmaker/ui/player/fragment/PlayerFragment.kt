@@ -160,7 +160,6 @@ class PlayerFragment : Fragment() {
                     playlistClickAdapting(track, it)
                     bottomSheetBehavior.state = STATE_HIDDEN
 
-
                 }
             }!!
         } else {

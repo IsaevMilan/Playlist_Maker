@@ -101,7 +101,6 @@ class PlayerViewModel(
         if (playlist.trackArray.contains(track.trackId)) {
             playlistAdding.postValue(true)
 
-
         } else {
             playlistAdding.postValue(false)
             playlist.trackArray = (playlist.trackArray + track.trackId)!!
