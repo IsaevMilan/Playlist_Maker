@@ -50,31 +50,9 @@ class SearchViewModel(
                         }
                     }
             }
-            /*try {
-                searchInteractor.search(searchExpression).collect {
-                    when (it.message) {
-                        ErrorClass.CONNECTION_ERROR -> stateLiveData.postValue(
-                            SearchScreenState.ConnectionError
-                        )
-
-                        ErrorClass.SERVER_ERROR -> stateLiveData.postValue(SearchScreenState.NothingFound)
-                        else -> {
-                            trackResultList.postValue(it.data)
-                            stateLiveData.postValue(
-                                if (it.data.isNullOrEmpty())
-                                    SearchScreenState.NothingFound
-                                else SearchScreenState.SearchIsOk(it.data)
-                            )
-                        }
-                    }
-                }
-            } catch (error: Error) {
-                stateLiveData.postValue(SearchScreenState.ConnectionError)
-            }*/
 
         }
     }
-
 
     private val trackHistoryList: MutableLiveData<List<Track>> =
         MutableLiveData<List<Track>>().apply {
