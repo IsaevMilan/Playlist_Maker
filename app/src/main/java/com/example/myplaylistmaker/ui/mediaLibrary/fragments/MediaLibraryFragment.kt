@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.FragmentMediaLibraryBinding
+import com.example.myplaylistmaker.ui.mediaLibrary.adapters.FragmentAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 
 class MediaLibraryFragment : Fragment() {
 
-    private  var _binding: FragmentMediaLibraryBinding? = null
+    private var _binding: FragmentMediaLibraryBinding? = null
     private val binding get() = _binding!!
     private lateinit var tabMediator: TabLayoutMediator
     override fun onCreateView(

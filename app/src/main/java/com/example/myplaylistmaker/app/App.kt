@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.myplaylistmaker.di.favouritesModule
 import com.example.myplaylistmaker.di.mediaLibraryModule.mediaLibraryModule
+import com.example.myplaylistmaker.di.new_playlist_module.newPlaylistModule
 import com.example.myplaylistmaker.di.player_module.playerModule
 import com.example.myplaylistmaker.di.search_module.interactorModule
 import com.example.myplaylistmaker.di.search_module.repositoryModule
@@ -34,7 +35,8 @@ class App : Application() , KoinComponent {
                 settingsModule,
                 viewModelModule,
                 mediaLibraryModule,
-                favouritesModule
+                favouritesModule,
+                newPlaylistModule,
             )
         }
 

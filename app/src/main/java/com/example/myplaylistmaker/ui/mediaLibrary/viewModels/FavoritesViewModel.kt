@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.myplaylistmaker.domain.db.FavoritesInteractor
 import com.example.myplaylistmaker.domain.search.history.SearchHistoryInteractor
 import com.example.myplaylistmaker.domain.search.models.Track
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FavouritesViewModel(
@@ -15,24 +14,20 @@ class FavouritesViewModel(
     private val searchHistoryInteractor: SearchHistoryInteractor
 ) : ViewModel() {
 
-    var trackResultList: MutableLiveData<List<Track>?> = MutableLiveData<List<Track>?>()
+    private val _favourites = MutableLiveData<List<Track>>()
+    val favourites: LiveData<List<Track>> get() = _favourites
 
-    fun favouritesMaker() : LiveData<List<Track>?> {
+    fun loadFavourites() {
         viewModelScope.launch {
-            while (true) {
-                delay (200)
-                favoritesInteractor.favouritesGet()
-                    .collect { trackList ->
-                        if (!trackList.isNullOrEmpty()) {
-                            trackResultList.postValue(trackList)
-                        } else trackResultList.postValue(emptyList())
-                    }
+//            collect это подписка на flow
+            favoritesInteractor.favouritesGet().collect { trackList ->
+                _favourites.value = trackList
             }
         }
-        return trackResultList
     }
 
     fun addItem(item: Track) {
         searchHistoryInteractor.addItem(item)
     }
 }
+

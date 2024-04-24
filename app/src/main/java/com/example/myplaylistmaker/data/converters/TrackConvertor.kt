@@ -33,7 +33,8 @@ class TrackConvertor {
             track.releaseDate,
             track.primaryGenreName,
             track.country,
-            track.previewUrl
+            track.previewUrl,
+            track.isFavorite
         )
     }
 }

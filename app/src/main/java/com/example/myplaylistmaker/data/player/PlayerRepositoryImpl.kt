@@ -53,7 +53,7 @@ class PlayerRepositoryImpl(private val mediaPlayer: MediaPlayer) : PlayerReposit
         Log.d("playerStateRep", playerState.toString())
     }
 
-    override fun timing(): String {
+    override fun playingTime(): String {
         val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
         if ((playerState == PlayerState.STATE_PLAYING) or (playerState == PlayerState.STATE_PAUSED)) {
             return (dateFormat.format(mediaPlayer.currentPosition))

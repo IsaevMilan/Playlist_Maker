@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myplaylistmaker.domain.search.ErrorClass
+import com.example.myplaylistmaker.data.search.request_and_response.Resource
 import com.example.myplaylistmaker.domain.search.history.SearchHistoryInteractor
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.domain.search.saerchin_and_responding.SearchInteractor
 import com.example.myplaylistmaker.ui.search.view_model_for_activity.screen_state.SearchScreenState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -31,32 +32,27 @@ class SearchViewModel(
         if (searchExpression.isNotBlank()) {
             stateLiveData.postValue(SearchScreenState.Loading)
             viewModelScope.launch {
-                try {
-                    searchInteractor.search(searchExpression).collect {
-                        when (it.message) {
-                            ErrorClass.CONNECTION_ERROR -> stateLiveData.postValue(
-                                SearchScreenState.ConnectionError
+                searchInteractor.search(searchExpression)
+                    .catch { error ->
+                        stateLiveData.postValue(SearchScreenState.ConnectionError)
+                    }
+                    .collect { resource ->
+                        if (resource is Resource.Success) {
+                            val data = resource.data
+                            trackResultList.postValue(data)
+                            stateLiveData.postValue(
+                                if (data.isNullOrEmpty())
+                                    SearchScreenState.NothingFound
+                                else SearchScreenState.SearchIsOk(data)
                             )
-
-                            ErrorClass.SERVER_ERROR -> stateLiveData.postValue(SearchScreenState.NothingFound)
-                            else -> {
-                                trackResultList.postValue(it.data)
-                                stateLiveData.postValue(
-                                    if (it.data.isNullOrEmpty())
-                                        SearchScreenState.NothingFound
-                                    else SearchScreenState.SearchIsOk(it.data)
-                                )
-                            }
+                        } else if (resource is Resource.Error) {
+                            stateLiveData.postValue(SearchScreenState.ConnectionError)
                         }
                     }
-                } catch (error: Error) {
-                    stateLiveData.postValue(SearchScreenState.ConnectionError)
-                }
-
             }
+
         }
     }
-
 
     private val trackHistoryList: MutableLiveData<List<Track>> =
         MutableLiveData<List<Track>>().apply {
