@@ -54,4 +54,29 @@ class NewPlaylistRepositoryImpl (
         trackInDatabase.tracklistDao().insertTrack(track)
 
     }
+    override fun savePlaylist(
+        playlist: Playlist,
+        playlistName: String,
+        description: String?,
+        uri: String
+    ) {
+        val newPlaylist = Playlist(
+            playlist.playlistId,
+            playlistName,
+            description,
+            uri,
+            playlist.trackArray,
+            playlist.arrayNumber
+        )
+        newPlaylistDatabase.playlistDao().updatePlaylist(
+            converter.mapplaylistClassToEntity(newPlaylist)
+        )
+    }
+
+    override fun findPlaylist(searchId: Int): Flow<Playlist> = flow {
+        val playlistConverted = newPlaylistDatabase.playlistDao().findPlaylist(searchId)
+        val playlist = converter.mapplaylistEntityToClass(playlistConverted)
+        emit(playlist)
+        return@flow
+    }
 }

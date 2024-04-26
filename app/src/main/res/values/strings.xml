@@ -62,4 +62,10 @@
     <string name="create">Создать</string>
     <string name="new_play_list">Новый плейлист</string>
     <string name="add_to_playlist">Добавить в плейлист</string>
+    <string name="edit">Редактировать</string>
+    <string name="save">Сохранить</string>
+    <string name="no_tracks">В этом плейлисте нет треков</string>
+    <string name="delete_playlist">Удалить плейлист</string>
+    <string name="edit_playlist">Редактировать информацию</string>
+    <string name="share_playlist">Поделиться</string>
 </resources>

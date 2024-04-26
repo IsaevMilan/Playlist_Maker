@@ -9,21 +9,23 @@ import com.example.myplaylistmaker.domain.playlist.PlaylistInteractor
 import kotlinx.coroutines.launch
 
 class PlaylistViewModel(private val interactor: PlaylistInteractor) : ViewModel() {
-    val playlistList: MutableLiveData<List<Playlist>> = MutableLiveData()
+    val playlist: MutableLiveData<List<Playlist>> = MutableLiveData()
 
-    fun playlistMaker(): LiveData<List<Playlist>> {
+    fun getPlaylist() {
         viewModelScope.launch {
 
             interactor.queryPlaylist()
                 .collect {
                     if (it.isNotEmpty()) {
-                        playlistList.postValue(it)
+                        playlist.postValue(it)
                     } else {
-                        playlistList.postValue(emptyList())
+                        playlist.postValue(emptyList())
                     }
                 }
         }
 
-        return playlistList
+    }
+    fun deletePlaylist (item:Playlist){
+        interactor.deletePlaylist(item)
     }
 }

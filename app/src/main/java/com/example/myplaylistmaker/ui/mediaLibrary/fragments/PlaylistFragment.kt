@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myplaylistmaker.R
 import com.example.myplaylistmaker.databinding.FragmentPlaylistBinding
+import com.example.myplaylistmaker.domain.playlist.Playlist
 import com.example.myplaylistmaker.ui.mediaLibrary.adapters.PlaylistAdapter
 import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.PlaylistViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,7 +21,7 @@ class PlaylistFragment : Fragment() {
     private val playlistViewModel by viewModel<PlaylistViewModel>()
     private lateinit var nullablePlaylistBinding: FragmentPlaylistBinding
     private lateinit var bottomNavigator: BottomNavigationView
-
+    private lateinit var playlistAdapter: PlaylistAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,8 +41,8 @@ class PlaylistFragment : Fragment() {
         //список плейлистов
         val recyclerView = nullablePlaylistBinding.playlist
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        recyclerView.adapter = playlistViewModel.playlistList.value?.let { PlaylistAdapter(it, {}) }
-        if (playlistViewModel.playlistList.value.isNullOrEmpty()) nullablePlaylistBinding.playlist.visibility =
+        recyclerView.adapter = playlistViewModel.playlist.value?.let { PlaylistAdapter(it, {}) }
+        if (playlistViewModel.playlist.value.isNullOrEmpty()) nullablePlaylistBinding.playlist.visibility =
             GONE
 
         nullablePlaylistBinding.playlist.visibility = VISIBLE
@@ -50,16 +51,31 @@ class PlaylistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        playlistViewModel.playlistMaker().observe(viewLifecycleOwner) { playlistList ->
-            if (playlistList.isNullOrEmpty()) {
+
+        playlistAdapter = PlaylistAdapter {
+            clickAdapting(it)
+        }
+        val recyclerView = nullablePlaylistBinding.playlist
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.adapter = playlistAdapter
+
+        if (playlistViewModel.playlist.value.isNullOrEmpty()) nullablePlaylistBinding.playlist.visibility =
+            GONE
+        playlistViewModel.getPlaylist()
+
+        playlistViewModel.playlist.observe(viewLifecycleOwner) { playlist ->
+            if (playlist.isNullOrEmpty()) {
                 noPlaylist()
                 return@observe
             } else {
-                nullablePlaylistBinding.playlist.adapter = PlaylistAdapter(playlistList) {}
+                nullablePlaylistBinding.playlist.adapter=PlaylistAdapter(playlist ) {}
+                recyclerView.adapter = playlistAdapter
+                playlistAdapter.setItems(playlist)
                 existPlaylist()
                 return@observe
             }
         }
+
     }
 
     private fun noPlaylist() {
@@ -72,6 +88,11 @@ class PlaylistFragment : Fragment() {
         nullablePlaylistBinding.emptyPlaylist.visibility = GONE
         nullablePlaylistBinding.emptyPlaylistText.visibility = GONE
         nullablePlaylistBinding.playlist.visibility = VISIBLE
+    }
+
+    private fun clickAdapting(item: Playlist) {
+        val bundle = Bundle().apply {putParcelable("playlist", item)}
+        findNavController().navigate(R.id.tracksInPlaylistFragment, bundle)
     }
 
     companion object {
