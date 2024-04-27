@@ -48,7 +48,7 @@ class TracksInPlaylistFragment : Fragment() {
 
         //отработка на кнопку назад
         binding.backArrow4.setOnClickListener {
-            onBackClick()
+            findNavController().popBackStack()
         }
 
         return binding.root
@@ -63,15 +63,44 @@ class TracksInPlaylistFragment : Fragment() {
         val checkedPlaylist = playlist?.let { drawPlaylist(it) }
         if (checkedPlaylist != null) {
             drawCover(checkedPlaylist)
-            drawMenuBottomSheet()
+
+//            showMenuBottomSheet()
         }
+        /*val bottomSheetContainer = binding.editMenu
+        val standardBottomSheet = binding.editMenu
+        val overlay = binding.overlay
+        val bottomSheetBehavior = BottomSheetBehavior
+            .from(bottomSheetContainer)
+            .apply {
+                state = STATE_HIDDEN
+            }
+        bottomSheetBehavior
+            .addBottomSheetCallback(
+                object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        when (newState) {
+                            STATE_HIDDEN -> {
+                                standardBottomSheet.visibility = GONE
+                                overlay.visibility = GONE
+                            }
+
+                            else -> {
+                                standardBottomSheet.visibility = VISIBLE
+                                overlay.visibility = VISIBLE
+                            }
+                        }
+                    }
+
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+                }
+            )
+*/
+
     }
 
     private fun clickAdapting(item: Track) {
-        val bundle = Bundle()
-        bundle.putParcelable("track", item)
-        val navController = findNavController()
-        navController.navigate(R.id.action_tracksInPlaylistFragment_to_playerFragment, bundle)
+        val bundle = Bundle().apply {putParcelable( "track", item) }
+        findNavController().navigate(R.id.playerFragment, bundle)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -99,8 +128,7 @@ class TracksInPlaylistFragment : Fragment() {
 
     private fun deletePlaylist(item: Playlist) {
         tracksInPlaylistViewModel.deletePlaylist(item)
-        val navController = findNavController()
-        navController.navigate(R.id.action_tracksInPlaylistFragment_to_playerFragment)
+        findNavController().popBackStack()
     }
 
     private fun suggestPlaylistDeleting(playlist: Playlist) {
@@ -112,7 +140,7 @@ class TracksInPlaylistFragment : Fragment() {
             Color.WHITE
         }
         val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Хотите удалить плейлист?")
+            .setTitle("Хотите удалить плейлист \"${playlist.playlistName}\" ?")
             .setNegativeButton("Нет") { _, _ ->
                 return@setNegativeButton
             }
@@ -133,7 +161,7 @@ class TracksInPlaylistFragment : Fragment() {
             Color.WHITE
         }
         val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Вы уверены, что хотите удалить трек из плейлиста??")
+            .setTitle("Вы уверены, что хотите удалить трек из плейлиста?")
             .setNegativeButton("Нет") { _, _ ->
                 return@setNegativeButton
             }
@@ -174,26 +202,44 @@ class TracksInPlaylistFragment : Fragment() {
         requireContext().startActivity(intentSend, null)
     }
 
-    private fun onBackClick() {
+   /* private fun onBackClick() {
         val fragmentmanager = requireActivity().supportFragmentManager
         bottomNavigator.visibility = VISIBLE
         fragmentmanager.popBackStack()
-    }
+    }*/
 
-    private fun playlistTime(playlist: Playlist) {
+    @SuppressLint("SetTextI18n")
+    private fun showPlaylistTime(playlist: Playlist) {
         tracksInPlaylistViewModel.getPlaylistTime(playlist)
         tracksInPlaylistViewModel.playlistTime.observe(viewLifecycleOwner) { playlistTime ->
-            binding.playlistTime.text = playlistTime
+           /* val minutes = playlistTime.toInt() // Преобразование строки в число
+            val minutesString = formatMinutes(minutes) // Форматирование числа минут
+            binding.minute.text = " $minutesString"*/
+            if (playlistTime.isNotEmpty()) {
+                val minutes = playlistTime.toIntOrNull() ?: 0 // Преобразование строки в число, если не удалось - используем 0
+                val minutesString = formatMinutes(minutes) // Форматирование числа минут
+                val timeText = "$playlistTime $minutesString"
+                binding.playlistTime.text = timeText
+            } else {
+                // Обработка случая, когда playlistTime пустое
+            }
+        }
+
+    }
+    private fun formatMinutes(minutes: Int): String {
+        return when {
+            minutes % 10 == 1 && minutes % 100 != 11 -> "минута" // 1 минута, 21 минута и т.д.
+            minutes % 10 in 2..4 && minutes % 100 !in 12..14 -> "минуты" // 2 минуты, 3 минуты, 4 минуты, 22 минуты и т.д.
+            else -> "минут" // Все остальные случаи
         }
     }
-
     private fun drawPlaylist(playlist: Playlist): Playlist {
         var checkedPlaylist = playlist
         tracksInPlaylistViewModel.updatedPlaylist.observe(viewLifecycleOwner) { updatedPlaylist ->
             checkedPlaylist = updatedPlaylist
             binding.PlaylistName.text = checkedPlaylist.playlistName
             binding.descriptionOfPlaylist.text = checkedPlaylist.description ?: ""
-            playlistTime(checkedPlaylist)
+            showPlaylistTime(checkedPlaylist)
 
             //сколько треков в плейлисте
             val trackCounter = (checkedPlaylist.arrayNumber).toString()
@@ -251,19 +297,26 @@ class TracksInPlaylistFragment : Fragment() {
         binding.trackInPlaylistRecycler.layoutManager = LinearLayoutManager(requireContext())
         binding.trackInPlaylistRecycler.adapter = trackAdapter
 
-        //кнопки
+//        кнопки
+        binding.editMenuButton.setOnClickListener {
+            binding.editMenu.visibility= VISIBLE
+            showMenuBottomSheet()
+        }
+//        нажатие на кнопку "добавить в плейлист"
+     /*   binding.editMenuButton.setOnClickListener {
+            binding.editMenuButton.visibility = VISIBLE
+            bottomSheetBehavior.state = STATE_COLLAPSED
+        }*/
 
-        binding.share.setOnClickListener {
+        binding.shareButton.setOnClickListener {
             sharePlaylist(playlist)
         }
         binding.shareText.setOnClickListener {
             sharePlaylist(playlist)
         }
         binding.editInfo.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putParcelable("playlist", playlist)
-            val navController = findNavController()
-            navController.navigate(R.id.action_tracksInPlaylistFragment_to_playListEditor, bundle)
+            val bundle = Bundle().apply {putParcelable("playlist", playlist)}
+            findNavController().navigate(R.id.playListEditor, bundle)
 
         }
         binding.deletePlaylist.setOnClickListener {
@@ -271,7 +324,32 @@ class TracksInPlaylistFragment : Fragment() {
         }
     }
 
-    private fun drawMenuBottomSheet() {
+
+
+    private fun showMenuBottomSheet() {
+        val menuBottomSheetContainer = binding.editMenu
+        val overlay = binding.overlay
+
+        // Создаем новый экземпляр BottomSheetBehavior с начальным состоянием STATE_HIDDEN
+        val menuBottomSheetBehavior = BottomSheetBehavior.from(menuBottomSheetContainer).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+            addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    Log.d("BottomSheetState", "New state: $newState")
+                    // Обновляем видимость оверлея в зависимости от состояния нижнего меню
+                    overlay.visibility = if (newState == BottomSheetBehavior.STATE_HIDDEN) GONE else VISIBLE
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+            })
+        }
+
+        // Обработчик клика по кнопке для открытия нижнего меню
+        binding.editMenuButton.setOnClickListener {
+            menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+        }
+    }
+   /* private fun showMenuBottomSheet() {
         val menuBottomSheetContainer = binding.editMenu
         val overlay = binding.overlay
         val menuBottomSheetBehavior = BottomSheetBehavior
@@ -282,13 +360,17 @@ class TracksInPlaylistFragment : Fragment() {
         menuBottomSheetBehavior
             .addBottomSheetCallback(
                 object : BottomSheetBehavior.BottomSheetCallback() {
+
                     override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        Log.d("BottomSheetState", "New state: $newState")
                         when (newState) {
                             BottomSheetBehavior.STATE_HIDDEN -> {
+                                Log.d("BottomSheetState", "Bottom sheet is hidden")
                                 overlay.visibility = GONE
                             }
 
                             else -> {
+                                Log.d("BottomSheetState", "Bottom sheet is visible")
                                 overlay.visibility = VISIBLE
                             }
                         }
@@ -301,5 +383,5 @@ class TracksInPlaylistFragment : Fragment() {
         binding.editMenuButton.setOnClickListener {
             menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
-    }
+    }*/
 }

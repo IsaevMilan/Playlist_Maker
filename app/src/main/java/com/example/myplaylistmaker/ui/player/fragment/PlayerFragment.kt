@@ -102,7 +102,7 @@ class PlayerFragment : Fragment() {
 
         playerViewModel.getTimeFromInteractor().observe(viewLifecycleOwner) { timer ->
             binding.trackTimer.text = timer
-            Log.d("время в активити", timer)
+
         }
 
         //нажатие на кнопку нравится
@@ -225,11 +225,11 @@ class PlayerFragment : Fragment() {
         }
     }
 
-    private fun closer() {
+  /*  private fun closer() {
         val fragmentmanager = requireActivity().supportFragmentManager
         bottomNavigator.visibility = VISIBLE
         fragmentmanager.popBackStack()
-    }
+    }*/
 
     private fun playlistClickAdapting(track: Track?, playlist: Playlist) {
         track ?: return

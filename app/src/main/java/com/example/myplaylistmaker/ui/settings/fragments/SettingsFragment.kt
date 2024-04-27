@@ -36,7 +36,7 @@ class SettingsFragment : Fragment() {
         }
 
         //Поделиться
-        binding.share.setOnClickListener {
+        binding.shareButton.setOnClickListener {
             settingsViewModel.shareApp()
         }
 

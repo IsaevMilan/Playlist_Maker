@@ -77,7 +77,7 @@ class PlayListEditor : Fragment() {
                 .load(getImage)
                 .centerCrop()
                 .transform(CenterCrop())
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.add_picture)
                 .override(baseWidth, baseHeight)
                 .into(playlistEditorBinding.playlistPic)
             selectedUri = getImage.toUri()
