@@ -150,7 +150,7 @@ class PlayerFragment : Fragment() {
         //нажатие на кнопку "добавить в плейлист"
         binding.playlistAddButton.setOnClickListener {
             bottomSheetBehavior.state = STATE_COLLAPSED
-            binding.standardBottomSheet.visibility = VISIBLE
+//            binding.standardBottomSheet.visibility = VISIBLE
         }
 
         //список плейлистов

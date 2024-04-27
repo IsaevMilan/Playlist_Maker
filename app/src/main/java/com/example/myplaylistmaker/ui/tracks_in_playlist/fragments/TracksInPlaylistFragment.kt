@@ -25,6 +25,8 @@ import com.example.myplaylistmaker.ui.tracks_in_playlist.viewModels.TracksInPlay
 import com.example.myplaylistmaker.ui.search.adapter.TrackAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -52,7 +54,10 @@ class TracksInPlaylistFragment : Fragment() {
         }
 
         return binding.root
+
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,7 +71,8 @@ class TracksInPlaylistFragment : Fragment() {
 
 //            showMenuBottomSheet()
         }
-        /*val bottomSheetContainer = binding.editMenu
+         //BottomSheet
+    /*    val bottomSheetContainer = binding.editMenu
         val standardBottomSheet = binding.editMenu
         val overlay = binding.overlay
         val bottomSheetBehavior = BottomSheetBehavior
@@ -94,12 +100,18 @@ class TracksInPlaylistFragment : Fragment() {
                     override fun onSlide(bottomSheet: View, slideOffset: Float) {}
                 }
             )
+        binding.editMenuButton.setOnClickListener {
+           bottomSheetBehavior.state = STATE_COLLAPSED
+
+        }
+
 */
 
     }
 
+
     private fun clickAdapting(item: Track) {
-        val bundle = Bundle().apply {putParcelable( "track", item) }
+        val bundle = Bundle().apply { putParcelable("track", item) }
         findNavController().navigate(R.id.playerFragment, bundle)
     }
 
@@ -202,7 +214,7 @@ class TracksInPlaylistFragment : Fragment() {
         requireContext().startActivity(intentSend, null)
     }
 
-   /* private fun onBackClick() {
+    /* private fun onBackClick() {
         val fragmentmanager = requireActivity().supportFragmentManager
         bottomNavigator.visibility = VISIBLE
         fragmentmanager.popBackStack()
@@ -212,11 +224,12 @@ class TracksInPlaylistFragment : Fragment() {
     private fun showPlaylistTime(playlist: Playlist) {
         tracksInPlaylistViewModel.getPlaylistTime(playlist)
         tracksInPlaylistViewModel.playlistTime.observe(viewLifecycleOwner) { playlistTime ->
-           /* val minutes = playlistTime.toInt() // Преобразование строки в число
+            /* val minutes = playlistTime.toInt() // Преобразование строки в число
             val minutesString = formatMinutes(minutes) // Форматирование числа минут
             binding.minute.text = " $minutesString"*/
             if (playlistTime.isNotEmpty()) {
-                val minutes = playlistTime.toIntOrNull() ?: 0 // Преобразование строки в число, если не удалось - используем 0
+                val minutes = playlistTime.toIntOrNull()
+                    ?: 0 // Преобразование строки в число, если не удалось - используем 0
                 val minutesString = formatMinutes(minutes) // Форматирование числа минут
                 val timeText = "$playlistTime $minutesString"
                 binding.playlistTime.text = timeText
@@ -226,6 +239,7 @@ class TracksInPlaylistFragment : Fragment() {
         }
 
     }
+
     private fun formatMinutes(minutes: Int): String {
         return when {
             minutes % 10 == 1 && minutes % 100 != 11 -> "минута" // 1 минута, 21 минута и т.д.
@@ -233,7 +247,9 @@ class TracksInPlaylistFragment : Fragment() {
             else -> "минут" // Все остальные случаи
         }
     }
+
     private fun drawPlaylist(playlist: Playlist): Playlist {
+
         var checkedPlaylist = playlist
         tracksInPlaylistViewModel.updatedPlaylist.observe(viewLifecycleOwner) { updatedPlaylist ->
             checkedPlaylist = updatedPlaylist
@@ -276,12 +292,13 @@ class TracksInPlaylistFragment : Fragment() {
     }
 
     private fun drawPlaylistDataBottomSheet(playlist: Playlist) {
+        val bottomSheetContainer = binding.playlistBottomSheet
         val bottomSheetBehavior = BottomSheetBehavior
-            .from(binding.trackInPlaylistContainer)
+            .from(bottomSheetContainer)
             .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
+                state = STATE_HIDDEN
             }
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.state = STATE_COLLAPSED
         //список треков в плейлисте
         trackAdapter = TrackAdapter(
             clickListener = {
@@ -298,15 +315,13 @@ class TracksInPlaylistFragment : Fragment() {
         binding.trackInPlaylistRecycler.adapter = trackAdapter
 
 //        кнопки
+
+        //нажатие на кнопку 3 точки
         binding.editMenuButton.setOnClickListener {
-            binding.editMenu.visibility= VISIBLE
+//           bottomSheetBehavior.state = STATE_COLLAPSED
             showMenuBottomSheet()
+            binding.editMenu.visibility = VISIBLE
         }
-//        нажатие на кнопку "добавить в плейлист"
-     /*   binding.editMenuButton.setOnClickListener {
-            binding.editMenuButton.visibility = VISIBLE
-            bottomSheetBehavior.state = STATE_COLLAPSED
-        }*/
 
         binding.shareButton.setOnClickListener {
             sharePlaylist(playlist)
@@ -315,7 +330,7 @@ class TracksInPlaylistFragment : Fragment() {
             sharePlaylist(playlist)
         }
         binding.editInfo.setOnClickListener {
-            val bundle = Bundle().apply {putParcelable("playlist", playlist)}
+            val bundle = Bundle().apply { putParcelable("playlist", playlist) }
             findNavController().navigate(R.id.playListEditor, bundle)
 
         }
@@ -324,38 +339,14 @@ class TracksInPlaylistFragment : Fragment() {
         }
     }
 
-
-
     private fun showMenuBottomSheet() {
         val menuBottomSheetContainer = binding.editMenu
-        val overlay = binding.overlay
-
-        // Создаем новый экземпляр BottomSheetBehavior с начальным состоянием STATE_HIDDEN
-        val menuBottomSheetBehavior = BottomSheetBehavior.from(menuBottomSheetContainer).apply {
-            state = BottomSheetBehavior.STATE_HIDDEN
-            addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    Log.d("BottomSheetState", "New state: $newState")
-                    // Обновляем видимость оверлея в зависимости от состояния нижнего меню
-                    overlay.visibility = if (newState == BottomSheetBehavior.STATE_HIDDEN) GONE else VISIBLE
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            })
-        }
-
-        // Обработчик клика по кнопке для открытия нижнего меню
-        binding.editMenuButton.setOnClickListener {
-            menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-        }
-    }
-   /* private fun showMenuBottomSheet() {
-        val menuBottomSheetContainer = binding.editMenu
+        val standardBottomSheet = binding.editMenu
         val overlay = binding.overlay
         val menuBottomSheetBehavior = BottomSheetBehavior
             .from(menuBottomSheetContainer)
             .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
+                state = STATE_HIDDEN
             }
         menuBottomSheetBehavior
             .addBottomSheetCallback(
@@ -364,14 +355,16 @@ class TracksInPlaylistFragment : Fragment() {
                     override fun onStateChanged(bottomSheet: View, newState: Int) {
                         Log.d("BottomSheetState", "New state: $newState")
                         when (newState) {
-                            BottomSheetBehavior.STATE_HIDDEN -> {
+                            STATE_HIDDEN -> {
                                 Log.d("BottomSheetState", "Bottom sheet is hidden")
                                 overlay.visibility = GONE
+                                standardBottomSheet.visibility = GONE
                             }
 
                             else -> {
                                 Log.d("BottomSheetState", "Bottom sheet is visible")
                                 overlay.visibility = VISIBLE
+                                standardBottomSheet.visibility = VISIBLE
                             }
                         }
                     }
@@ -381,7 +374,7 @@ class TracksInPlaylistFragment : Fragment() {
             )
 
         binding.editMenuButton.setOnClickListener {
-            menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+           menuBottomSheetBehavior.state = STATE_COLLAPSED
         }
-    }*/
+    }
 }

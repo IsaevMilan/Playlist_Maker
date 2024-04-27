@@ -159,9 +159,8 @@
             android:src="@drawable/three_dots"
             app:layout_constraintStart_toEndOf="@id/share_button"
             app:layout_constraintTop_toBottomOf="@+id/playlistCharacteristics" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
@@ -169,8 +168,9 @@
         android:background="#99000000"
         android:visibility="gone"/>
     <!-- Список треков -->
+
     <LinearLayout
-        android:id="@+id/trackInPlaylistContainer"
+        android:id="@+id/playlist_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/buttom_sheet"
