@@ -13,16 +13,7 @@
         android:layout_height="match_parent"
         android:background="#E6E8EB">
 
-        <ImageView
-            android:id="@+id/backArrow4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/backArrowMargStart20"
-            android:layout_marginTop="@dimen/backArrowMargTop20"
-            android:src="@drawable/arrow_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/black" />
+
 
         <!--Обертка плейлиста-->
         <ImageView
@@ -51,6 +42,16 @@
             app:layout_constraintEnd_toEndOf="@+id/playlistCover"
             app:layout_constraintStart_toStartOf="@+id/playlistCover"
             app:layout_constraintTop_toTopOf="@+id/playlistCover" />
+        <ImageView
+            android:id="@+id/backArrow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/backArrowMargStart20"
+            android:layout_marginTop="@dimen/backArrowMargTop20"
+            android:src="@drawable/arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/PlaylistName"

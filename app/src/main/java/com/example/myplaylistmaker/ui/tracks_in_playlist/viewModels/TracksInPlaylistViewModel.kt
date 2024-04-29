@@ -1,18 +1,21 @@
 package com.example.myplaylistmaker.ui.tracks_in_playlist.viewModels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myplaylistmaker.domain.playlist.Playlist
 import com.example.myplaylistmaker.domain.playlist.PlaylistInteractor
+import com.example.myplaylistmaker.domain.search.history.SearchHistoryInteractor
 import com.example.myplaylistmaker.domain.search.models.Track
 import com.example.myplaylistmaker.domain.settings.SettingsInteractor
 import com.example.myplaylistmaker.domain.tracks_in_playlist.TracksInPlaylistInteractor
 import kotlinx.coroutines.launch
 
-class TracksInPlaylistViewModel(private val playlistScreenInteractor: TracksInPlaylistInteractor,
+class TracksInPlaylistViewModel(private val tracksInPlaylistInteractor: TracksInPlaylistInteractor,
                                 private val settingsInteractor: SettingsInteractor,
-                                private val playlistInteractor: PlaylistInteractor
+                                private val playlistInteractor: PlaylistInteractor,
+                                private val searchHistoryInteractor: SearchHistoryInteractor
 ) : ViewModel() {
 
     fun isAppThemeDark() :Boolean{
@@ -20,9 +23,10 @@ class TracksInPlaylistViewModel(private val playlistScreenInteractor: TracksInPl
     }
 
     val trackList : MutableLiveData <List <Track>> = MutableLiveData(emptyList())
+    fun trackListLiveData(): LiveData<List <Track>> = trackList
     fun getTrackList (playlist: Playlist) {
         viewModelScope.launch {
-            playlistScreenInteractor.getTrackList(playlist).collect {
+            tracksInPlaylistInteractor.getTrackList(playlist).collect {
                     list -> trackList.postValue(list)
             }
         }
@@ -41,7 +45,7 @@ class TracksInPlaylistViewModel(private val playlistScreenInteractor: TracksInPl
     val playlistTime: MutableLiveData <String> = MutableLiveData("")
     fun getPlaylistTime (playlist: Playlist) {
         viewModelScope.launch {
-            playlistScreenInteractor.timeCounting(playlist).collect{
+            tracksInPlaylistInteractor.timeCounting(playlist).collect{
                     readyTime -> playlistTime.postValue(readyTime)
             }
         }
@@ -54,5 +58,8 @@ class TracksInPlaylistViewModel(private val playlistScreenInteractor: TracksInPl
                 updatedPlaylist.postValue(it)
             }
         }
+    }
+    fun addItem(item: Track) {
+        searchHistoryInteractor.addItem(item)
     }
 }

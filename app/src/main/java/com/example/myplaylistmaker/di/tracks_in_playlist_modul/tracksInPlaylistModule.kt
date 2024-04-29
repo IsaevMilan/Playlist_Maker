@@ -13,6 +13,6 @@ val tracksInPlaylistModule = module {
 
     single<TracksInPlaylistInteractor> { TracksInPlaylistInteractorImpl(get()) }
     single<TracksInPlaylistRepository> { TracksInPlaylistRepositoryImpl(get()) }
-    viewModel { TracksInPlaylistViewModel(get(), get(), get()) }
+    viewModel { TracksInPlaylistViewModel(get(), get(), get(), get()) }
     viewModel { PlayListEditorViewModel(get()) }
 }

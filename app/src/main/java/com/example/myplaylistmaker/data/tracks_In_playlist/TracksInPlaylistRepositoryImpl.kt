@@ -1,5 +1,6 @@
 package com.example.myplaylistmaker.data.tracks_In_playlist
 
+import android.annotation.SuppressLint
 import com.example.myplaylistmaker.data.converters.TrackConvertor
 import com.example.myplaylistmaker.data.db.TrackInPlaylistDatabase
 import com.example.myplaylistmaker.domain.playlist.Playlist
@@ -17,30 +18,23 @@ class TracksInPlaylistRepositoryImpl(
             val entity = id?.let { base.tracklistDao().queryTrackId(searchId = it) }
             entity?.let { TrackConvertor().mapTrackEntityToTrack(it) }
         }
+
         emit(trackList)
     }
 
+    @SuppressLint("DefaultLocale")
     override fun timeCounting(playlist: Playlist): Flow<String> = flow {
         var generalTime = 0
         playlist.trackArray.forEach { id ->
             val entity = id?.let { base.tracklistDao().queryTrackId(searchId = it) }
             val track = entity?.let { TrackConvertor().mapTrackEntityToTrack(it) }
             val time = track?.trackTimeMillis
-            val trackSeconds =
-                (time?.split(":")?.getOrNull(0)?.toIntOrNull() ?: 0) * 60 + (time?.split(":")
-                    ?.getOrNull(1)
-                    ?.toIntOrNull()
-                    ?: 0)
-            generalTime += trackSeconds
+            val trackMinutes = time?.split(":")?.getOrNull(0)?.toIntOrNull() ?: 0
+            generalTime += trackMinutes
         }
-        val hours = generalTime / (60 * 60)
-        val minutes = (generalTime / 60) % 60
-        val seconds = generalTime % 60
-        val readyTime = if (hours == 0) {
-            String.format("%02d:%02d", minutes, seconds)
-        } else {
-            String.format("%02d:%02d:%02d", hours, minutes, seconds)
-        }
+        val minutes = generalTime
+        val readyTime = String.format("%02d", minutes)
         emit(readyTime)
     }
+
 }
