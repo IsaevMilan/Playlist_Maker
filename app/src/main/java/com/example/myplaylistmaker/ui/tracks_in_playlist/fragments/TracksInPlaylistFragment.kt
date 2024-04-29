@@ -184,10 +184,10 @@ class TracksInPlaylistFragment : Fragment() {
         }
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle("Вы уверены, что хотите удалить трек из плейлиста?")
-            .setNegativeButton("Нет") { _, _ ->
+            .setNegativeButton("Удалить") { _, _ ->
                 return@setNegativeButton
             }
-            .setPositiveButton("Да") { _, _ ->
+            .setPositiveButton("Отмена") { _, _ ->
                 deleteTrackByClick(track, playlist)
             }
             .show()
@@ -381,40 +381,4 @@ class TracksInPlaylistFragment : Fragment() {
         }
     }
 
-   /* private fun showMenuBottomSheet() {
-        val menuBottomSheetContainer = binding.editMenu
-        val standardBottomSheet = binding.editMenu
-        val overlay = binding.overlay
-        val menuBottomSheetBehavior = BottomSheetBehavior
-            .from(menuBottomSheetContainer)
-            .apply {
-                state = STATE_HIDDEN
-            }
-        menuBottomSheetBehavior
-            .addBottomSheetCallback(
-                object : BottomSheetBehavior.BottomSheetCallback() {
-
-                    override fun onStateChanged(bottomSheet: View, newState: Int) {
-                        when (newState) {
-                            STATE_HIDDEN -> {
-                                Log.d("BottomSheetState", "Bottom sheet is hidden")
-                                overlay.visibility = GONE
-                            }
-
-                            else -> {
-
-                                overlay.visibility = VISIBLE
-                                standardBottomSheet.visibility = VISIBLE
-                            }
-                        }
-                    }
-
-                    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-                }
-            )
-
-        binding.editMenuButton.setOnClickListener {
-           menuBottomSheetBehavior.state = STATE_COLLAPSED
-        }
-    }*/
 }
