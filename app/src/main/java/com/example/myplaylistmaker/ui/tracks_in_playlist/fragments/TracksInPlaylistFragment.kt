@@ -162,11 +162,11 @@ class TracksInPlaylistFragment : Fragment() {
             Color.WHITE
         }
         val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Хотите удалить плейлист \"${playlist.playlistName}\" ?")
-            .setNegativeButton("Нет") { _, _ ->
+            .setTitle(getString(R.string.confirm_delete_playlist_title, playlist.playlistName))
+            .setNegativeButton(getString(R.string.confirm_delete_playlist_negative)) { _, _ ->
                 return@setNegativeButton
             }
-            .setPositiveButton("Да") { _, _ ->
+            .setPositiveButton(getString(R.string.confirm_delete_playlist_positive)) { _, _ ->
                 deletePlaylist(playlist)
             }
             .show()
@@ -183,11 +183,11 @@ class TracksInPlaylistFragment : Fragment() {
             Color.WHITE
         }
         val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Вы уверены, что хотите удалить трек из плейлиста?")
-            .setNegativeButton("Удалить") { _, _ ->
+            .setTitle(getString(R.string.confirm_delete_track_title))
+            .setNegativeButton(getString(R.string.confirm_delete_track_negative)) { _, _ ->
                 return@setNegativeButton
             }
-            .setPositiveButton("Отмена") { _, _ ->
+            .setPositiveButton(getString(R.string.confirm_delete_track_positive)) { _, _ ->
                 deleteTrackByClick(track, playlist)
             }
             .show()
@@ -200,7 +200,7 @@ class TracksInPlaylistFragment : Fragment() {
         val desriptionOfPlaylist = playlist.description
         val trackNumber = playlist.arrayNumber
         if (trackNumber == 0) {
-            val message = "В данном плейлисте нет списка треков, которым можно поделиться."
+            val message = getString(R.string.no_tracks_to_share_message)
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             return
         }

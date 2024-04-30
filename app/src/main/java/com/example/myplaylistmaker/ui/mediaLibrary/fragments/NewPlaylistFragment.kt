@@ -178,30 +178,12 @@ class NewPlaylistFragment : Fragment() {
         selectedUri = file.toUri()
     }
 
-   /* private fun saveImageToPrivateStorage(uri: Uri) {
-        val filePath =
-            File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
-        if (!filePath.exists()) {
-            filePath.mkdirs()
-        }
-        val fileCount = filePath.listFiles()?.size ?: 0
-        val file = File(filePath, "first_cover_${fileCount + 1}.jpg")
-        val inputStream = requireActivity().contentResolver.openInputStream(uri)
-        val outputStream = FileOutputStream(file)
-        BitmapFactory
-            .decodeStream(inputStream)
-            .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
-        // Здесь мы устанавливаем плейсхолдер
-        newPlaylistBinding.playlistPic.setImageResource(R.drawable.placeholder)
-        isFileLoaded = true
-        selectedUri = file.toUri()
-    }*/
 
     private fun onBackClick() {
         val name = newPlaylistBinding.playlistNameEditText.text
-//        val description = newPlaylistBinding.playlistDescription.text
+
         if (isFileLoaded || !(name.isNullOrEmpty())) {
-//        if ((isFileLoaded && !(name.isNullOrEmpty())) || (!description.isNullOrEmpty())) {
+
             val textColor: Int
             val isDarkTheme = viewModel.isAppThemeDark()
             if (isDarkTheme) {
@@ -210,12 +192,12 @@ class NewPlaylistFragment : Fragment() {
                 textColor = Color.WHITE
             }
             val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Завершить создание плейлиста?")
-                .setMessage("Все несохраненные данные будут потеряны")
-                .setNegativeButton("Отмена") { dialog, which ->
+                .setTitle(getString(R.string.warning))
+                .setMessage(getString(R.string.all_you_unsaved_data))
+                .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
                     return@setNegativeButton
                 }
-                .setPositiveButton("Завершить") { dialog, which ->
+                .setPositiveButton(getString(R.string.confirm)) { dialog, which ->
                     closer()
                 }
                 .show()
