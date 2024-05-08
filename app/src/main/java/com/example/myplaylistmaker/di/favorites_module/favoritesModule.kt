@@ -1,7 +1,7 @@
-package com.example.myplaylistmaker.di
+package com.example.myplaylistmaker.di.favorites_module
 
 import androidx.room.Room
-import com.example.myplaylistmaker.data.FavouritesRepositoryImpl
+import com.example.myplaylistmaker.data.favorites.FavouritesRepositoryImpl
 import com.example.myplaylistmaker.data.converters.TrackConvertor
 import com.example.myplaylistmaker.data.db.AppDatabase
 import com.example.myplaylistmaker.domain.db.FavoritesInteractor

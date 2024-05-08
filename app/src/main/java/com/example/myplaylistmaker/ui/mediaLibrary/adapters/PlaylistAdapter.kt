@@ -8,10 +8,12 @@ import com.example.myplaylistmaker.databinding.PlaylistItemBinding
 import com.example.myplaylistmaker.domain.playlist.Playlist
 
 class PlaylistAdapter(
-    private var playlists: List<Playlist>,
+    private var playlists: List<Playlist> = emptyList(),
     private val clickListener: PlaylistClick
 ) :
+
     RecyclerView.Adapter<PlaylistViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
         return PlaylistViewHolder(PlaylistItemBinding.inflate(layoutInspector, parent, false))
@@ -28,6 +30,10 @@ class PlaylistAdapter(
             clickListener.onClick(playlists[position])
             notifyDataSetChanged()
         }
+    }
+    fun setItems(items: List<Playlist>) {
+        playlists = items
+        notifyDataSetChanged()
     }
 
     fun interface PlaylistClick {

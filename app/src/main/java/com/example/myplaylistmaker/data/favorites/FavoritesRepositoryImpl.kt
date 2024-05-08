@@ -1,4 +1,4 @@
-package com.example.myplaylistmaker.data
+package com.example.myplaylistmaker.data.favorites
 
 import android.util.Log
 import com.example.myplaylistmaker.data.converters.TrackConvertor

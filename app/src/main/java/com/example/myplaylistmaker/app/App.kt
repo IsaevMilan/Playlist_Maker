@@ -2,7 +2,7 @@ package com.example.myplaylistmaker.app
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.myplaylistmaker.di.favouritesModule
+import com.example.myplaylistmaker.di.favorites_module.favouritesModule
 import com.example.myplaylistmaker.di.mediaLibraryModule.mediaLibraryModule
 import com.example.myplaylistmaker.di.new_playlist_module.newPlaylistModule
 import com.example.myplaylistmaker.di.player_module.playerModule
@@ -11,6 +11,7 @@ import com.example.myplaylistmaker.di.search_module.repositoryModule
 import com.example.myplaylistmaker.di.search_module.settingsModule
 import com.example.myplaylistmaker.di.search_module.viewModelModule
 import com.example.myplaylistmaker.di.search_module.dataModule
+import com.example.myplaylistmaker.di.tracks_in_playlist_modul.tracksInPlaylistModule
 import com.example.myplaylistmaker.domain.settings.SettingsInteractor
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.component.KoinComponent
@@ -37,6 +38,7 @@ class App : Application() , KoinComponent {
                 mediaLibraryModule,
                 favouritesModule,
                 newPlaylistModule,
+                tracksInPlaylistModule,
             )
         }
 

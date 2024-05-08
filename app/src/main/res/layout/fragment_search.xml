@@ -50,7 +50,7 @@
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
         <ImageView
-            android:id="@+id/clearIcon"
+            android:id="@+id/clear_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
@@ -154,7 +154,7 @@
     <LinearLayout
         android:id="@+id/LineErrorLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="gone">
         <ImageView
@@ -179,9 +179,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="36dp"
             android:backgroundTint="?attr/colorButtonNormal"
             android:text="@string/UpdateButt"
+            android:textAllCaps="false"
             app:cornerRadius="54dp" />
     </LinearLayout>
 </LinearLayout>

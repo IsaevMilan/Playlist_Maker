@@ -24,4 +24,22 @@ class PlaylistInteractorImpl(val repository: PlaylistRepository) : PlaylistRepos
     override fun update(track: Track, playlist: Playlist) {
         repository.update(track, playlist)
     }
+
+    override fun savePlaylist(
+        playlist: Playlist,
+        playlistName: String,
+        description: String?,
+        uri: String
+    ) {
+        repository.savePlaylist(
+            playlist,
+            playlistName,
+            description,
+            uri
+        )
+    }
+
+    override fun findPlaylist(searchId: Int): Flow<Playlist> {
+        return repository.findPlaylist(searchId)
+    }
 }

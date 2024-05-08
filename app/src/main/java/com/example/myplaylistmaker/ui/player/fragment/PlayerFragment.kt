@@ -102,7 +102,7 @@ class PlayerFragment : Fragment() {
 
         playerViewModel.getTimeFromInteractor().observe(viewLifecycleOwner) { timer ->
             binding.trackTimer.text = timer
-            Log.d("время в активити", timer)
+
         }
 
         //нажатие на кнопку нравится
@@ -150,7 +150,6 @@ class PlayerFragment : Fragment() {
         //нажатие на кнопку "добавить в плейлист"
         binding.playlistAddButton.setOnClickListener {
             bottomSheetBehavior.state = STATE_COLLAPSED
-            binding.standardBottomSheet.visibility = VISIBLE
         }
 
         //список плейлистов
@@ -225,12 +224,6 @@ class PlayerFragment : Fragment() {
         }
     }
 
-    private fun closer() {
-        val fragmentmanager = requireActivity().supportFragmentManager
-        bottomNavigator.visibility = VISIBLE
-        fragmentmanager.popBackStack()
-    }
-
     private fun playlistClickAdapting(track: Track?, playlist: Playlist) {
         track ?: return
         var trackIsAdded = false
@@ -244,7 +237,8 @@ class PlayerFragment : Fragment() {
                     if (playlistAdding) {
 
                         Log.d("Запись в плейлист", "Уже есть ")
-                        val toastMessage = "Трек уже добавлен в плейлист $playlistName"
+                        val toastMessage = getString(R.string.track_already_added_to_playlist, playlistName)
+
 
 
                         Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT)
@@ -254,7 +248,7 @@ class PlayerFragment : Fragment() {
                     } else {
 
                         Log.d("Запись в плейлист", "Добавлено  $playlistAdding")
-                        val toastMessage = "Добавлено в плейлист $playlistName"
+                        val toastMessage = getString(R.string.added_to_playlist, playlistName)
                         Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT)
                             .show()
                         trackIsAdded = true

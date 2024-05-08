@@ -1,9 +1,8 @@
-package com.example.myplaylistmaker.ui.mediaLibrary.fragments
+package com.example.myplaylistmaker.ui.tracks_in_playlist.fragments
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,14 +11,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
@@ -27,78 +24,78 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.myplaylistmaker.R
-import com.example.myplaylistmaker.databinding.FragmentNewPlaylistBinding
-import com.example.myplaylistmaker.ui.mediaLibrary.viewModels.NewPlaylistViewModel
+import com.example.myplaylistmaker.databinding.FragmentPlaylistEditorBinding
+import com.example.myplaylistmaker.domain.playlist.Playlist
+import com.example.myplaylistmaker.ui.tracks_in_playlist.viewModels.PlayListEditorViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tbruyelle.rxpermissions3.RxPermissions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 
-
-class NewPlaylistFragment : Fragment() {
-    private lateinit var newPlaylistBinding: FragmentNewPlaylistBinding
+class PlayListEditor : Fragment() {
+    private lateinit var playlistEditorBinding: FragmentPlaylistEditorBinding
     private lateinit var bottomNavigator: BottomNavigationView
-    var isFileLoaded = false
-    private val viewModel: NewPlaylistViewModel by viewModel()
+    private val viewModel: PlayListEditorViewModel by viewModel()
     private var selectedUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        newPlaylistBinding = FragmentNewPlaylistBinding.inflate(inflater, container, false)
+    ): View? {
+        playlistEditorBinding = FragmentPlaylistEditorBinding.inflate(inflater, container, false)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         bottomNavigator = requireActivity().findViewById(R.id.bottomNavigationView)
-        bottomNavigator.visibility = GONE
+        bottomNavigator.visibility = View.GONE
 
-        newPlaylistBinding.createButton.setOnClickListener {
-            if (newPlaylistBinding.playlistNameEditText.text.toString()
-                    .isEmpty()
-            ) return@setOnClickListener
-            createPlaylist()
-            val textColor: Int
-            val isDarkTheme = viewModel.isAppThemeDark()
-            if (isDarkTheme) {
-                textColor = Color.BLACK
-            } else {
-                textColor = Color.WHITE
-            }
-            val dialogPlaylistName = newPlaylistBinding.playlistNameEditText.text
-            val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setMessage("Плейлист $dialogPlaylistName создан")
-                .setNegativeButton("Оk") { dialog, which ->
-                    closer()
-                }
-                .show()
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(textColor)
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(textColor)
-        }
-        return newPlaylistBinding.root
+
+        return playlistEditorBinding.root
     }
+
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val playlist = arguments?.getParcelable<Playlist>("playlist")
+        val name = playlistEditorBinding.playlistNameEditText
+        if (playlist != null) {
+            name.setText(playlist.playlistName)
+        }
+        if (playlist != null) {
+            playlistEditorBinding.playlistDescription.setText(playlist.description)
+        }
+        ///обложка
+        val baseWidth = 312
+        val baseHeight = 312
+        val getImage = (playlist?.uri ?: "Unknown Cover")
+
+        if (getImage != "Unknown Cover") {
+            playlistEditorBinding.playlistPlaceHolder.visibility = View.GONE
+            Glide.with(this)
+                .load(getImage)
+                .centerCrop()
+                .transform(CenterCrop())
+                .placeholder(R.drawable.add_picture)
+                .override(baseWidth, baseHeight)
+                .into(playlistEditorBinding.playlistPic)
+            selectedUri = getImage.toUri()
+        }
         val rxPermissions = RxPermissions(this)
 
         //отработка на кнопку назад
-        newPlaylistBinding.backButton.setOnClickListener {
-            onBackClick()
+        playlistEditorBinding.backButton.setOnClickListener {
+            closer()
         }
 
-        //устанавливаем вкл\выкл кнопки "Создать"
+        //устанавливаем цвет кнопки "Создать"
+        turnOnCreateButton()
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                turnOffCreateButton()
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                turnOnCreateButton()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -109,7 +106,7 @@ class NewPlaylistFragment : Fragment() {
                 }
             }
         }
-        newPlaylistBinding.playlistNameEditText.addTextChangedListener(simpleTextWatcher)
+        playlistEditorBinding.playlistNameEditText.addTextChangedListener(simpleTextWatcher)
 
         //переменеая с лямбдой, которая берет изображение и сохраняет его в ханилище
         val pickMedia =
@@ -124,7 +121,7 @@ class NewPlaylistFragment : Fragment() {
                         .placeholder(R.drawable.add_picture)
                         .transform(CenterCrop(), RoundedCorners(radius))
                         .override(width, height)
-                        .into(newPlaylistBinding.playlistPic)
+                        .into(playlistEditorBinding.playlistPic)
                     saveImageToPrivateStorage(uri)
 
                 } else {
@@ -133,7 +130,7 @@ class NewPlaylistFragment : Fragment() {
             }
 
         //обработка нажатия на область обложки
-        newPlaylistBinding.playlistPic.setOnClickListener {
+        playlistEditorBinding.playlistPic.setOnClickListener {
             rxPermissions.request(android.Manifest.permission.READ_MEDIA_IMAGES)
                 .subscribe { granted: Boolean ->
                     if (granted) {
@@ -148,11 +145,26 @@ class NewPlaylistFragment : Fragment() {
                     }
                 }
         }
+
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            onBackClick()
+            closer()}
+
+        playlistEditorBinding.saveButton.setOnClickListener {
+            if (playlistEditorBinding.playlistNameEditText.text.toString()
+                    .isEmpty()
+            ) return@setOnClickListener
+            if (playlist != null) {
+                savePlaylist(playlist)
+            }
         }
 
     }
+
+    private fun closer() {
+        val fragmentmanager = requireActivity().supportFragmentManager
+        fragmentmanager.popBackStack()
+    }
+
     private fun saveImageToPrivateStorage(uri: Uri) {
         val filePath =
             File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "myalbum")
@@ -161,78 +173,34 @@ class NewPlaylistFragment : Fragment() {
         }
         val fileCount = filePath.listFiles()?.size ?: 0
         val file = File(filePath, "first_cover_${fileCount + 1}.jpg")
-//        //*  val inputStream = requireActivity().contentResolver.openInputStream(uri)
-//        Если изображение не доступно по предоставленному Uri. Необходимо обработать это исключение*//*
-        val inputStream = try {
-            requireActivity().contentResolver.openInputStream(uri)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            return
-        }
+        val inputStream = requireActivity().contentResolver.openInputStream(uri)
         val outputStream = FileOutputStream(file)
         BitmapFactory
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
-        newPlaylistBinding.playlistPlaceHolder.visibility = GONE
-        isFileLoaded = true
+        playlistEditorBinding.playlistPlaceHolder.visibility = View.GONE
         selectedUri = file.toUri()
     }
 
-
-    private fun onBackClick() {
-        val name = newPlaylistBinding.playlistNameEditText.text
-
-        if (isFileLoaded || !(name.isNullOrEmpty())) {
-
-            val textColor: Int
-            val isDarkTheme = viewModel.isAppThemeDark()
-            if (isDarkTheme) {
-                textColor = Color.BLACK
-            } else {
-                textColor = Color.WHITE
-            }
-            val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle(getString(R.string.warning))
-                .setMessage(getString(R.string.all_you_unsaved_data))
-                .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
-                    return@setNegativeButton
-                }
-                .setPositiveButton(getString(R.string.confirm)) { dialog, which ->
-                    closer()
-                }
-                .show()
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(textColor)
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(textColor)
-        } else {
-            closer()
-        }
-    }
-
-    private fun closer() {
-        val fragmentmanager = requireActivity().supportFragmentManager
-        fragmentmanager.popBackStack()
-    }
-
     private fun turnOffCreateButton() {
-        newPlaylistBinding.createButton.backgroundTintList =
+        playlistEditorBinding.saveButton.backgroundTintList =
             (ContextCompat.getColorStateList(requireContext(), R.color.thumbSwitchDay))
-        newPlaylistBinding.createButton.isEnabled = false
+        playlistEditorBinding.saveButton.isEnabled = false
     }
 
     private fun turnOnCreateButton() {
-        newPlaylistBinding.createButton.backgroundTintList =
+        playlistEditorBinding.saveButton.backgroundTintList =
             (ContextCompat.getColorStateList(requireContext(), R.color.ypBlue))
-        newPlaylistBinding.createButton.isEnabled = true
+        playlistEditorBinding.saveButton.isEnabled = true
     }
 
-    private fun createPlaylist() {
-        selectedUri.let { uri ->
-            viewModel.addPlayList(
-                newPlaylistBinding.playlistNameEditText.text.toString(),
-                newPlaylistBinding.playlistDescription.text.toString(),
-                uri.toString(),
-            )
-        }
+    private fun savePlaylist(playlist: Playlist) {
+        viewModel.savePlayList(
+            playlist,
+            playlistEditorBinding.playlistNameEditText.text.toString(),
+            playlistEditorBinding.playlistDescription.text.toString(),
+            selectedUri.toString(),
+        )
+        closer()
     }
 }
-
